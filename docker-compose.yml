@@ -15,7 +15,9 @@ services:
       - PORT=8000
       - DATABASE_URL=sqlite+aiosqlite:////app/data/jobflow.db
       - REDIS_URL=redis://redis:6379/0
+      - LLM_MODEL=${LLM_MODEL:-gpt-4o-mini}
       - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - OPENAI_API_BASE=${OPENAI_API_BASE:-}
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
       - GEMINI_API_KEY=${GEMINI_API_KEY:-}
       - GROQ_API_KEY=${GROQ_API_KEY:-}

@@ -76,8 +76,8 @@ class ResumeEngine:
 
     async def tailor_resume(self, job: JobListing) -> TailoredResume:
         """Generate a tailored ATS-optimized resume for the target job."""
-        # Try LLM if configured
-        if settings.OPENAI_API_KEY or settings.ANTHROPIC_API_KEY or settings.GEMINI_API_KEY or settings.GROQ_API_KEY or settings.DEEPSEEK_API_KEY:
+        # Try LLM if configured or custom endpoint provided
+        if settings.OPENAI_API_BASE or settings.OPENAI_API_KEY or settings.ANTHROPIC_API_KEY or settings.GEMINI_API_KEY or settings.GROQ_API_KEY or settings.DEEPSEEK_API_KEY:
             try:
                 tailored = await self._tailor_with_llm(job)
                 if tailored:
@@ -108,15 +108,21 @@ class ResumeEngine:
                 }
             }
 
-            response = await litellm.acompletion(
-                model=settings.LLM_MODEL,
-                messages=[
+            kwargs = {
+                "model": settings.LLM_MODEL,
+                "messages": [
                     {"role": "system", "content": RESUME_TAILOR_SYSTEM_PROMPT},
                     {"role": "user", "content": f"Tailor this profile for the job:\n\n{json.dumps(prompt, indent=2)}"}
                 ],
-                temperature=0.2,
-                response_format={"type": "json_object"}
-            )
+                "temperature": 0.2,
+                "response_format": {"type": "json_object"}
+            }
+            if settings.OPENAI_API_BASE:
+                kwargs["api_base"] = settings.OPENAI_API_BASE
+            if settings.OPENAI_API_KEY:
+                kwargs["api_key"] = settings.OPENAI_API_KEY
+
+            response = await litellm.acompletion(**kwargs)
             
             content = response.choices[0].message.content
             # Clean possible markdown wrapping

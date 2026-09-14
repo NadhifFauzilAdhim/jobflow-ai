@@ -32,6 +32,7 @@ class Settings(BaseSettings):
     # LLM Provider Configuration
     LLM_MODEL: str = "gpt-4o-mini"
     OPENAI_API_KEY: str = ""
+    OPENAI_API_BASE: str = ""  # OpenAI-compatible custom base URL (e.g. https://openrouter.ai/api/v1, http://localhost:11434/v1)
     ANTHROPIC_API_KEY: str = ""
     GEMINI_API_KEY: str = ""
     GROQ_API_KEY: str = ""
