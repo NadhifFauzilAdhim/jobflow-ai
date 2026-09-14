@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ app_name }} - Autonomous Job Engine</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            zinc: {
+              950: '#09090b',
+              900: '#121215',
+              850: '#18181b',
+              800: '#27272a',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #09090b;
+      color: #fafafa;
+      font-family: 'Inter', sans-serif;
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #27272a;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-zinc-800 selection:text-white">
+
+  <!-- Navigation Header -->
+  <header class="border-b border-zinc-800 bg-zinc-950/80 backdrop-blur sticky top-0 z-40 px-6 py-3.5 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-lg bg-zinc-100 text-zinc-950 flex items-center justify-center font-bold text-base shadow-sm">
+        JF
+      </div>
+      <div>
+        <h1 class="font-semibold text-sm tracking-tight text-zinc-100 flex items-center gap-2">
+          JobFlow AI
+          <span class="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-400 border border-zinc-700/50">v0.1.0</span>
+        </h1>
+        <p class="text-xs text-zinc-400">Autonomous Job Application & ATS CV Generator</p>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <button onclick="openAddJobModal()" class="px-3.5 py-1.5 rounded-md bg-zinc-100 hover:bg-white text-zinc-950 text-xs font-medium transition flex items-center gap-1.5 shadow-sm">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+        Add Job
+      </button>
+      <button onclick="openProfileModal()" class="px-3.5 py-1.5 rounded-md bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-800 text-xs font-medium transition flex items-center gap-1.5">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+        Master Profile
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+    <!-- Left: Job Target Pipeline (7 cols) -->
+    <section class="lg:col-span-7 flex flex-col gap-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-base font-semibold text-zinc-100">Target Applications</h2>
+          <p class="text-xs text-zinc-400">Track, tailor resumes, and execute browser automation</p>
+        </div>
+        <button onclick="fetchJobs()" class="text-xs text-zinc-400 hover:text-zinc-200 transition font-mono flex items-center gap-1">
+          ↻ Refresh
+        </button>
+      </div>
+
+      <div id="jobList" class="flex flex-col gap-3">
+        <!-- Job Cards Rendered Dynamically -->
+        <div class="p-8 text-center border border-dashed border-zinc-800 rounded-xl text-zinc-500 text-xs">
+          Loading jobs...
+        </div>
+      </div>
+    </section>
+
+    <!-- Right: Live Automation & ATS Intelligence (5 cols) -->
+    <section class="lg:col-span-5 flex flex-col gap-4">
+      <!-- Live Console / Bot Logs -->
+      <div class="border border-zinc-800 rounded-xl bg-zinc-900/60 p-4 flex flex-col gap-3 shadow-sm">
+        <div class="flex items-center justify-between border-b border-zinc-800/80 pb-2">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <h3 class="text-xs font-semibold uppercase tracking-wider text-zinc-300">Live Agent Activity</h3>
+          </div>
+          <span id="activeJobStatus" class="text-[11px] font-mono text-zinc-400">IDLE</span>
+        </div>
+        
+        <div id="logConsole" class="h-64 overflow-y-auto font-mono text-[11px] text-zinc-300 space-y-1.5 p-3 rounded-lg bg-zinc-950 border border-zinc-800/80 custom-scroll">
+          <div class="text-zinc-500">[System] JobFlow Engine ready. Select or execute an application to view live logs.</div>
+        </div>
+      </div>
+
+      <!-- Live Resume Preview / Info Card -->
+      <div class="border border-zinc-800 rounded-xl bg-zinc-900/60 p-4 flex flex-col gap-3">
+        <div class="flex items-center justify-between border-b border-zinc-800/80 pb-2">
+          <h3 class="text-xs font-semibold uppercase tracking-wider text-zinc-300">ATS Resume Preview</h3>
+          <div id="previewActions" class="hidden flex items-center gap-2">
+            <a id="downloadPdfBtn" href="#" target="_blank" class="text-xs px-2.5 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700">Download PDF</a>
+          </div>
+        </div>
+        
+        <div id="previewFrameContainer" class="h-80 rounded-lg bg-white overflow-hidden border border-zinc-700">
+          <iframe id="resumeIframe" class="w-full h-full border-none" src="about:blank"></iframe>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Modal: Add Job -->
+  <div id="addJobModal" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+    <div class="bg-zinc-900 border border-zinc-800 rounded-xl max-w-lg w-full p-6 shadow-2xl flex flex-col gap-4">
+      <div class="flex justify-between items-center border-b border-zinc-800 pb-3">
+        <h3 class="text-sm font-semibold text-zinc-100">Add Target Job</h3>
+        <button onclick="closeAddJobModal()" class="text-zinc-400 hover:text-zinc-200 text-sm">✕</button>
+      </div>
+
+      <div class="flex flex-col gap-3 text-xs">
+        <div>
+          <label class="block text-zinc-400 mb-1">Job URL (LinkedIn / JobStreet / Glints / Web)</label>
+          <div class="flex gap-2">
+            <input id="jobUrlInput" type="text" placeholder="https://..." class="flex-1 bg-zinc-950 border border-zinc-800 rounded px-3 py-2 text-zinc-200 focus:outline-none focus:border-zinc-500">
+            <button onclick="extractFromUrl()" id="extractBtn" class="px-3 py-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 rounded font-medium">Extract</button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-zinc-400 mb-1">Job Title</label>
+            <input id="jobTitleInput" type="text" placeholder="e.g. AI Engineer" class="w-full bg-zinc-950 border border-zinc-800 rounded px-3 py-2 text-zinc-200 focus:outline-none focus:border-zinc-500">
+          </div>
+          <div>
+            <label class="block text-zinc-400 mb-1">Company</label>
+            <input id="jobCompanyInput" type="text" placeholder="e.g. Acme Corp" class="w-full bg-zinc-950 border border-zinc-800 rounded px-3 py-2 text-zinc-200 focus:outline-none focus:border-zinc-500">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-zinc-400 mb-1">Job Description & Requirements</label>
+          <textarea id="jobDescInput" rows="5" placeholder="Paste requirements or job description text..." class="w-full bg-zinc-950 border border-zinc-800 rounded px-3 py-2 text-zinc-200 focus:outline-none focus:border-zinc-500 font-mono text-[11px]"></textarea>
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-2 border-t border-zinc-800 pt-3">
+        <button onclick="closeAddJobModal()" class="px-3.5 py-1.5 rounded bg-zinc-800 text-zinc-300 text-xs">Cancel</button>
+        <button onclick="submitJob()" class="px-3.5 py-1.5 rounded bg-zinc-100 hover:bg-white text-zinc-950 font-medium text-xs">Save & Ingest</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let pollInterval = null;
+
+    async function fetchJobs() {
+      try {
+        const res = await fetch('/api/jobs');
+        const jobs = await res.json();
+        renderJobList(jobs);
+      } catch (err) {
+        console.error("Error fetching jobs:", err);
+      }
+    }
+
+    function renderJobList(jobs) {
+      const container = document.getElementById('jobList');
+      if (!jobs || jobs.length === 0) {
+        container.innerHTML = `
+          <div class="p-8 text-center border border-dashed border-zinc-800 rounded-xl text-zinc-500 text-xs">
+            No job applications added yet. Click "Add Job" to start tailoring!
+          </div>`;
+        return;
+      }
+
+      container.innerHTML = jobs.map(j => `
+        <div class="border border-zinc-800 bg-zinc-900/40 hover:border-zinc-700 rounded-xl p-4 transition flex flex-col gap-3">
+          <div class="flex items-start justify-between">
+            <div>
+              <div class="flex items-center gap-2">
+                <h4 class="font-semibold text-sm text-zinc-100">${j.title}</h4>
+                <span class="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-zinc-800 text-zinc-400 border border-zinc-700/50">${j.platform}</span>
+              </div>
+              <p class="text-xs text-zinc-400 mt-0.5">${j.company} • <span class="text-zinc-500">${j.location}</span></p>
+            </div>
+            <div class="text-right">
+              <span class="text-xs font-mono font-medium ${j.ats_score >= 70 ? 'text-emerald-400' : 'text-amber-400'}">
+                ATS: ${j.ats_score}%
+              </span>
+              <div class="text-[10px] uppercase font-mono text-zinc-500 mt-0.5">${j.status}</div>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between border-t border-zinc-800/80 pt-3">
+            <div class="flex items-center gap-2">
+              <button onclick="tailorResume(${j.id})" class="px-2.5 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-medium transition flex items-center gap-1">
+                ⚡ Tailor CV
+              </button>
+              ${j.has_resume ? `
+                <button onclick="previewResume(${j.id})" class="px-2.5 py-1 rounded bg-zinc-800/50 hover:bg-zinc-700 text-zinc-300 text-xs transition">
+                  Preview
+                </button>
+              ` : ''}
+              <button onclick="executeApply(${j.id})" class="px-2.5 py-1 rounded bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-medium transition">
+                🚀 Auto Apply
+              </button>
+            </div>
+            <button onclick="deleteJob(${j.id})" class="text-zinc-500 hover:text-red-400 text-xs transition">
+              Delete
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    async function tailorResume(jobId) {
+      appendLog(`[Job #${jobId}] Initiating dynamic ATS tailoring engine...`, "info");
+      try {
+        const res = await fetch(`/api/resume/tailor/${jobId}`, { method: 'POST' });
+        const data = await res.json();
+        appendLog(`[Job #${jobId}] Tailoring complete! Score: ${data.ats_score}%. Matched: ${data.matching_keywords.slice(0, 5).join(', ')}`, "success");
+        fetchJobs();
+        previewResume(jobId);
+      } catch (e) {
+        appendLog(`[Job #${jobId}] Tailoring failed: ${e}`, "error");
+      }
+    }
+
+    function previewResume(jobId) {
+      const iframe = document.getElementById('resumeIframe');
+      iframe.src = `/api/resume/preview/${jobId}`;
+      const actions = document.getElementById('previewActions');
+      actions.classList.remove('hidden');
+      document.getElementById('downloadPdfBtn').href = `/api/resume/download/${jobId}`;
+    }
+
+    async function executeApply(jobId) {
+      appendLog(`[Job #${jobId}] Dispatching background Playwright automation worker...`, "info");
+      document.getElementById('activeJobStatus').innerText = `APPLYING (#${jobId})`;
+      
+      try {
+        await fetch(`/api/apply/execute/${jobId}`, { method: 'POST' });
+        startPolling(jobId);
+      } catch (e) {
+        appendLog(`[Job #${jobId}] Apply dispatch error: ${e}`, "error");
+      }
+    }
+
+    function startPolling(jobId) {
+      if (pollInterval) clearInterval(pollInterval);
+      pollInterval = setInterval(async () => {
+        const res = await fetch(`/api/apply/status/${jobId}`);
+        const data = await res.json();
+        
+        if (data.logs && data.logs.length > 0) {
+          const consoleEl = document.getElementById('logConsole');
+          consoleEl.innerHTML = data.logs.map(l => `<div><span class="text-zinc-600">${l.time.slice(11,19)}</span> <span class="${l.level === 'error' ? 'text-red-400' : 'text-zinc-300'}">${l.msg}</span></div>`).join('');
+          consoleEl.scrollTop = consoleEl.scrollHeight;
+        }
+
+        if (data.status === 'applied' || data.status === 'failed') {
+          clearInterval(pollInterval);
+          document.getElementById('activeJobStatus').innerText = data.status.toUpperCase();
+          fetchJobs();
+        }
+      }, 1500);
+    }
+
+    function appendLog(msg, type = "info") {
+      const consoleEl = document.getElementById('logConsole');
+      const time = new Date().toTimeString().slice(0, 8);
+      const color = type === "error" ? "text-red-400" : (type === "success" ? "text-emerald-400" : "text-zinc-300");
+      consoleEl.innerHTML += `<div><span class="text-zinc-600">${time}</span> <span class="${color}">${msg}</span></div>`;
+      consoleEl.scrollTop = consoleEl.scrollHeight;
+    }
+
+    function openAddJobModal() {
+      document.getElementById('addJobModal').classList.remove('hidden');
+      document.getElementById('addJobModal').classList.add('flex');
+    }
+
+    function closeAddJobModal() {
+      document.getElementById('addJobModal').classList.add('hidden');
+      document.getElementById('addJobModal').classList.remove('flex');
+    }
+
+    async function extractFromUrl() {
+      const url = document.getElementById('jobUrlInput').value;
+      if (!url) return;
+      const btn = document.getElementById('extractBtn');
+      btn.innerText = 'Extracting...';
+      try {
+        const res = await fetch('/api/jobs/extract', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url })
+        });
+        const data = await res.json();
+        document.getElementById('jobTitleInput').value = data.title || '';
+        document.getElementById('jobCompanyInput').value = data.company || '';
+        document.getElementById('jobDescInput').value = data.description || '';
+      } catch (e) {
+        alert('Could not auto-extract URL. You can paste description manually.');
+      } finally {
+        btn.innerText = 'Extract';
+      }
+    }
+
+    async function submitJob() {
+      const title = document.getElementById('jobTitleInput').value;
+      const company = document.getElementById('jobCompanyInput').value;
+      const desc = document.getElementById('jobDescInput').value;
+      const url = document.getElementById('jobUrlInput').value;
+
+      if (!title || !company) {
+        alert('Please provide title and company.');
+        return;
+      }
+
+      await fetch('/api/jobs', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title,
+          company,
+          description: desc,
+          url: url || null,
+          platform: url && url.includes('linkedin') ? 'linkedin' : (url && url.includes('jobstreet') ? 'jobstreet' : 'generic')
+        })
+      });
+
+      closeAddJobModal();
+      fetchJobs();
+    }
+
+    async function deleteJob(id) {
+      if (!confirm('Delete this job record?')) return;
+      await fetch(`/api/jobs/${id}`, { method: 'DELETE' });
+      fetchJobs();
+    }
+
+    fetchJobs();
+  </script>
+</body>
+</html>

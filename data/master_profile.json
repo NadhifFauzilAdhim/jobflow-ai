@@ -1,0 +1,116 @@
+{
+  "contact": {
+    "full_name": "Nadhif Fauzil Adhim",
+    "email": "nadhiffauzil@gmail.com",
+    "phone": "+62 812-3456-7890",
+    "location": "Indonesia",
+    "linkedin_url": "https://linkedin.com/in/nadhiffauziladhim",
+    "github_url": "https://github.com/NadhifFauzilAdhim",
+    "portfolio_url": "https://ndfproject.my.id"
+  },
+  "summary": "Innovative Full-Stack & AI Engineer with deep expertise in designing scalable web architectures, automated AI workflows, and computer vision systems. Proven track record in deploying resilient cloud microservices, real-time analytics platforms, and browser automation pipelines.",
+  "skills": [
+    {
+      "category": "Languages & Core",
+      "skills": ["Python", "TypeScript", "JavaScript", "Go", "SQL", "HTML5/CSS3"]
+    },
+    {
+      "category": "Web & Backend Frameworks",
+      "skills": ["FastAPI", "Next.js", "React", "Node.js", "Express", "Django", "Tailwind CSS"]
+    },
+    {
+      "category": "AI, ML & Automation",
+      "skills": ["LiteLLM", "LangChain", "Playwright", "OpenCV", "YOLOv8", "PyTorch", "Hugging Face"]
+    },
+    {
+      "category": "DevOps & Cloud Infrastructure",
+      "skills": ["Docker", "Docker Compose", "PostgreSQL", "Redis", "Cloudflare Workers/Pages", "Git/GitHub Actions", "Linux"]
+    }
+  ],
+  "experience": [
+    {
+      "company": "NDF Project & AI Labs",
+      "position": "Lead AI & Full Stack Engineer",
+      "location": "Remote / Indonesia",
+      "start_date": "2023",
+      "end_date": "Present",
+      "highlights": [
+        "Architected and deployed distributed AI pipelines and microservices serving 20k+ monthly active requests with 99.9% uptime.",
+        "Engineered autonomous browser automation bots utilizing Playwright and stealth sessions, cutting manual data entry workflows by 80%.",
+        "Developed high-performance modern web dashboards with Next.js, FastAPI, and PostgreSQL with strict security and PIN-gate authentication."
+      ],
+      "technologies": ["Python", "FastAPI", "Next.js", "Docker", "PostgreSQL", "Playwright", "LiteLLM"]
+    },
+    {
+      "company": "Smart Vision & IoT Solutions",
+      "position": "Computer Vision & Backend Developer",
+      "location": "Indonesia",
+      "start_date": "2022",
+      "end_date": "2023",
+      "highlights": [
+        "Implemented real-time object detection and vehicle counter systems utilizing YOLOv8 and OpenCV with sub-50ms inference latency.",
+        "Built automated annotation and dataset ingestion APIs (CVAT integration), increasing machine learning team labeling throughput by 3x."
+      ],
+      "technologies": ["Python", "OpenCV", "YOLOv8", "FastAPI", "Docker", "Redis"]
+    }
+  ],
+  "education": [
+    {
+      "institution": "Universitas Pembangunan Nasional 'Veteran' Jawa Timur",
+      "degree": "Bachelor of Computer Science",
+      "field_of_study": "Informatics / Computer Science",
+      "start_date": "2020",
+      "end_date": "2024",
+      "gpa": "3.85 / 4.00",
+      "highlights": [
+        "Specialized in Artificial Intelligence, Deep Learning, and Distributed Software Engineering."
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "JobFlow AI",
+      "description": "Autonomous job application engine and dynamic ATS resume tailor with Docker multi-container support.",
+      "technologies": ["Python", "FastAPI", "Playwright", "Docker", "PostgreSQL", "Tailwind CSS"],
+      "link": "https://github.com/NadhifFauzilAdhim/jobflow-ai",
+      "highlights": [
+        "Automated end-to-end job application pipelines with dynamic keyword extraction and real-time PDF synthesis."
+      ]
+    },
+    {
+      "name": "GuardAI Security System",
+      "description": "Edge AI security and video surveillance system with real-time anomaly detection and IoT alerts.",
+      "technologies": ["Python", "YOLOv8", "FastAPI", "Next.js", "Docker"],
+      "link": "https://github.com/NadhifFauzilAdhim/GuardAI-Dashboard",
+      "highlights": [
+        "Engineered low-latency RTSP streaming and object classification backend."
+      ]
+    }
+  ],
+  "certifications": [
+    "Samsung Innovation Campus (SIC) - AI & IoT Specialization",
+    "Certified TensorFlow Developer & Deep Learning Specialist"
+  ],
+  "common_answers": [
+    {
+      "question_pattern": "salary|gaji|compensation",
+      "answer": "Rp 12.000.000 - Rp 18.000.000 (Negotiable)"
+    },
+    {
+      "question_pattern": "notice period|start date|kapan mulai",
+      "answer": "Immediately / Available within 2 weeks"
+    },
+    {
+      "question_pattern": "relocate|pindah kota",
+      "answer": "Yes, willing to relocate or work hybrid/remote"
+    },
+    {
+      "question_pattern": "years of experience|pengalaman",
+      "answer": "3"
+    },
+    {
+      "question_pattern": "sponsorship|visa",
+      "answer": "No"
+    }
+  ]
+}

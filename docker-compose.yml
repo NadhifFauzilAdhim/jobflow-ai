@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  # Web Dashboard & FastAPI Backend
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: jobflow_web
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=False
+      - PORT=8000
+      - DATABASE_URL=sqlite+aiosqlite:////app/data/jobflow.db
+      - REDIS_URL=redis://redis:6379/0
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - GROQ_API_KEY=${GROQ_API_KEY:-}
+      - DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY:-}
+    volumes:
+      - ./data:/app/data
+      - ./output:/app/output
+    depends_on:
+      - redis
+
+  # Redis Cache & Task Broker
+  redis:
+    image: redis:7-alpine
+    container_name: jobflow_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  redis_data:

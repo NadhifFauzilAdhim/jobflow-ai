@@ -1,0 +1,21 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+env/
+venv/
+dist/
+build/
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# JobFlow data & output artifacts
+output/*.pdf
+output/screenshots/*
+!output/.gitkeep
+data/jobflow.db
+data/browser_sessions/*
+.env
