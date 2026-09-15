@@ -8,59 +8,54 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            zinc: {
+              950: '#09090b',
+              900: '#121215',
+              850: '#18181b',
+              800: '#27272a',
+            }
+          }
+        }
+      }
+    }
+  </script>
   <style>
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    }
-    .font-mono {
-      font-family: 'JetBrains Mono', monospace;
+      background-color: #09090b;
+      color: #fafafa;
+      font-family: 'Inter', sans-serif;
     }
   </style>
 </head>
-<body class="bg-zinc-950 text-zinc-100 min-h-screen flex flex-col justify-between antialiased selection:bg-emerald-500/20 selection:text-emerald-300">
+<body class="min-h-screen flex flex-col items-center justify-center p-4 antialiased selection:bg-zinc-800 selection:text-white">
 
-  <!-- Background Ambient Glow -->
-  <div class="fixed inset-0 pointer-events-none flex items-center justify-center -z-10 overflow-hidden">
-    <div class="w-[500px] h-[500px] bg-emerald-500/5 rounded-full blur-3xl"></div>
-    <div class="w-[400px] h-[400px] bg-zinc-700/10 rounded-full blur-3xl -mt-40"></div>
-  </div>
-
-  <!-- Top Minimal Nav -->
-  <header class="p-6 flex justify-between items-center max-w-6xl w-full mx-auto">
-    <div class="flex items-center gap-2.5">
-      <div class="w-8 h-8 rounded-lg bg-zinc-100 text-zinc-950 flex items-center justify-center font-bold text-sm shadow-md">
+  <div class="w-full max-w-[360px] flex flex-col items-center">
+    <!-- Brand Header -->
+    <div class="flex flex-col items-center text-center mb-6">
+      <div class="w-10 h-10 rounded-xl bg-zinc-100 text-zinc-950 flex items-center justify-center font-bold text-base shadow-sm">
         JF
       </div>
-      <div>
-        <span class="font-semibold text-sm tracking-tight text-zinc-100">JobFlow AI</span>
-        <span class="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-400 border border-zinc-700/50 ml-1.5">v0.1</span>
+      <div class="flex items-center gap-2 mt-3">
+        <h1 class="font-semibold text-base tracking-tight text-zinc-100">JobFlow AI</h1>
+        <span class="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded bg-zinc-850 text-zinc-400 border border-zinc-800">AI Agent</span>
       </div>
+      <p class="text-xs text-zinc-500 mt-1">Autonomous Job Engine & ATS CV Tailoring</p>
     </div>
-    <div class="flex items-center gap-2 text-xs text-zinc-400">
-      <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-      <span class="font-mono text-[11px]">System Online</span>
-    </div>
-  </header>
 
-  <!-- Login Card Container -->
-  <main class="flex-1 flex items-center justify-center px-4 py-8">
-    <div class="w-full max-w-md bg-zinc-900/80 border border-zinc-800 backdrop-blur-xl rounded-2xl p-7 sm:p-8 shadow-2xl relative">
-
-      <!-- Header Icon & Title -->
-      <div class="flex flex-col items-center text-center mb-6">
-        <div class="w-12 h-12 rounded-xl bg-zinc-800/80 border border-zinc-700/60 flex items-center justify-center text-emerald-400 mb-3 shadow-inner">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
-          </svg>
-        </div>
-        <h2 class="text-xl font-bold text-zinc-100 tracking-tight">Protected Portal</h2>
-        <p class="text-xs text-zinc-400 mt-1.5 max-w-xs">
-          Enter your authorized credentials to manage autonomous job applications and tailored CVs.
-        </p>
-      </div>
-
-      <!-- Error Alert (Hidden by default) -->
-      <div id="errorAlert" class="hidden mb-5 p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-red-300 text-xs flex items-center gap-2">
+    <!-- Login Card -->
+    <div class="w-full bg-zinc-900 border border-zinc-800/90 rounded-xl p-6 shadow-xl">
+      <!-- Error Alert -->
+      <div id="errorAlert" class="hidden mb-4 p-2.5 rounded-lg bg-red-950/40 border border-red-900/50 text-red-300 text-xs flex items-center gap-2">
         <svg class="w-4 h-4 text-red-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
         </svg>
@@ -71,49 +66,44 @@
       <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
         <div>
           <label for="username" class="block text-xs font-medium text-zinc-300 mb-1.5">Username</label>
-          <div class="relative">
-            <input 
-              type="text" 
-              id="username" 
-              name="username" 
-              required 
-              autocomplete="username"
-              placeholder="e.g. admin" 
-              class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 transition font-mono"
-            >
-          </div>
+          <input 
+            type="text" 
+            id="username" 
+            name="username" 
+            required 
+            autofocus
+            autocomplete="username"
+            placeholder="admin" 
+            class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-zinc-500 transition font-mono"
+          >
         </div>
 
         <div>
-          <div class="flex items-center justify-between mb-1.5">
-            <label for="password" class="block text-xs font-medium text-zinc-300">Password</label>
-          </div>
-          <div class="relative">
-            <input 
-              type="password" 
-              id="password" 
-              name="password" 
-              required 
-              autocomplete="current-password"
-              placeholder="••••••••" 
-              class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 transition font-mono"
-            >
-          </div>
+          <label for="password" class="block text-xs font-medium text-zinc-300 mb-1.5">Password</label>
+          <input 
+            type="password" 
+            id="password" 
+            name="password" 
+            required 
+            autocomplete="current-password"
+            placeholder="••••••••" 
+            class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-zinc-500 transition font-mono"
+          >
         </div>
 
-        <div class="flex items-center justify-between text-xs pt-1">
+        <div class="flex items-center text-xs pt-0.5">
           <label class="flex items-center gap-2 cursor-pointer text-zinc-400 hover:text-zinc-300">
-            <input type="checkbox" id="rememberMe" checked class="rounded bg-zinc-950 border-zinc-800 text-emerald-500 focus:ring-emerald-500/20 w-3.5 h-3.5">
-            <span>Remember session (7 days)</span>
+            <input type="checkbox" id="rememberMe" checked class="rounded bg-zinc-950 border-zinc-800 accent-zinc-200 w-3.5 h-3.5">
+            <span>Remember session</span>
           </label>
         </div>
 
         <button 
           type="submit" 
           id="submitBtn" 
-          class="w-full mt-2 py-2.5 px-4 rounded-lg bg-zinc-100 hover:bg-white text-zinc-950 font-semibold text-xs transition flex items-center justify-center gap-2 shadow-lg shadow-white/5 active:scale-[0.99]"
+          class="w-full mt-2 py-2.5 px-4 rounded-lg bg-zinc-100 hover:bg-white text-zinc-950 font-medium text-xs transition flex items-center justify-center gap-2 shadow-sm active:scale-[0.99]"
         >
-          <span id="btnText">Sign In to Dashboard</span>
+          <span id="btnText">Sign In</span>
           <span id="btnSpinner" class="hidden">
             <svg class="animate-spin h-3.5 w-3.5 text-zinc-950" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
               <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -122,24 +112,10 @@
           </span>
         </button>
       </form>
-
-      <!-- Security Notice Footer Inside Card -->
-      <div class="mt-6 pt-4 border-t border-zinc-800/80 text-center">
-        <p class="text-[11px] text-zinc-500 flex items-center justify-center gap-1.5">
-          <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
-          </svg>
-          <span>End-to-End Encrypted Session & Local DB Storage</span>
-        </p>
-      </div>
-
     </div>
-  </main>
 
-  <!-- Footer -->
-  <footer class="p-6 text-center text-xs text-zinc-600">
-    JobFlow AI — Autonomous ATS CV Generator & Application Engine
-  </footer>
+    <p class="text-[11px] text-zinc-600 mt-6 font-mono">JobFlow AI v0.1</p>
+  </div>
 
   <script>
     async function handleLogin(e) {
@@ -156,7 +132,7 @@
 
       errorAlert.classList.add('hidden');
       submitBtn.disabled = true;
-      btnText.innerText = "Authenticating...";
+      btnText.innerText = "Signing in...";
       btnSpinner.classList.remove('hidden');
 
       try {
@@ -173,9 +149,7 @@
         const data = await res.json();
 
         if (res.ok) {
-          btnText.innerText = "Success! Redirecting...";
-          
-          // Get next url from query params if present
+          btnText.innerText = "Redirecting...";
           const urlParams = new URLSearchParams(window.location.search);
           const nextUrl = urlParams.get('next') || '/';
           window.location.href = nextUrl;
@@ -183,14 +157,14 @@
           errorAlert.classList.remove('hidden');
           errorMessage.innerText = data.detail || 'Invalid username or password.';
           submitBtn.disabled = false;
-          btnText.innerText = "Sign In to Dashboard";
+          btnText.innerText = "Sign In";
           btnSpinner.classList.add('hidden');
         }
       } catch (err) {
         errorAlert.classList.remove('hidden');
         errorMessage.innerText = "Network or server error. Please try again.";
         submitBtn.disabled = false;
-        btnText.innerText = "Sign In to Dashboard";
+        btnText.innerText = "Sign In";
         btnSpinner.classList.add('hidden');
       }
     }
