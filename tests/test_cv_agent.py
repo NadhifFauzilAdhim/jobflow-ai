@@ -7,6 +7,19 @@ from jobflow.core.cv_parser import extract_text_from_file, CVParserAgent
 from jobflow.core.schema import MasterProfile, ContactInfo, SkillCategory, WorkExperience, Education, StylePreferences, JobListing
 from jobflow.core.resume_engine import ResumeEngine
 from jobflow.core.pdf_generator import PDFGenerator
+from jobflow.config import settings
+from jobflow.core.security import create_session_token
+
+
+def get_auth_client():
+    token = create_session_token("admin")
+    return AsyncClient(
+        transport=ASGITransport(app=app),
+        base_url="http://127.0.0.1:8000",
+        headers={"Authorization": f"Bearer {token}"},
+        cookies={settings.SESSION_COOKIE_NAME: token}
+    )
+
 
 
 SAMPLE_CV_TEXT = """
@@ -133,7 +146,7 @@ async def test_format_conforming_resume_engine():
 @pytest.mark.asyncio
 async def test_upload_cv_api_endpoint():
     await init_db()
-    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
+    async with get_auth_client() as ac:
         files = {
             "file": ("test_resume.txt", io.BytesIO(SAMPLE_CV_TEXT.encode("utf-8")), "text/plain")
         }
@@ -179,7 +192,7 @@ def test_schema_normalizer_resilience():
 @pytest.mark.asyncio
 async def test_parse_raw_text_api_endpoint():
     await init_db()
-    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
+    async with get_auth_client() as ac:
         payload = {"raw_text": SAMPLE_CV_TEXT}
         res = await ac.post("/api/profile/parse-text", json=payload)
         assert res.status_code == 200

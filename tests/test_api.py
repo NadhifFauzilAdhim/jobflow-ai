@@ -2,13 +2,26 @@ import pytest
 import pytest_asyncio
 from httpx import AsyncClient, ASGITransport
 from jobflow.api.app import app
+from jobflow.config import settings
+from jobflow.core.security import create_session_token
 from jobflow.db.database import init_db
+
+
+def get_auth_client(follow_redirects: bool = True):
+    token = create_session_token("admin")
+    return AsyncClient(
+        transport=ASGITransport(app=app),
+        base_url="http://127.0.0.1:8000",
+        headers={"Authorization": f"Bearer {token}"},
+        cookies={settings.SESSION_COOKIE_NAME: token},
+        follow_redirects=follow_redirects
+    )
 
 
 @pytest.mark.asyncio
 async def test_health_and_dashboard_endpoints():
     await init_db()
-    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
+    async with get_auth_client() as ac:
         res = await ac.get("/health")
         assert res.status_code == 200
         assert res.json() == {"status": "healthy", "service": "jobflow-ai"}
@@ -21,7 +34,7 @@ async def test_health_and_dashboard_endpoints():
 @pytest.mark.asyncio
 async def test_job_and_resume_flow():
     await init_db()
-    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
+    async with get_auth_client() as ac:
         # 1. Create a job
         job_data = {
             "title": "Senior AI Systems Architect",
@@ -72,7 +85,7 @@ async def test_job_and_resume_flow():
 @pytest.mark.asyncio
 async def test_candidate_profile_persistence_in_db():
     await init_db()
-    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
+    async with get_auth_client() as ac:
         # 1. Check profile status endpoint
         res_status = await ac.get("/api/profile/status")
         assert res_status.status_code == 200

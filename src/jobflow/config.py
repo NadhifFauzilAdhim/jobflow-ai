@@ -21,6 +21,13 @@ class Settings(BaseSettings):
     HOST: str = "0.0.0.0"
     SECRET_KEY: str = "jobflow-insecure-secret-key-change-in-production"
 
+    # Authentication & Public Deployment Security
+    AUTH_ENABLED: bool = True
+    AUTH_USERNAME: str = "admin"
+    AUTH_PASSWORD: str = "jobflow2026"
+    SESSION_COOKIE_NAME: str = "jobflow_session"
+    SESSION_EXPIRE_HOURS: int = 168  # 7 days
+
     # Database
     DATABASE_URL: str = f"sqlite+aiosqlite:///{DATA_DIR}/jobflow.db"
 
