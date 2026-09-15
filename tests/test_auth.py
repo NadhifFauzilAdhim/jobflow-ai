@@ -118,6 +118,30 @@ async def test_login_flow_and_authenticated_session():
 
 
 @pytest.mark.asyncio
+async def test_logout_endpoints():
+    """Verify browser GET /logout redirects cleanly to /login and clears session."""
+    await init_db()
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://127.0.0.1:8000", follow_redirects=False) as ac:
+        # 1. Login
+        login_res = await ac.post("/api/auth/login", json={
+            "username": settings.AUTH_USERNAME,
+            "password": settings.AUTH_PASSWORD
+        })
+        assert login_res.status_code == 200
+        assert settings.SESSION_COOKIE_NAME in login_res.cookies
+
+        # 2. Browser GET /logout
+        logout_res = await ac.get("/logout")
+        assert logout_res.status_code == 303
+        assert logout_res.headers["location"] == "/login"
+
+        # 3. GET /api/auth/logout also works
+        api_logout_res = await ac.get("/api/auth/logout")
+        assert api_logout_res.status_code == 200
+        assert api_logout_res.json()["status"] == "ok"
+
+
+@pytest.mark.asyncio
 async def test_bearer_token_authorization():
     """Verify programmatic API access using Bearer token authorization header."""
     await init_db()

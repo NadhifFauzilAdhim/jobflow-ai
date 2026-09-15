@@ -16,7 +16,9 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(na
 PUBLIC_PATH_PREFIXES = (
     "/health",
     "/login",
+    "/logout",
     "/api/auth/login",
+    "/api/auth/logout",
     "/static/",
     "/favicon.ico"
 )
@@ -82,10 +84,16 @@ async def serve_login(request: Request):
 
 
 @app.get("/logout")
+@app.post("/logout")
 async def logout_browser():
     """Clear session cookie and redirect browser to login page."""
     response = RedirectResponse(url="/login", status_code=303)
-    response.delete_cookie(key=settings.SESSION_COOKIE_NAME, path="/")
+    response.delete_cookie(
+        key=settings.SESSION_COOKIE_NAME,
+        path="/",
+        httponly=True,
+        samesite="lax"
+    )
     return response
 
 

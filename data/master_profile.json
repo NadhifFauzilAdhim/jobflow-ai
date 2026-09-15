@@ -1,96 +1,308 @@
 {
   "contact": {
     "full_name": "Nadhif Fauzil Adhim",
-    "email": "nadhiffauzil@gmail.com",
-    "phone": "+62 812-3456-7890",
-    "location": "Indonesia",
-    "linkedin_url": "linkedin.com/in/nadhiffauziladhim",
-    "github_url": "github.com/NadhifFauzilAdhim",
-    "portfolio_url": ""
+    "email": "nadhifauziladhim@gmail.com",
+    "phone": "+62 857-2778-5062",
+    "location": "Yogyakarta, Indonesia",
+    "linkedin_url": "https://linkedin.com/in/nadhiffauzil",
+    "github_url": "https://github.com/NadhifFauzilAdhim",
+    "portfolio_url": "https://ndfproject.my.id"
   },
-  "summary": "Lead AI and Full-Stack Software Engineer with 4+ years of experience designing scalable web architectures, automated AI pipelines, and computer vision systems.",
+  "summary": "AI & Full-Stack Engineer with 2 years of hands-on experience shipping production computer-vision and web systems end to end from dataset labeling and model training to inference optimization, backend architecture, and the dashboards operators actually use. Delivered a real-time AI surveillance platform running 16 concurrent camera streams at 10 FPS on edge hardware, and full-stack products serving 100+ users. Focused on building end-to-end AI products where model quality and software engineering matter equally.",
   "skills": [
     {
-      "category": "Languages & Frameworks",
+      "category": "Languages",
       "skills": [
         "Python",
-        "FastAPI",
+        "PHP",
+        "JavaScript",
         "TypeScript",
-        "React",
-        "Next.js"
+        "Kotlin",
+        "C++",
+        "SQL"
       ]
     },
     {
-      "category": "Databases & Infrastructure",
+      "category": "AI & Machine Learning",
       "skills": [
-        "Docker",
+        "PyTorch",
+        "TensorFlow",
+        "YOLOX",
+        "MediaPipe",
+        "OpenCV",
+        "NumPy",
+        "Pandas",
+        "scikit-learn"
+      ]
+    },
+    {
+      "category": "AI Deployment & MLOps",
+      "skills": [
+        "ONNX Runtime",
+        "TensorRT",
+        "Model Quantization (INT8/FP16)",
+        "Edge Inference",
+        "MLflow"
+      ]
+    },
+    {
+      "category": "LLM Engineering",
+      "skills": [
+        "OpenAI API",
+        "Claude API",
+        "Prompt Engineering",
+        "Structured Output",
+        "RAG",
+        "Embeddings",
+        "pgvector"
+      ]
+    },
+    {
+      "category": "Backend & API",
+      "skills": [
+        "Laravel",
+        "FastAPI",
+        "REST API",
+        "WebSocket",
+        "Laravel Reverb",
+        "Redis Queue",
+        "Event-Driven Architecture"
+      ]
+    },
+    {
+      "category": "Frontend",
+      "skills": [
+        "React.js",
+        "Next.js",
+        "Vue.js",
+        "Livewire",
+        "Tailwind CSS"
+      ]
+    },
+    {
+      "category": "Database",
+      "skills": [
         "PostgreSQL",
+        "MySQL",
+        "MongoDB",
         "Redis"
       ]
     },
     {
-      "category": "Testing & Automation",
+      "category": "DevOps & Tools",
       "skills": [
+        "Docker",
+        "Docker Compose",
+        "Git",
+        "GitHub Actions",
+        "CI/CD",
+        "Linux",
+        "Nginx",
+        "VPS Deployment",
+        "Postman"
+      ]
+    },
+    {
+      "category": "Testing",
+      "skills": [
+        "PHPUnit",
+        "Pest",
+        "Vitest",
         "Playwright"
       ]
     }
   ],
   "experience": [
     {
-      "company": "NDF Project & AI Labs",
-      "position": "Lead AI & Full Stack Engineer",
-      "location": "Remote / Indonesia",
-      "start_date": "2023",
+      "company": "PT Lantabura Media",
+      "position": "AI & Full-Stack Developer",
+      "location": "Sleman, Indonesia",
+      "start_date": "Jun 2026",
       "end_date": "Present",
       "highlights": [
-        "Architected and deployed distributed AI pipelines and microservices serving 20k+ monthly active requests with 99.9% uptime.",
-        "Engineered autonomous browser automation bots utilizing Playwright, cutting manual data entry workflows by 80%."
+        "Own end-to-end development of GuardAI, an AI surveillance product deployed at 1 client site covering dataset pipeline, model training, inference service, backend, and operator dashboard.",
+        "Built a real-time detection pipeline using YOLO and MediaPipe reaching 0.80 mAP@0.5 and 10 FPS on rk3576s, supporting 16 concurrent camera streams per node.",
+        "Cut inference latency from 117 ms to 17 ms via INT8 quantization and RKNN export, lowering hardware cost per camera by 70%.",
+        "Designed the backend using Laravel, PostgreSQL, and Redis to ingest 1200 detection events per minute and push live alerts over WebSocket, keeping p95 dashboard latency under 250 ms.",
+        "Integrated IoT actuators and an alarm for automated on-site warning, cutting operator response time from 45 seconds to 8 seconds."
       ],
       "technologies": [
-        "Playwright"
+        "YOLO",
+        "MediaPipe",
+        "Laravel",
+        "PostgreSQL",
+        "Redis",
+        "WebSocket",
+        "INT8 Quantization",
+        "RKNN",
+        "rk3576s",
+        "IoT Actuators"
+      ]
+    },
+    {
+      "company": "Unit Pelayanan Teknis \u2014 Universitas Amikom Yogyakarta",
+      "position": "Technical Support (Part-time)",
+      "location": "Sleman, Indonesia",
+      "start_date": "Aug 2025",
+      "end_date": "Present",
+      "highlights": [
+        "Maintain 10 lab workstations and networking equipment supporting 1000+ students per semester, resolving 100+ hardware/software tickets with 98% same-day resolution."
+      ],
+      "technologies": [
+        "Hardware Support",
+        "Software Troubleshooting",
+        "Networking"
+      ]
+    },
+    {
+      "company": "Forum Asisten \u2014 Universitas Amikom Yogyakarta",
+      "position": "Teaching Assistant \u2014 Web Programming, Database Systems, Microcontroller",
+      "location": "Sleman, Indonesia",
+      "start_date": "Sep 2023",
+      "end_date": "Aug 2025",
+      "highlights": [
+        "Mentored 50+ students across 3 semesters in REST API design, relational modeling, and systematic debugging; 80% completed their final projects on schedule.",
+        "Ran weekly lab sessions and code reviews for 50 student teams, introducing Git branching workflows and Agile iteration to groups with no prior version-control experience."
+      ],
+      "technologies": [
+        "REST API",
+        "Relational Modeling",
+        "Git",
+        "Agile",
+        "Microcontrollers"
       ]
     }
   ],
   "education": [
     {
-      "institution": "Universitas Pembangunan Nasional Veteran Jawa Timur",
-      "degree": "Bachelor of Computer Science",
-      "field_of_study": "Computer Science",
-      "start_date": "2019",
-      "end_date": "2023",
-      "gpa": null,
-      "highlights": []
+      "institution": "Universitas Amikom Yogyakarta",
+      "degree": "Bachelor of Informatics",
+      "field_of_study": "Informatics",
+      "start_date": "2022",
+      "end_date": "2026",
+      "gpa": "3.89 / 4.00",
+      "highlights": [
+        "Relevant coursework: Computer Vision, Machine Learning, Database Systems, Software Engineering, Computer Networks, Data Structures & Algorithms"
+      ]
     }
   ],
   "projects": [
     {
-      "name": "JobFlow AI",
-      "description": "Autonomous Job Application Engine & ATS CV Generator built with Python and FastAPI.",
+      "name": "FocusEye \u2014 Real-Time Student Attention Detection",
+      "description": "Built a computer-vision system that estimates gaze direction and head pose to score classroom attention in real time, reaching 91% accuracy.",
       "technologies": [
         "Python",
-        "FastAPI"
+        "TensorFlow",
+        "MediaPipe",
+        "YOLO",
+        "Laravel",
+        "PostgreSQL",
+        "Redis",
+        "Kotlin"
       ],
       "link": null,
       "highlights": [
-        "Implemented intelligent CV tailoring and automated job submission."
+        "Built a computer-vision system that estimates gaze direction and head pose to score classroom attention in real time, reaching 91% accuracy.",
+        "Reduced false positives by 34% through illumination normalization, face alignment, and temporal smoothing over 15-frame windows."
+      ]
+    },
+    {
+      "name": "FlowServe \u2014 Smart POS & Restaurant Management (Freelance)",
+      "description": "Delivered an end-to-end POS for 3 outlets with QR-code ordering, kitchen display system, Midtrans payment integration, and sales analytics, processing 450 orders per day.",
+      "technologies": [
+        "Laravel",
+        "Vue.js",
+        "Tailwind CSS",
+        "PostgreSQL",
+        "Redis",
+        "Midtrans",
+        "WebSocket"
+      ],
+      "link": null,
+      "highlights": [
+        "Delivered an end-to-end POS for 3 outlets: QR-code ordering, kitchen display system, Midtrans payment integration, and sales analytics, processing 450 orders per day.",
+        "Reduced API p95 response time by 30% using Redis caching and an event-driven order pipeline.",
+        "Built real-time kitchen and cashier dashboards over WebSocket, cutting average order-to-kitchen time from 40 seconds to 6 seconds."
+      ]
+    },
+    {
+      "name": "JobDesperate \u2014 AI-Assisted Job Application Platform",
+      "description": "Built an AI-assisted job application platform with LLM-powered CV analysis, application tracking, CV management, and job-sharing features.",
+      "technologies": [
+        "Laravel",
+        "Livewire",
+        "MySQL",
+        "Redis",
+        "Tailwind CSS",
+        "LLM API",
+        "Gemini API"
+      ],
+      "link": null,
+      "highlights": [
+        "Shipped an LLM-powered \u201cCV Roasting\u201d feature using the Gemini API with structured-output prompting, returning section-level resume feedback in under 10 seconds.",
+        "Built application tracking, CV management, and job-sharing features now used by 200 users, with 20 CVs analyzed to date.",
+        "Cut LLM cost per analysis by 50% through prompt compression and Redis-backed caching of repeated CV sections."
       ]
     }
   ],
-  "certifications": [],
-  "custom_sections": [],
+  "certifications": [
+    "Samsung Innovation Campus Batch 5 \u2014 AI & IoT Bootcamp \u2014 Sep 2024",
+    "Backend Development Bootcamp \u2014 Amikom Computer Club \u2014 Nov 2023",
+    "TOEFL ITP \u2014 Score 526"
+  ],
+  "custom_sections": [
+    {
+      "id": "achievements",
+      "heading": "Achievements",
+      "items": [
+        {
+          "title": "Selected Participant",
+          "subtitle": "Samsung Innovation Campus Batch 5 \u2014 AI & IoT Bootcamp",
+          "date_or_year": "Sep 2024",
+          "description": "Selected from 1,200+ national applicants.",
+          "bullets": [
+            "Selected from 1,200+ national applicants."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "languages",
+      "heading": "Languages",
+      "items": [
+        {
+          "title": "Bahasa Indonesia",
+          "subtitle": "Native",
+          "date_or_year": null,
+          "description": "",
+          "bullets": []
+        },
+        {
+          "title": "English",
+          "subtitle": "Professional Working Proficiency",
+          "date_or_year": null,
+          "description": "",
+          "bullets": []
+        }
+      ]
+    }
+  ],
   "common_answers": [],
   "style_preferences": {
     "section_order": [
       "summary",
       "skills",
       "experience",
+      "projects",
       "education",
-      "projects"
+      "certifications",
+      "achievements",
+      "languages"
     ],
     "layout_style": "modern_clean",
     "accent_color": "#111827",
     "font_family": "Helvetica Neue, Helvetica, Arial, sans-serif",
     "bullet_style": "bullet"
   },
-  "raw_cv_text": "Nadhif Fauzil Adhim\nEmail: nadhiffauzil@gmail.com\nPhone: +62 812-3456-7890\nLocation: Indonesia\nLinkedIn: linkedin.com/in/nadhiffauziladhim\nGitHub: github.com/NadhifFauzilAdhim\n\nSUMMARY\nLead AI and Full-Stack Software Engineer with 4+ years of experience designing scalable web architectures, automated AI pipelines, and computer vision systems.\n\nTECHNICAL SKILLS\nPython, FastAPI, TypeScript, React, Next.js, Docker, PostgreSQL, Redis, Playwright\n\nWORK EXPERIENCE\nLead AI & Full Stack Engineer\nNDF Project & AI Labs - Remote / Indonesia\n2023 - Present\n\u2022 Architected and deployed distributed AI pipelines and microservices serving 20k+ monthly active requests with 99.9% uptime.\n\u2022 Engineered autonomous browser automation bots utilizing Playwright, cutting manual data entry workflows by 80%.\n\nEDUCATION\nUniversitas Pembangunan Nasional Veteran Jawa Timur\nBachelor of Computer Science\n2019 - 2023\n\nPROJECTS\nJobFlow AI\nAutonomous Job Application Engine & ATS CV Generator built with Python and FastAPI.\n\u2022 Implemented intelligent CV tailoring and automated job submission."
+  "raw_cv_text": "Nadhif Fauzil Adhim\n                                              AI Engineer  |  Full-Stack Developer\n                             Yogyakarta, Indonesia  \u2022  +62 857-2778-5062  \u2022  nadhifauziladhim@gmail.com\n                            ndfproject.my.id    \u2022  linkedin.com/in/nadhiffauzil  \u2022  github.com/NadhifFauzilAdhim\nSUMMARY\nAI & Full-Stack Engineer with 2 years of hands-on experience shipping production computer-vision and web systems end to\nend from dataset labeling and model training to inference optimization, backend architecture, and the dashboards operators\nactually  use.  Delivered  a  real-time  AI  surveillance  platform  running 16 concurrent  camera  streams  at               10  FPS  on  edge\nhardware, and full-stack products serving 100+ users. Focused on building end-to-end AI products where model quality and\nsoftware engineering matter equally.\nTECHNICAL SKILLS\nLanguages: Python, PHP, JavaScript, TypeScript, Kotlin, C++, SQL\nAI / Machine Learning: PyTorch, TensorFlow, YOLOX, MediaPipe, OpenCV, NumPy, Pandas, scikit-learn\nAI Deployment & MLOps: ONNX Runtime, TensorRT, model quantization (INT8/FP16), edge inference, MLflow\nLLM Engineering: OpenAI / Claude API, prompt engineering, structured output, RAG, embeddings, pgvector\nBackend & API: Laravel, FastAPI, REST API, WebSocket (Laravel Reverb), Redis Queue, event-driven architecture\nFrontend: React.js, Next.js, Vue.js, Livewire, Tailwind CSS\nDatabase: PostgreSQL, MySQL, MongoDB, Redis\nDevOps & Tools: Docker, Docker Compose, Git, GitHub Actions, CI/CD, Linux, Nginx, VPS deployment, Postman\nTesting: PHPUnit, Pest, Vitest / Playwright\n\nWORK EXPERIENCE\nPT Lantabura Media                                                                                                          Sleman, Indonesia\nAI & Full-Stack Developer                                                                                                  Jun 2026 \u2013 Present\n\u2022 Own end-to-end development of GuardAI, an AI surveillance product deployed at 1 client sites covering dataset pipeline,\n  model training, inference service, backend, and operator dashboard.\n\u2022 Built a real-time detection pipeline (YOLO + MediaPipe) reaching 0.80 mAP@0.5 and 10 FPS on rk3576s, supporting 16\n  concurrent camera streams per node.\n\u2022 Cut inference latency from 117 ms to 17 ms via INT8 quantization and RKNN export, lowering hardware cost per camera\n  by 70%.\n\u2022 Designed the backend (Laravel, PostgreSQL, Redis) to ingest               1200 detection events/minute and push live alerts over\n  WebSocket, keeping p95 dashboard latency under 250ms.\n\u2022 Integrated IoT actuators alarm for automated on-site warning, cutting operator response time from 45s to 8s.\nUnit Pelayanan Teknis \u2014 Universitas Amikom Yogyakarta                                                                       Sleman, Indonesia\nTechnical Support (Part-time)                                                                                              Aug 2025 \u2013 Present\n\u2022 Maintain 10 lab workstations and networking equipment supporting 1000+ students per semester, resolving 100+\n  hardware/software tickets with 98% same-day resolution.\nForum Asisten \u2014 Universitas Amikom Yogyakarta                                                                               Sleman, Indonesia\nTeaching Assistant \u2014 Web Programming, Database Systems, Microcontroller                                                  Sep 2023 \u2013 Aug 2025\n\u2022 Mentored 50+ students across 3 semesters in REST API design, relational modeling, and systematic debugging; 80%\n  completed their final projects on schedule.\n\u2022 Ran weekly lab sessions and code reviews for 50 student teams, introducing Git branching workflows and Agile iteration\n  to groups with no prior version-control experience.\n\nPROJECTS\nFocusEye \u2014 Real-Time Student Attention Detection                                                                                2025 \u2013 Present\nPython \u2022 TensorFlow \u2022 MediaPipe \u2022 YOLO \u2022 Laravel \u2022 PostgreSQL \u2022 Redis \u2022 Kotlin\n\u2022 Built a computer-vision system that estimates gaze direction and head pose to score classroom attention in real time,\n  reaching 91% accuracy.\n\u2022 Reduced false positives by 34% through illumination normalization, face alignment, and temporal smoothing over                        15-\n  frame windows.\n\nFlowServe \u2014 Smart POS & Restaurant Management  (Freelance)                                                                                2026\nLaravel \u2022 Vue.js \u2022 Tailwind CSS \u2022 PostgreSQL \u2022 Redis \u2022 Midtrans\n\u2022 Delivered an end-to-end POS for 3 outlets: QR-code ordering, kitchen display system, Midtrans payment integration, and\n  sales analytics \u2014 processing 450 orders/day.\n\u2022 Reduced API p95 response time by 30% using Redis caching and an event-driven order pipeline.\n\u2022 Built real-time kitchen and cashier dashboards over WebSocket, cutting average order-to-kitchen time from 40s to 6s.\nJobDesperate \u2014 AI-Assisted Job Application Platform                                                                           2025 \u2013 Present\nLaravel \u2022 Livewire \u2022 MySQL \u2022 Redis \u2022 Tailwind CSS \u2022 LLM API\n\u2022 Shipped an LLM-powered \u201cCV Roasting\u201d feature using the Gemini API with structured-output prompting, returning section-\n  level resume feedback in under 10 seconds.\n\u2022 Built application tracking, CV management, and job-sharing features now used by 200 users, with 20 CVs analyzed to\n  date.\n\u2022 Cut LLM cost per analysis by 50% through prompt compression and Redis-backed caching of repeated CV sections.\n\nEDUCATION\nUniversitas Amikom Yogyakarta                                                                                             Sleman, Indonesia\nBachelor of Informatics \u2014 GPA 3.89 / 4.00                                                                                        2022 \u2013 2026\nRelevant coursework: Computer Vision, Machine Learning, Database Systems, Software Engineering, Computer\nNetworks, Data Structures & Algorithms\n\nCERTIFICATIONS & ACHIEVEMENTS\n\u2022 Samsung Innovation Campus Batch 5 \u2014 AI & IoT Bootcamp  \u00b7  Sep 2024  \u00b7  Selected from 1,200+ national applicants\n\u2022 Backend Development Bootcamp  \u00b7  Amikom Computer Club  \u00b7  Nov 2023\n\u2022 TOEFL ITP  \u00b7  Score 526\n\nLANGUAGES\nBahasa Indonesia (Native)  \u2022  English (Professional Working Proficiency)"
 }

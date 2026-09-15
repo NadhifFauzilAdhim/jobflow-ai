@@ -78,6 +78,7 @@ async def login(request: Request, response: Response):
     }
 
 
+@router.get("/logout")
 @router.post("/logout")
 async def logout(response: Response):
     """Clear session cookie and invalidate active session."""
