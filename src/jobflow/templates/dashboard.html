@@ -219,29 +219,12 @@
           <ul id="interviewPrepList" class="list-disc list-inside space-y-1 text-[10.5px] text-zinc-300 leading-snug"></ul>
         </div>
       </div>
-
-      <!-- 4. Live AI Agent Activity (Terminal Console at Bottom of Left Column) -->
-      <div class="border border-zinc-800 rounded-xl bg-zinc-900/60 p-3.5 flex flex-col gap-2.5 shadow-sm">
-        <div class="flex items-center justify-between border-b border-zinc-800/80 pb-2">
-          <div class="flex items-center gap-2">
-            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            <h3 class="text-xs font-semibold uppercase tracking-wider text-zinc-300">Live AI Agent Activity</h3>
-          </div>
-          <div class="flex items-center gap-2">
-            <span id="activeJobStatus" class="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-800 text-zinc-400 border border-zinc-700/50">IDLE</span>
-            <button onclick="clearConsole()" title="Clear terminal logs" class="text-[10px] font-mono text-zinc-500 hover:text-zinc-300 transition">Clear</button>
-          </div>
-        </div>
-        
-        <div id="logConsole" class="h-28 overflow-y-auto font-mono text-[11px] text-zinc-300 space-y-1.5 p-2.5 rounded-lg bg-zinc-950 border border-zinc-800/80 custom-scroll">
-          <div class="text-zinc-500">[System] JobFlow AI Agent Engine ready. Upload CV or select a job to start tailoring.</div>
-        </div>
-      </div>
     </section>
 
-    <!-- Right: Format-Conforming ATS CV Preview Studio (7 cols, Sticky Hero) -->
-    <section class="lg:col-span-7 xl:col-span-7 flex flex-col">
-      <div class="border border-zinc-800 rounded-xl bg-zinc-900/60 p-4 flex flex-col gap-3 shadow-xl sticky top-16">
+    <!-- Right: Format-Conforming ATS CV Preview Studio & Live Agent Activity (7 cols) -->
+    <section class="lg:col-span-7 xl:col-span-7 flex flex-col gap-4">
+      <!-- 1. Format-Conforming ATS CV Preview Card -->
+      <div class="border border-zinc-800 rounded-xl bg-zinc-900/60 p-4 flex flex-col gap-3 shadow-xl">
         <!-- Preview Header Bar -->
         <div class="flex items-center justify-between border-b border-zinc-800/80 pb-2.5">
           <div class="flex items-center gap-2">
@@ -278,7 +261,7 @@
         </div>
         
         <!-- Large High-Fidelity Paper Frame -->
-        <div id="previewFrameContainer" class="h-[calc(100vh-140px)] min-h-[750px] xl:min-h-[820px] rounded-xl bg-zinc-950 p-2 sm:p-3 overflow-hidden border border-zinc-800 shadow-inner flex justify-center relative">
+        <div id="previewFrameContainer" class="h-[640px] xl:h-[720px] rounded-xl bg-zinc-950 p-2 sm:p-3 overflow-hidden border border-zinc-800 shadow-inner flex justify-center relative">
           <!-- Empty State (Shown when no preview loaded) -->
           <div id="previewEmptyPlaceholder" class="flex flex-col items-center justify-center h-full text-center p-8 text-zinc-500">
             <div class="w-14 h-14 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 mb-3 shadow-inner">
@@ -292,6 +275,24 @@
           <div id="previewIframeWrapper" class="hidden w-full h-full rounded-lg bg-white overflow-hidden shadow-2xl border border-zinc-300/50">
             <iframe id="resumeIframe" class="w-full h-full border-none" src="about:blank"></iframe>
           </div>
+        </div>
+      </div>
+
+      <!-- 2. Live AI Agent Activity (Terminal Console Below Preview) -->
+      <div class="border border-zinc-800 rounded-xl bg-zinc-900/60 p-3.5 flex flex-col gap-2.5 shadow-sm">
+        <div class="flex items-center justify-between border-b border-zinc-800/80 pb-2">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <h3 class="text-xs font-semibold uppercase tracking-wider text-zinc-300">Live AI Agent Activity</h3>
+          </div>
+          <div class="flex items-center gap-2">
+            <span id="activeJobStatus" class="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-800 text-zinc-400 border border-zinc-700/50">IDLE</span>
+            <button onclick="clearConsole()" title="Clear terminal logs" class="text-[10px] font-mono text-zinc-500 hover:text-zinc-300 transition">Clear</button>
+          </div>
+        </div>
+        
+        <div id="logConsole" class="h-32 overflow-y-auto font-mono text-[11px] text-zinc-300 space-y-1.5 p-2.5 rounded-lg bg-zinc-950 border border-zinc-800/80 custom-scroll">
+          <div class="text-zinc-500">[System] JobFlow AI Agent Engine ready. Upload CV or select a job to start tailoring.</div>
         </div>
       </div>
     </section>
