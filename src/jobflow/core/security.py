@@ -98,3 +98,51 @@ def get_authenticated_user(request: Request) -> Optional[str]:
         return verify_session_token(token)
 
     return None
+
+
+API_KEY_PREFIX = "jf_live_"
+
+
+def generate_api_key() -> tuple[str, str, str]:
+    """Generate a cryptographically secure API key.
+    
+    Returns:
+        (raw_key, key_prefix, key_hash)
+        raw_key: Full plaintext key string (e.g. jf_live_...)
+        key_prefix: First 14 chars with ellipsis for safe display
+        key_hash: SHA-256 hex digest stored in database
+    """
+    import secrets
+    token = secrets.token_urlsafe(28)
+    raw_key = f"{API_KEY_PREFIX}{token}"
+    key_prefix = f"{raw_key[:14]}..."
+    key_hash = hash_api_key(raw_key)
+    return raw_key, key_prefix, key_hash
+
+
+def hash_api_key(raw_key: str) -> str:
+    """Compute SHA-256 hash of API key."""
+    return hashlib.sha256(raw_key.strip().encode("utf-8")).hexdigest()
+
+
+def extract_api_key_from_request(request: Request) -> Optional[str]:
+    """Extract raw API key from request headers or query params."""
+    # 1. Check X-API-Key header
+    key = request.headers.get("X-API-Key")
+    if key and key.startswith(API_KEY_PREFIX):
+        return key.strip()
+
+    # 2. Check Authorization: Bearer jf_live_...
+    auth_header = request.headers.get("Authorization")
+    if auth_header and auth_header.startswith("Bearer "):
+        bearer_val = auth_header[7:].strip()
+        if bearer_val.startswith(API_KEY_PREFIX):
+            return bearer_val
+
+    # 3. Check query param ?api_key=jf_live_...
+    qp = request.query_params.get("api_key")
+    if qp and qp.startswith(API_KEY_PREFIX):
+        return qp.strip()
+
+    return None
+

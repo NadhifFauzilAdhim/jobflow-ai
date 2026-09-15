@@ -106,3 +106,28 @@ class CandidateProfileRecord(Base):
             raw_cv_text=self.raw_cv_text or ""
         )
 
+
+class ApiKeyRecord(Base):
+    __tablename__ = "api_keys"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String(255), nullable=False)
+    key_prefix = Column(String(32), nullable=False, index=True)
+    key_hash = Column(String(64), nullable=False, index=True)
+    scopes = Column(JSON, default=lambda: ["*"])
+    is_active = Column(Integer, default=1, index=True)
+    created_at = Column(DateTime, default=utc_now)
+    last_used_at = Column(DateTime, nullable=True)
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "key_prefix": self.key_prefix,
+            "scopes": self.scopes or ["*"],
+            "is_active": bool(self.is_active),
+            "created_at": self.created_at.isoformat() if self.created_at else None,
+            "last_used_at": self.last_used_at.isoformat() if self.last_used_at else None,
+        }
+
+

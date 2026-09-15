@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ app_name }} - Developer API & Integration Documentation</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            zinc: {
+              950: '#09090b',
+              900: '#121215',
+              850: '#18181b',
+              800: '#27272a',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #09090b;
+      color: #fafafa;
+      font-family: 'Inter', sans-serif;
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #27272a;
+      border-radius: 3px;
+    }
+    pre code {
+      font-family: 'JetBrains Mono', monospace;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-zinc-800 selection:text-white">
+
+  <!-- Header -->
+  <header class="border-b border-zinc-800 bg-zinc-950/80 backdrop-blur sticky top-0 z-40 px-6 py-3.5 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-lg bg-zinc-100 text-zinc-950 flex items-center justify-center font-bold text-base shadow-sm">
+        JF
+      </div>
+      <div>
+        <h1 class="font-semibold text-sm tracking-tight text-zinc-100 flex items-center gap-2">
+          {{ app_name }} Developer API
+          <span class="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">v1.0.0</span>
+        </h1>
+        <p class="text-xs text-zinc-400">RESTful Autonomous Job Automation & Resume Tailoring Suite</p>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <a href="/docs" target="_blank" class="px-3 py-1.5 rounded-md bg-zinc-900 hover:bg-zinc-850 text-zinc-200 border border-zinc-700 text-xs font-medium transition flex items-center gap-1.5 shadow-sm">
+        <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+        Swagger UI (/docs)
+      </a>
+      <a href="/redoc" target="_blank" class="px-3 py-1.5 rounded-md bg-zinc-900 hover:bg-zinc-850 text-zinc-400 hover:text-zinc-200 border border-zinc-800 text-xs font-medium transition flex items-center gap-1.5 shadow-sm">
+        Redoc
+      </a>
+      <a href="/" class="px-3.5 py-1.5 rounded-md bg-zinc-100 hover:bg-white text-zinc-950 text-xs font-semibold transition flex items-center gap-1.5 shadow-sm">
+        ← Return to Dashboard
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Documentation Container -->
+  <div class="max-w-7xl w-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start flex-1">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="lg:col-span-3 sticky top-20 flex flex-col gap-5 text-xs">
+      <div class="bg-zinc-900/60 border border-zinc-800 rounded-xl p-4 flex flex-col gap-3">
+        <div class="text-[11px] uppercase tracking-wider font-semibold text-zinc-400 font-mono">Documentation</div>
+        <nav class="flex flex-col gap-1">
+          <a href="#quickstart" class="px-2.5 py-1.5 rounded hover:bg-zinc-800 text-zinc-300 hover:text-white transition">Quickstart & Overview</a>
+          <a href="#authentication" class="px-2.5 py-1.5 rounded hover:bg-zinc-800 text-zinc-300 hover:text-white transition">Authentication & Keys</a>
+          <a href="#error-handling" class="px-2.5 py-1.5 rounded hover:bg-zinc-800 text-zinc-300 hover:text-white transition">Status Codes & Errors</a>
+        </nav>
+
+        <div class="text-[11px] uppercase tracking-wider font-semibold text-zinc-400 font-mono pt-2 border-t border-zinc-800">API Endpoints (v1)</div>
+        <nav class="flex flex-col gap-1 font-mono text-[11.5px]">
+          <a href="#endpoint-tailor" class="px-2.5 py-1.5 rounded hover:bg-zinc-800 text-zinc-400 hover:text-emerald-400 transition flex items-center justify-between">
+            <span>Tailor Resume</span>
+            <span class="text-[9px] px-1 rounded bg-emerald-500/20 text-emerald-400">POST</span>
+          </a>
+          <a href="#endpoint-pdf" class="px-2.5 py-1.5 rounded hover:bg-zinc-800 text-zinc-400 hover:text-emerald-400 transition flex items-center justify-between">
+            <span>Generate PDF</span>
+            <span class="text-[9px] px-1 rounded bg-emerald-500/20 text-emerald-400">POST</span>
+          </a>
+          <a href="#endpoint-ats" class="px-2.5 py-1.5 rounded hover:bg-zinc-800 text-zinc-400 hover:text-emerald-400 transition flex items-center justify-between">
+            <span>ATS Scorer</span>
+            <span class="text-[9px] px-1 rounded bg-emerald-500/20 text-emerald-400">POST</span>
+          </a>
+          <a href="#endpoint-job-extract" class="px-2.5 py-1.5 rounded hover:bg-zinc-800 text-zinc-400 hover:text-emerald-400 transition flex items-center justify-between">
+            <span>Extract Job URL</span>
+            <span class="text-[9px] px-1 rounded bg-emerald-500/20 text-emerald-400">POST</span>
+          </a>
+          <a href="#endpoint-job-pipeline" class="px-2.5 py-1.5 rounded hover:bg-zinc-800 text-zinc-400 hover:text-blue-400 transition flex items-center justify-between">
+            <span>Job Pipeline</span>
+            <span class="text-[9px] px-1 rounded bg-blue-500/20 text-blue-400">CRUD</span>
+          </a>
+          <a href="#endpoint-auto-discover" class="px-2.5 py-1.5 rounded hover:bg-zinc-800 text-zinc-400 hover:text-emerald-400 transition flex items-center justify-between">
+            <span>Auto-Discover</span>
+            <span class="text-[9px] px-1 rounded bg-emerald-500/20 text-emerald-400">POST</span>
+          </a>
+          <a href="#endpoint-cv-parser" class="px-2.5 py-1.5 rounded hover:bg-zinc-800 text-zinc-400 hover:text-emerald-400 transition flex items-center justify-between">
+            <span>CV Parser</span>
+            <span class="text-[9px] px-1 rounded bg-emerald-500/20 text-emerald-400">POST</span>
+          </a>
+          <a href="#endpoint-auto-apply" class="px-2.5 py-1.5 rounded hover:bg-zinc-800 text-zinc-400 hover:text-amber-400 transition flex items-center justify-between">
+            <span>Playwright Apply</span>
+            <span class="text-[9px] px-1 rounded bg-amber-500/20 text-amber-400">POST</span>
+          </a>
+        </nav>
+      </div>
+
+      <!-- Quick interactive link card -->
+      <div class="bg-gradient-to-br from-zinc-900 to-zinc-950 border border-zinc-800 rounded-xl p-4 flex flex-col gap-2">
+        <div class="flex items-center gap-1.5 text-zinc-200 font-semibold">
+          <span class="text-emerald-400">⚡</span> Interactive Testing
+        </div>
+        <p class="text-zinc-400 leading-relaxed text-[11px]">
+          Test endpoints live in your browser with our interactive OpenAPI Swagger UI.
+        </p>
+        <a href="/docs" target="_blank" class="mt-2 text-center px-3 py-1.5 rounded bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-semibold transition text-xs">
+          Open Swagger Console
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="lg:col-span-9 flex flex-col gap-10">
+
+      <!-- Hero / Introduction -->
+      <section id="quickstart" class="border-b border-zinc-800 pb-8 flex flex-col gap-4">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span class="text-xs font-mono uppercase tracking-wider text-emerald-400">Developer Platform</span>
+        </div>
+        <h2 class="text-2xl font-bold text-zinc-100">JobFlow AI Integration Suite</h2>
+        <p class="text-sm text-zinc-400 leading-relaxed max-w-3xl">
+          Integrate JobFlow AI's autonomous resume tailoring, format-conforming ATS CV rendering, multi-platform job extraction, and Playwright automation directly into your external applications, Slack bots, CLI tools, or web services.
+        </p>
+
+        <!-- Key features pills -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+          <div class="p-3 rounded-lg bg-zinc-900/80 border border-zinc-800 flex flex-col gap-1">
+            <span class="text-xs font-semibold text-zinc-200">🎯 Zero Hallucination</span>
+            <p class="text-[11px] text-zinc-400">Grounds resume tailoring strictly against candidate's authentic master profile.</p>
+          </div>
+          <div class="p-3 rounded-lg bg-zinc-900/80 border border-zinc-800 flex flex-col gap-1">
+            <span class="text-xs font-semibold text-zinc-200">📄 High-Fidelity PDF</span>
+            <p class="text-[11px] text-zinc-400">Returns raw A4 PDF bytes ready for ATS parsers and human recruiters.</p>
+          </div>
+          <div class="p-3 rounded-lg bg-zinc-900/80 border border-zinc-800 flex flex-col gap-1">
+            <span class="text-xs font-semibold text-zinc-200">🔑 Secure Key Auth</span>
+            <p class="text-[11px] text-zinc-400">Cryptographically hashed API keys (<code class="font-mono text-zinc-300">jf_live_...</code>) with revocable access.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Authentication Section -->
+      <section id="authentication" class="border-b border-zinc-800 pb-8 flex flex-col gap-4">
+        <h3 class="text-lg font-bold text-zinc-100 flex items-center gap-2">
+          <span>Authentication</span>
+        </h3>
+        <p class="text-xs text-zinc-400 leading-relaxed">
+          JobFlow AI authenticates external requests via HTTP headers. You can obtain your personal API key by navigating to the <strong>Dashboard → API Keys → Generate Key</strong>.
+        </p>
+
+        <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-4 flex flex-col gap-3">
+          <div class="text-xs font-semibold text-zinc-200">Supported Authentication Headers</div>
+          <div class="flex flex-col gap-2 font-mono text-xs">
+            <div class="p-2.5 rounded bg-zinc-950 border border-zinc-800 flex items-center justify-between">
+              <div>
+                <span class="text-zinc-500">Method 1 (Recommended):</span>
+                <span class="text-emerald-400 font-semibold ml-2">X-API-Key: jf_live_&lt;your_secret_key&gt;</span>
+              </div>
+              <button onclick="copySnippet('X-API-Key: jf_live_demo1234567890')" class="text-zinc-500 hover:text-zinc-300 text-[11px]">Copy</button>
+            </div>
+            <div class="p-2.5 rounded bg-zinc-950 border border-zinc-800 flex items-center justify-between">
+              <div>
+                <span class="text-zinc-500">Method 2 (Bearer):</span>
+                <span class="text-blue-400 font-semibold ml-2">Authorization: Bearer jf_live_&lt;your_secret_key&gt;</span>
+              </div>
+              <button onclick="copySnippet('Authorization: Bearer jf_live_demo1234567890')" class="text-zinc-500 hover:text-zinc-300 text-[11px]">Copy</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Endpoints Details -->
+
+      <!-- 1. RESUME TAILORING -->
+      <section id="endpoint-tailor" class="border-b border-zinc-800 pb-8 flex flex-col gap-4">
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-xs font-mono font-bold">POST</span>
+            <h3 class="text-base font-bold text-zinc-100 font-mono">/api/v1/resume/tailor</h3>
+          </div>
+          <span class="text-xs text-zinc-400">Tailor Candidate Resume for Specific Job</span>
+        </div>
+        <p class="text-xs text-zinc-400 leading-relaxed">
+          Executes the AI resume tailoring harness to generate role-aligned summaries, highlight target tech stack competencies, and rewrite bullet points into high-impact STAR/Google XYZ achievement statements without hallucinating facts.
+        </p>
+
+        <!-- Code Block Container -->
+        <div class="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden">
+          <div class="px-4 py-2 bg-zinc-950 border-b border-zinc-800 flex items-center justify-between">
+            <span class="text-xs font-mono text-zinc-400">cURL Example</span>
+            <button onclick="copySnippet(curlTailorSnippet)" class="text-xs text-zinc-400 hover:text-emerald-400 flex items-center gap-1 transition">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+              <span>Copy</span>
+            </button>
+          </div>
+          <pre class="p-4 text-xs font-mono text-zinc-300 overflow-x-auto custom-scroll leading-relaxed"><code>curl -X POST "http://localhost:8000/api/v1/resume/tailor" \
+  -H "X-API-Key: jf_live_YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "job_title": "Senior Backend Engineer",
+    "company": "TechNova Corp",
+    "job_description": "We are seeking a Python & FastAPI engineer with experience in PostgreSQL, microservices, and AI integrations.",
+    "requirements": ["Python", "FastAPI", "PostgreSQL", "Docker", "AsyncIO"]
+  }'</code></pre>
+        </div>
+      </section>
+
+      <!-- 2. RESUME PDF GENERATOR -->
+      <section id="endpoint-pdf" class="border-b border-zinc-800 pb-8 flex flex-col gap-4">
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-xs font-mono font-bold">POST</span>
+            <h3 class="text-base font-bold text-zinc-100 font-mono">/api/v1/resume/generate-pdf</h3>
+          </div>
+          <span class="text-xs text-zinc-400">Generate Raw ATS-Compliant PDF</span>
+        </div>
+        <p class="text-xs text-zinc-400 leading-relaxed">
+          Accepts a structured <code class="font-mono text-zinc-300">TailoredResume</code> payload and immediately renders high-resolution, format-conforming A4 PDF bytes (<code class="font-mono text-zinc-300">application/pdf</code>).
+        </p>
+
+        <div class="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden">
+          <div class="px-4 py-2 bg-zinc-950 border-b border-zinc-800 flex items-center justify-between">
+            <span class="text-xs font-mono text-zinc-400">Python Example (Save PDF directly)</span>
+            <button onclick="copySnippet(pythonPdfSnippet)" class="text-xs text-zinc-400 hover:text-emerald-400 flex items-center gap-1 transition">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+              <span>Copy</span>
+            </button>
+          </div>
+          <pre class="p-4 text-xs font-mono text-zinc-300 overflow-x-auto custom-scroll leading-relaxed"><code>import requests
+
+api_key = "jf_live_YOUR_API_KEY"
+tailored_data = { ... }  # Output from /api/v1/resume/tailor
+
+response = requests.post(
+    "http://localhost:8000/api/v1/resume/generate-pdf",
+    headers={"X-API-Key": api_key, "Content-Type": "application/json"},
+    json=tailored_data
+)
+
+if response.status_code == 200:
+    with open("tailored_ats_resume.pdf", "wb") as f:
+        f.write(response.content)
+    print("Downloaded tailored ATS PDF!")</code></pre>
+        </div>
+      </section>
+
+      <!-- 3. STANDALONE ATS SCORER -->
+      <section id="endpoint-ats" class="border-b border-zinc-800 pb-8 flex flex-col gap-4">
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-xs font-mono font-bold">POST</span>
+            <h3 class="text-base font-bold text-zinc-100 font-mono">/api/v1/ats/score</h3>
+          </div>
+          <span class="text-xs text-zinc-400">Match & Keyword Scorer</span>
+        </div>
+        <p class="text-xs text-zinc-400 leading-relaxed">
+          Scores alignment between candidate resume text and target job description using TF-IDF cosine similarity, keyword coverage ratio, and missing skills analysis.
+        </p>
+
+        <div class="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden">
+          <div class="px-4 py-2 bg-zinc-950 border-b border-zinc-800 flex items-center justify-between">
+            <span class="text-xs font-mono text-zinc-400">cURL Example</span>
+            <button onclick="copySnippet(curlAtsSnippet)" class="text-xs text-zinc-400 hover:text-emerald-400 flex items-center gap-1 transition">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+              <span>Copy</span>
+            </button>
+          </div>
+          <pre class="p-4 text-xs font-mono text-zinc-300 overflow-x-auto custom-scroll leading-relaxed"><code>curl -X POST "http://localhost:8000/api/v1/ats/score" \
+  -H "X-API-Key: jf_live_YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "job_description": "Requires Senior Python developer with Docker, Kubernetes, AWS, and PostgreSQL experience.",
+    "requirements": ["Python", "Docker", "Kubernetes", "AWS"]
+  }'</code></pre>
+        </div>
+      </section>
+
+      <!-- 4. JOB URL EXTRACTOR -->
+      <section id="endpoint-job-extract" class="border-b border-zinc-800 pb-8 flex flex-col gap-4">
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-xs font-mono font-bold">POST</span>
+            <h3 class="text-base font-bold text-zinc-100 font-mono">/api/v1/jobs/extract</h3>
+          </div>
+          <span class="text-xs text-zinc-400">Universal Platform Job Scraping</span>
+        </div>
+        <p class="text-xs text-zinc-400 leading-relaxed">
+          Extracts structured job metadata (title, company, description, location, required keywords) from any job posting URL including LinkedIn, JobStreet, Glints, and arbitrary career pages.
+        </p>
+
+        <div class="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden">
+          <div class="px-4 py-2 bg-zinc-950 border-b border-zinc-800 flex items-center justify-between">
+            <span class="text-xs font-mono text-zinc-400">cURL Example</span>
+            <button onclick="copySnippet(curlExtractSnippet)" class="text-xs text-zinc-400 hover:text-emerald-400 flex items-center gap-1 transition">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+              <span>Copy</span>
+            </button>
+          </div>
+          <pre class="p-4 text-xs font-mono text-zinc-300 overflow-x-auto custom-scroll leading-relaxed"><code>curl -X POST "http://localhost:8000/api/v1/jobs/extract" \
+  -H "X-API-Key: jf_live_YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://www.jobstreet.co.id/en/job/12345678"
+  }'</code></pre>
+        </div>
+      </section>
+
+      <!-- 5. JOB PIPELINE CRUD -->
+      <section id="endpoint-job-pipeline" class="border-b border-zinc-800 pb-8 flex flex-col gap-4">
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 text-xs font-mono font-bold">GET / POST / DELETE</span>
+            <h3 class="text-base font-bold text-zinc-100 font-mono">/api/v1/jobs</h3>
+          </div>
+          <span class="text-xs text-zinc-400">Application Pipeline Management</span>
+        </div>
+        <p class="text-xs text-zinc-400 leading-relaxed">
+          Manage tracked job applications in the pipeline.
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-mono">
+          <div class="p-3 rounded-lg bg-zinc-900 border border-zinc-800">
+            <div class="text-zinc-200 font-semibold mb-1"><span class="text-blue-400">GET</span> /api/v1/jobs</div>
+            <p class="text-zinc-400 text-[11px] font-sans">List all jobs with optional <code class="text-zinc-300">?status_filter=applied</code>.</p>
+          </div>
+          <div class="p-3 rounded-lg bg-zinc-900 border border-zinc-800">
+            <div class="text-zinc-200 font-semibold mb-1"><span class="text-emerald-400">POST</span> /api/v1/jobs</div>
+            <p class="text-zinc-400 text-[11px] font-sans">Insert target job into tracking pipeline.</p>
+          </div>
+          <div class="p-3 rounded-lg bg-zinc-900 border border-zinc-800">
+            <div class="text-zinc-200 font-semibold mb-1"><span class="text-blue-400">GET</span> /api/v1/jobs/{job_id}</div>
+            <p class="text-zinc-400 text-[11px] font-sans">Fetch comprehensive job details & ATS metrics.</p>
+          </div>
+          <div class="p-3 rounded-lg bg-zinc-900 border border-zinc-800">
+            <div class="text-zinc-200 font-semibold mb-1"><span class="text-red-400">DELETE</span> /api/v1/jobs/{job_id}</div>
+            <p class="text-zinc-400 text-[11px] font-sans">Remove job and delete associated PDF outputs.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. AUTO-DISCOVERY HARNESS -->
+      <section id="endpoint-auto-discover" class="border-b border-zinc-800 pb-8 flex flex-col gap-4">
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-xs font-mono font-bold">POST</span>
+            <h3 class="text-base font-bold text-zinc-100 font-mono">/api/v1/jobs/auto-discover</h3>
+          </div>
+          <span class="text-xs text-zinc-400">Multi-Platform AI Harvesting</span>
+        </div>
+        <p class="text-xs text-zinc-400 leading-relaxed">
+          Harvests live postings from LinkedIn, JobStreet, Glints, and RemoteOK based on candidate's master profile, automatically filtering irrelevant positions via relevance score threshold.
+        </p>
+
+        <div class="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden">
+          <div class="px-4 py-2 bg-zinc-950 border-b border-zinc-800 flex items-center justify-between">
+            <span class="text-xs font-mono text-zinc-400">cURL Example</span>
+            <button onclick="copySnippet(curlDiscoverSnippet)" class="text-xs text-zinc-400 hover:text-emerald-400 flex items-center gap-1 transition">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+              <span>Copy</span>
+            </button>
+          </div>
+          <pre class="p-4 text-xs font-mono text-zinc-300 overflow-x-auto custom-scroll leading-relaxed"><code>curl -X POST "http://localhost:8000/api/v1/jobs/auto-discover" \
+  -H "X-API-Key: jf_live_YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "platforms": ["jobstreet", "linkedin", "glints"],
+    "min_relevance": 65.0,
+    "max_jobs": 5,
+    "location": "Indonesia"
+  }'</code></pre>
+        </div>
+      </section>
+
+      <!-- 7. CV PARSER -->
+      <section id="endpoint-cv-parser" class="border-b border-zinc-800 pb-8 flex flex-col gap-4">
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-xs font-mono font-bold">POST</span>
+            <h3 class="text-base font-bold text-zinc-100 font-mono">/api/v1/cv/parse-text & /api/v1/cv/upload</h3>
+          </div>
+          <span class="text-xs text-zinc-400">Structured Profile Extraction</span>
+        </div>
+        <p class="text-xs text-zinc-400 leading-relaxed">
+          Transforms messy unformatted resume text or document files (PDF/DOCX) into high-fidelity structured candidate JSON.
+        </p>
+
+        <div class="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden">
+          <div class="px-4 py-2 bg-zinc-950 border-b border-zinc-800 flex items-center justify-between">
+            <span class="text-xs font-mono text-zinc-400">cURL Example (Document File Upload)</span>
+            <button onclick="copySnippet(curlCvUploadSnippet)" class="text-xs text-zinc-400 hover:text-emerald-400 flex items-center gap-1 transition">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+              <span>Copy</span>
+            </button>
+          </div>
+          <pre class="p-4 text-xs font-mono text-zinc-300 overflow-x-auto custom-scroll leading-relaxed"><code>curl -X POST "http://localhost:8000/api/v1/cv/upload" \
+  -H "X-API-Key: jf_live_YOUR_API_KEY" \
+  -F "file=@/path/to/candidate_cv.pdf"</code></pre>
+        </div>
+      </section>
+
+      <!-- 8. PLAYWRIGHT AUTOMATION RUNNER -->
+      <section id="endpoint-auto-apply" class="pb-8 flex flex-col gap-4">
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 text-xs font-mono font-bold">POST</span>
+            <h3 class="text-base font-bold text-zinc-100 font-mono">/api/v1/apply/execute/{job_id}</h3>
+          </div>
+          <span class="text-xs text-zinc-400">Dispatch Playwright Worker</span>
+        </div>
+        <p class="text-xs text-zinc-400 leading-relaxed">
+          Dispatches asynchronous browser worker to fill in application form fields, upload the tailored PDF CV, and capture confirmation verification screenshots.
+        </p>
+
+        <div class="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden">
+          <div class="px-4 py-2 bg-zinc-950 border-b border-zinc-800 flex items-center justify-between">
+            <span class="text-xs font-mono text-zinc-400">cURL Example</span>
+            <button onclick="copySnippet(curlApplySnippet)" class="text-xs text-zinc-400 hover:text-emerald-400 flex items-center gap-1 transition">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+              <span>Copy</span>
+            </button>
+          </div>
+          <pre class="p-4 text-xs font-mono text-zinc-300 overflow-x-auto custom-scroll leading-relaxed"><code># 1. Dispatch application runner in background
+curl -X POST "http://localhost:8000/api/v1/apply/execute/42?headless=true" \
+  -H "X-API-Key: jf_live_YOUR_API_KEY"
+
+# 2. Check live execution status & logs
+curl -X GET "http://localhost:8000/api/v1/apply/status/42" \
+  -H "X-API-Key: jf_live_YOUR_API_KEY"</code></pre>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-6 right-6 bg-zinc-100 text-zinc-950 px-4 py-2 rounded-lg font-medium text-xs shadow-xl hidden transition-all duration-200 z-50">
+    Copied to clipboard!
+  </div>
+
+  <script>
+    const curlTailorSnippet = `curl -X POST "http://localhost:8000/api/v1/resume/tailor" \\
+  -H "X-API-Key: jf_live_YOUR_API_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "job_title": "Senior Backend Engineer",
+    "company": "TechNova Corp",
+    "job_description": "We are seeking a Python & FastAPI engineer with experience in PostgreSQL, microservices, and AI integrations.",
+    "requirements": ["Python", "FastAPI", "PostgreSQL", "Docker", "AsyncIO"]
+  }'`;
+
+    const pythonPdfSnippet = `import requests
+
+api_key = "jf_live_YOUR_API_KEY"
+tailored_data = { ... }  # Output from /api/v1/resume/tailor
+
+response = requests.post(
+    "http://localhost:8000/api/v1/resume/generate-pdf",
+    headers={"X-API-Key": api_key, "Content-Type": "application/json"},
+    json=tailored_data
+)
+
+if response.status_code == 200:
+    with open("tailored_ats_resume.pdf", "wb") as f:
+        f.write(response.content)
+    print("Downloaded tailored ATS PDF!")`;
+
+    const curlAtsSnippet = `curl -X POST "http://localhost:8000/api/v1/ats/score" \\
+  -H "X-API-Key: jf_live_YOUR_API_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "job_description": "Requires Senior Python developer with Docker, Kubernetes, AWS, and PostgreSQL experience.",
+    "requirements": ["Python", "Docker", "Kubernetes", "AWS"]
+  }'`;
+
+    const curlExtractSnippet = `curl -X POST "http://localhost:8000/api/v1/jobs/extract" \\
+  -H "X-API-Key: jf_live_YOUR_API_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "url": "https://www.jobstreet.co.id/en/job/12345678"
+  }'`;
+
+    const curlDiscoverSnippet = `curl -X POST "http://localhost:8000/api/v1/jobs/auto-discover" \\
+  -H "X-API-Key: jf_live_YOUR_API_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "platforms": ["jobstreet", "linkedin", "glints"],
+    "min_relevance": 65.0,
+    "max_jobs": 5,
+    "location": "Indonesia"
+  }'`;
+
+    const curlCvUploadSnippet = `curl -X POST "http://localhost:8000/api/v1/cv/upload" \\
+  -H "X-API-Key: jf_live_YOUR_API_KEY" \\
+  -F "file=@/path/to/candidate_cv.pdf"`;
+
+    const curlApplySnippet = `curl -X POST "http://localhost:8000/api/v1/apply/execute/42?headless=true" \\
+  -H "X-API-Key: jf_live_YOUR_API_KEY"`;
+
+    function copySnippet(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        showToast("Copied code to clipboard!");
+      });
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.innerText = msg;
+      t.classList.remove('hidden');
+      setTimeout(() => {
+        t.classList.add('hidden');
+      }, 2200);
+    }
+  </script>
+</body>
+</html>
