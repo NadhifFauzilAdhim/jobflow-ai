@@ -23,7 +23,7 @@
       ]
     },
     {
-      "category": "AI & Machine Learning",
+      "category": "AI / Machine Learning",
       "skills": [
         "PyTorch",
         "TensorFlow",
@@ -40,20 +40,19 @@
       "skills": [
         "ONNX Runtime",
         "TensorRT",
-        "Model Quantization (INT8/FP16)",
-        "Edge Inference",
+        "model quantization (INT8/FP16)",
+        "edge inference",
         "MLflow"
       ]
     },
     {
       "category": "LLM Engineering",
       "skills": [
-        "OpenAI API",
-        "Claude API",
-        "Prompt Engineering",
-        "Structured Output",
+        "OpenAI / Claude API",
+        "prompt engineering",
+        "structured output",
         "RAG",
-        "Embeddings",
+        "embeddings",
         "pgvector"
       ]
     },
@@ -63,10 +62,9 @@
         "Laravel",
         "FastAPI",
         "REST API",
-        "WebSocket",
-        "Laravel Reverb",
+        "WebSocket (Laravel Reverb)",
         "Redis Queue",
-        "Event-Driven Architecture"
+        "event-driven architecture"
       ]
     },
     {
@@ -98,7 +96,7 @@
         "CI/CD",
         "Linux",
         "Nginx",
-        "VPS Deployment",
+        "VPS deployment",
         "Postman"
       ]
     },
@@ -107,8 +105,7 @@
       "skills": [
         "PHPUnit",
         "Pest",
-        "Vitest",
-        "Playwright"
+        "Vitest / Playwright"
       ]
     }
   ],
@@ -120,23 +117,23 @@
       "start_date": "Jun 2026",
       "end_date": "Present",
       "highlights": [
-        "Own end-to-end development of GuardAI, an AI surveillance product deployed at 1 client site covering dataset pipeline, model training, inference service, backend, and operator dashboard.",
-        "Built a real-time detection pipeline using YOLO and MediaPipe reaching 0.80 mAP@0.5 and 10 FPS on rk3576s, supporting 16 concurrent camera streams per node.",
+        "Own end-to-end development of GuardAI, an AI surveillance product deployed at client sites covering dataset pipeline, model training, inference service, backend, and operator dashboard.",
+        "Built a real-time detection pipeline (YOLO + MediaPipe) reaching 0.80 mAP@0.5 and 10 FPS on rk3576s, supporting 16 concurrent camera streams per node.",
         "Cut inference latency from 117 ms to 17 ms via INT8 quantization and RKNN export, lowering hardware cost per camera by 70%.",
-        "Designed the backend using Laravel, PostgreSQL, and Redis to ingest 1200 detection events per minute and push live alerts over WebSocket, keeping p95 dashboard latency under 250 ms.",
-        "Integrated IoT actuators and an alarm for automated on-site warning, cutting operator response time from 45 seconds to 8 seconds."
+        "Designed the backend (Laravel, PostgreSQL, Redis) to ingest 1200 detection events/minute and push live alerts over WebSocket, keeping p95 dashboard latency under 250ms.",
+        "Integrated IoT actuators alarm for automated on-site warning, cutting operator response time from 45s to 8s."
       ],
       "technologies": [
+        "Python",
         "YOLO",
         "MediaPipe",
+        "RKNN",
         "Laravel",
         "PostgreSQL",
         "Redis",
         "WebSocket",
-        "INT8 Quantization",
-        "RKNN",
-        "rk3576s",
-        "IoT Actuators"
+        "IoT",
+        "INT8 Quantization"
       ]
     },
     {
@@ -149,9 +146,9 @@
         "Maintain 10 lab workstations and networking equipment supporting 1000+ students per semester, resolving 100+ hardware/software tickets with 98% same-day resolution."
       ],
       "technologies": [
-        "Hardware Support",
-        "Software Troubleshooting",
-        "Networking"
+        "Hardware Troubleshooting",
+        "Networking Equipment",
+        "System Administration"
       ]
     },
     {
@@ -165,11 +162,12 @@
         "Ran weekly lab sessions and code reviews for 50 student teams, introducing Git branching workflows and Agile iteration to groups with no prior version-control experience."
       ],
       "technologies": [
+        "Web Programming",
+        "Database Systems",
+        "Microcontrollers",
         "REST API",
-        "Relational Modeling",
         "Git",
-        "Agile",
-        "Microcontrollers"
+        "Agile"
       ]
     }
   ],
@@ -189,7 +187,7 @@
   "projects": [
     {
       "name": "FocusEye \u2014 Real-Time Student Attention Detection",
-      "description": "Built a computer-vision system that estimates gaze direction and head pose to score classroom attention in real time, reaching 91% accuracy.",
+      "description": "A computer-vision system that estimates gaze direction and head pose to score classroom attention in real time, reaching 91% accuracy.",
       "technologies": [
         "Python",
         "TensorFlow",
@@ -208,26 +206,25 @@
     },
     {
       "name": "FlowServe \u2014 Smart POS & Restaurant Management (Freelance)",
-      "description": "Delivered an end-to-end POS for 3 outlets with QR-code ordering, kitchen display system, Midtrans payment integration, and sales analytics, processing 450 orders per day.",
+      "description": "An end-to-end POS for 3 outlets: QR-code ordering, kitchen display system, Midtrans payment integration, and sales analytics processing 450 orders/day.",
       "technologies": [
         "Laravel",
         "Vue.js",
         "Tailwind CSS",
         "PostgreSQL",
         "Redis",
-        "Midtrans",
-        "WebSocket"
+        "Midtrans"
       ],
       "link": null,
       "highlights": [
-        "Delivered an end-to-end POS for 3 outlets: QR-code ordering, kitchen display system, Midtrans payment integration, and sales analytics, processing 450 orders per day.",
+        "Delivered an end-to-end POS for 3 outlets: QR-code ordering, kitchen display system, Midtrans payment integration, and sales analytics \u2014 processing 450 orders/day.",
         "Reduced API p95 response time by 30% using Redis caching and an event-driven order pipeline.",
-        "Built real-time kitchen and cashier dashboards over WebSocket, cutting average order-to-kitchen time from 40 seconds to 6 seconds."
+        "Built real-time kitchen and cashier dashboards over WebSocket, cutting average order-to-kitchen time from 40s to 6s."
       ]
     },
     {
       "name": "JobDesperate \u2014 AI-Assisted Job Application Platform",
-      "description": "Built an AI-assisted job application platform with LLM-powered CV analysis, application tracking, CV management, and job-sharing features.",
+      "description": "An AI-assisted job application platform featuring CV Roasting and intelligent resume analysis.",
       "technologies": [
         "Laravel",
         "Livewire",
@@ -239,33 +236,18 @@
       ],
       "link": null,
       "highlights": [
-        "Shipped an LLM-powered \u201cCV Roasting\u201d feature using the Gemini API with structured-output prompting, returning section-level resume feedback in under 10 seconds.",
+        "Shipped an LLM-powered 'CV Roasting' feature using the Gemini API with structured-output prompting, returning section-level resume feedback in under 10 seconds.",
         "Built application tracking, CV management, and job-sharing features now used by 200 users, with 20 CVs analyzed to date.",
         "Cut LLM cost per analysis by 50% through prompt compression and Redis-backed caching of repeated CV sections."
       ]
     }
   ],
   "certifications": [
-    "Samsung Innovation Campus Batch 5 \u2014 AI & IoT Bootcamp \u2014 Sep 2024",
-    "Backend Development Bootcamp \u2014 Amikom Computer Club \u2014 Nov 2023",
-    "TOEFL ITP \u2014 Score 526"
+    "Samsung Innovation Campus Batch 5 \u2014 AI & IoT Bootcamp (Sep 2024 \u00b7 Selected from 1,200+ national applicants)",
+    "Backend Development Bootcamp \u2014 Amikom Computer Club (Nov 2023)",
+    "TOEFL ITP (Score: 526)"
   ],
   "custom_sections": [
-    {
-      "id": "achievements",
-      "heading": "Achievements",
-      "items": [
-        {
-          "title": "Selected Participant",
-          "subtitle": "Samsung Innovation Campus Batch 5 \u2014 AI & IoT Bootcamp",
-          "date_or_year": "Sep 2024",
-          "description": "Selected from 1,200+ national applicants.",
-          "bullets": [
-            "Selected from 1,200+ national applicants."
-          ]
-        }
-      ]
-    },
     {
       "id": "languages",
       "heading": "Languages",
@@ -274,14 +256,14 @@
           "title": "Bahasa Indonesia",
           "subtitle": "Native",
           "date_or_year": null,
-          "description": "",
+          "description": "Native proficiency",
           "bullets": []
         },
         {
           "title": "English",
           "subtitle": "Professional Working Proficiency",
           "date_or_year": null,
-          "description": "",
+          "description": "Professional working proficiency",
           "bullets": []
         }
       ]
@@ -296,7 +278,6 @@
       "projects",
       "education",
       "certifications",
-      "achievements",
       "languages"
     ],
     "layout_style": "modern_clean",
