@@ -1,0 +1,33 @@
+[
+  {
+    "title": "Senior AI & Full-Stack Engineer",
+    "company": "TechNova Global",
+    "location": "Remote / Jakarta",
+    "platform": "generic",
+    "url": "https://example.com/jobs/ai-fullstack-engineer",
+    "description": "We are seeking a talented Senior AI & Full-Stack Engineer to architect next-generation web applications and intelligent autonomous agents. You will work closely with our engineering team to build scalable microservices, integrate LLMs, and optimize containerized deployments.",
+    "requirements": [
+      "Proficiency with Python, FastAPI, and Next.js / React",
+      "Hands-on experience with Docker, Redis, and PostgreSQL",
+      "Experience with AI / LLM frameworks (LiteLLM, LangChain, or OpenAI API)",
+      "Strong background in automated testing and browser automation (Playwright/Selenium)",
+      "Experience building resilient RESTful and WebSocket APIs"
+    ],
+    "salary_range": "$3,000 - $5,000 / month"
+  },
+  {
+    "title": "Backend Python Developer",
+    "company": "DataSphere Labs",
+    "location": "Jakarta, Indonesia (Hybrid)",
+    "platform": "jobstreet",
+    "url": "https://www.jobstreet.co.id/en/job/backend-python-developer",
+    "description": "DataSphere Labs is looking for a Backend Python Developer to maintain and scale our high-throughput data processing pipelines.",
+    "requirements": [
+      "Minimum 2+ years of professional backend development with Python (FastAPI/Django)",
+      "Familiarity with relational databases (PostgreSQL) and caching (Redis)",
+      "Understanding of containerization with Docker and CI/CD workflows",
+      "Knowledge of web scraping and async programming is a huge plus"
+    ],
+    "salary_range": "Rp 15.000.000 - Rp 22.000.000"
+  }
+]

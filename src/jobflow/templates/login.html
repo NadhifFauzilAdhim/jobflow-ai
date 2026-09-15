@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In — JobFlow AI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            zinc: {
+              950: '#09090b',
+              900: '#121215',
+              850: '#18181b',
+              800: '#27272a',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #09090b;
+      color: #fafafa;
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-4 antialiased selection:bg-zinc-800 selection:text-white">
+
+  <div class="w-full max-w-[360px] flex flex-col items-center">
+    <!-- Brand Header -->
+    <div class="flex flex-col items-center text-center mb-6">
+      <div class="w-10 h-10 rounded-xl bg-zinc-100 text-zinc-950 flex items-center justify-center font-bold text-base shadow-sm">
+        JF
+      </div>
+      <div class="flex items-center gap-2 mt-3">
+        <h1 class="font-semibold text-base tracking-tight text-zinc-100">JobFlow AI</h1>
+        <span class="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded bg-zinc-850 text-zinc-400 border border-zinc-800">AI Agent</span>
+      </div>
+      <p class="text-xs text-zinc-500 mt-1">Autonomous Job Engine & ATS CV Tailoring</p>
+    </div>
+
+    <!-- Login Card -->
+    <div class="w-full bg-zinc-900 border border-zinc-800/90 rounded-xl p-6 shadow-xl">
+      <!-- Error Alert -->
+      <div id="errorAlert" class="hidden mb-4 p-2.5 rounded-lg bg-red-950/40 border border-red-900/50 text-red-300 text-xs flex items-center gap-2">
+        <svg class="w-4 h-4 text-red-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+        </svg>
+        <span id="errorMessage">Invalid credentials.</span>
+      </div>
+
+      <!-- Login Form -->
+      <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
+        <div>
+          <label for="username" class="block text-xs font-medium text-zinc-300 mb-1.5">Username</label>
+          <input 
+            type="text" 
+            id="username" 
+            name="username" 
+            required 
+            autofocus
+            autocomplete="username"
+            placeholder="admin" 
+            class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-zinc-500 transition font-mono"
+          >
+        </div>
+
+        <div>
+          <label for="password" class="block text-xs font-medium text-zinc-300 mb-1.5">Password</label>
+          <input 
+            type="password" 
+            id="password" 
+            name="password" 
+            required 
+            autocomplete="current-password"
+            placeholder="••••••••" 
+            class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-zinc-500 transition font-mono"
+          >
+        </div>
+
+        <div class="flex items-center text-xs pt-0.5">
+          <label class="flex items-center gap-2 cursor-pointer text-zinc-400 hover:text-zinc-300">
+            <input type="checkbox" id="rememberMe" checked class="rounded bg-zinc-950 border-zinc-800 accent-zinc-200 w-3.5 h-3.5">
+            <span>Remember session</span>
+          </label>
+        </div>
+
+        <button 
+          type="submit" 
+          id="submitBtn" 
+          class="w-full mt-2 py-2.5 px-4 rounded-lg bg-zinc-100 hover:bg-white text-zinc-950 font-medium text-xs transition flex items-center justify-center gap-2 shadow-sm active:scale-[0.99]"
+        >
+          <span id="btnText">Sign In</span>
+          <span id="btnSpinner" class="hidden">
+            <svg class="animate-spin h-3.5 w-3.5 text-zinc-950" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+          </span>
+        </button>
+      </form>
+    </div>
+
+    <p class="text-[11px] text-zinc-600 mt-6 font-mono">JobFlow AI v0.1</p>
+  </div>
+
+  <script>
+    async function handleLogin(e) {
+      e.preventDefault();
+      const usernameInput = document.getElementById('username').value.trim();
+      const passwordInput = document.getElementById('password').value;
+      const rememberMe = document.getElementById('rememberMe').checked;
+
+      const errorAlert = document.getElementById('errorAlert');
+      const errorMessage = document.getElementById('errorMessage');
+      const submitBtn = document.getElementById('submitBtn');
+      const btnText = document.getElementById('btnText');
+      const btnSpinner = document.getElementById('btnSpinner');
+
+      errorAlert.classList.add('hidden');
+      submitBtn.disabled = true;
+      btnText.innerText = "Signing in...";
+      btnSpinner.classList.remove('hidden');
+
+      try {
+        const res = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            username: usernameInput,
+            password: passwordInput,
+            remember_me: rememberMe
+          })
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          btnText.innerText = "Redirecting...";
+          const urlParams = new URLSearchParams(window.location.search);
+          const nextUrl = urlParams.get('next') || '/';
+          window.location.href = nextUrl;
+        } else {
+          errorAlert.classList.remove('hidden');
+          errorMessage.innerText = data.detail || 'Invalid username or password.';
+          submitBtn.disabled = false;
+          btnText.innerText = "Sign In";
+          btnSpinner.classList.add('hidden');
+        }
+      } catch (err) {
+        errorAlert.classList.remove('hidden');
+        errorMessage.innerText = "Network or server error. Please try again.";
+        submitBtn.disabled = false;
+        btnText.innerText = "Sign In";
+        btnSpinner.classList.add('hidden');
+      }
+    }
+  </script>
+</body>
+</html>

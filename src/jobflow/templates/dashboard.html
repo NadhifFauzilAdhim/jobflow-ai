@@ -1,0 +1,1895 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ app_name }} - Autonomous Job Engine</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            zinc: {
+              950: '#09090b',
+              900: '#121215',
+              850: '#18181b',
+              800: '#27272a',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #09090b;
+      color: #fafafa;
+      font-family: 'Inter', sans-serif;
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #27272a;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-zinc-800 selection:text-white">
+
+  <!-- Navigation Header -->
+  <header class="border-b border-zinc-800 bg-zinc-950/80 backdrop-blur sticky top-0 z-40 px-6 py-3.5 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-lg bg-zinc-100 text-zinc-950 flex items-center justify-center font-bold text-base shadow-sm">
+        JF
+      </div>
+      <div>
+        <h1 class="font-semibold text-sm tracking-tight text-zinc-100 flex items-center gap-2">
+          JobFlow AI
+          <span class="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-400 border border-zinc-700/50">AI Agent</span>
+        </h1>
+        <p class="text-xs text-zinc-400">Autonomous Job Application & Format-Conforming ATS CV Engine</p>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <!-- Active Profile Indicator -->
+      <div id="activeProfileBadge" onclick="openProfileModal()" class="cursor-pointer px-3 py-1.5 rounded-md bg-zinc-900 hover:bg-zinc-850 border border-zinc-800 text-xs text-zinc-300 flex items-center gap-2 transition">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span id="headerProfileName" class="font-medium">Loading Profile...</span>
+      </div>
+
+      <button onclick="openProfileModal()" class="px-3.5 py-1.5 rounded-md bg-zinc-900 hover:bg-zinc-800 text-zinc-200 border border-zinc-700 text-xs font-medium transition flex items-center gap-1.5 shadow-sm">
+        <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+        Upload CV / Profile
+      </button>
+
+      <button onclick="openAddJobModal()" class="px-3.5 py-1.5 rounded-md bg-zinc-100 hover:bg-white text-zinc-950 text-xs font-medium transition flex items-center gap-1.5 shadow-sm">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+        Add Job
+      </button>
+
+      <!-- Authenticated User & Logout -->
+      <div class="flex items-center gap-2 border-l border-zinc-800 pl-3 ml-1">
+        <span class="text-xs font-mono text-zinc-400 px-2 py-1 rounded bg-zinc-900 border border-zinc-800 flex items-center gap-1.5" title="Logged in user">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+          <span>{{ username or 'admin' }}</span>
+        </span>
+        <a href="/logout" title="Sign Out of Session" class="p-1.5 rounded-md hover:bg-zinc-850 text-zinc-400 hover:text-red-400 transition flex items-center gap-1 text-xs">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <!-- Main Container -->
+  <main class="flex-1 max-w-[1720px] w-full mx-auto p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+
+    <!-- Left: Candidate Truth, Job Pipeline & Strategy Intelligence (5 cols) -->
+    <section class="lg:col-span-5 xl:col-span-5 flex flex-col gap-4">
+      <!-- 1. Candidate Master Profile & Ground Truth Card (Persistent DB Storage) -->
+      <div id="masterProfileCard" class="border border-zinc-800 bg-zinc-900/70 rounded-xl p-4 shadow-sm flex flex-col gap-3 transition">
+        <div class="flex items-center justify-between border-b border-zinc-800/80 pb-2.5">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <h3 class="text-xs font-semibold uppercase tracking-wider text-zinc-200">Candidate Master Profile & Ground Truth</h3>
+          </div>
+          <span id="dashDbStatusBadge" class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 flex items-center gap-1">
+            <svg class="w-3 h-3 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            SQLite Persisted
+          </span>
+        </div>
+
+        <div id="profileSummaryContent" class="flex flex-col gap-2">
+          <!-- Loaded Profile View -->
+          <div id="dashProfileLoadedView" class="flex flex-col gap-2.5">
+            <div class="flex items-start justify-between">
+              <div>
+                <h4 id="dashProfName" class="font-bold text-sm text-zinc-100 flex items-center gap-1.5">
+                  <span>Loading candidate...</span>
+                </h4>
+                <p id="dashProfContact" class="text-xs text-zinc-400 mt-0.5">-</p>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <button onclick="openProfileModal(); switchProfileTab('upload')" title="Upload new CV" class="px-2 py-1 rounded bg-zinc-800/80 hover:bg-zinc-700 text-zinc-300 text-xs font-medium transition border border-zinc-700/60 flex items-center gap-1">
+                  <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+                  Update CV
+                </button>
+                <button onclick="openProfileModal(); switchProfileTab('editor')" title="Inspect Full Master Profile" class="px-2.5 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-medium transition border border-zinc-700/60 flex items-center gap-1">
+                  <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                  Inspect
+                </button>
+              </div>
+            </div>
+
+            <!-- Ground Truth Stats Pill Badges -->
+            <div class="grid grid-cols-4 gap-1.5 pt-0.5">
+              <div class="bg-zinc-950 p-2 rounded-lg border border-zinc-800/80 text-center">
+                <div class="text-[9.5px] text-zinc-500 uppercase tracking-tight">Education</div>
+                <div id="dashEduCount" class="text-xs font-semibold text-emerald-400 font-mono mt-0.5">0</div>
+              </div>
+              <div class="bg-zinc-950 p-2 rounded-lg border border-zinc-800/80 text-center">
+                <div class="text-[9.5px] text-zinc-500 uppercase tracking-tight">Experience</div>
+                <div id="dashExpCount" class="text-xs font-semibold text-zinc-200 font-mono mt-0.5">0</div>
+              </div>
+              <div class="bg-zinc-950 p-2 rounded-lg border border-zinc-800/80 text-center">
+                <div class="text-[9.5px] text-zinc-500 uppercase tracking-tight">Projects</div>
+                <div id="dashProjCount" class="text-xs font-semibold text-zinc-200 font-mono mt-0.5">0</div>
+              </div>
+              <div class="bg-zinc-950 p-2 rounded-lg border border-zinc-800/80 text-center">
+                <div class="text-[9.5px] text-zinc-500 uppercase tracking-tight">Skills</div>
+                <div id="dashSkillCount" class="text-xs font-semibold text-zinc-200 font-mono mt-0.5">0</div>
+              </div>
+            </div>
+
+            <!-- Executive Summary Snippet -->
+            <div id="dashProfSummarySnippet" class="text-[11px] text-zinc-400 bg-zinc-950 p-2.5 rounded-lg border border-zinc-800/80 line-clamp-2 leading-relaxed">
+              Loading summary...
+            </div>
+          </div>
+
+          <!-- Empty Profile State -->
+          <div id="dashProfileEmptyView" class="hidden flex flex-col items-center justify-center p-5 text-center border border-dashed border-zinc-800 rounded-lg">
+            <p class="text-xs text-zinc-400">No Candidate Master Profile in database yet.</p>
+            <p class="text-[11px] text-zinc-500 mt-0.5">Upload your CV once to set your baseline ground truth.</p>
+            <button onclick="openProfileModal(); switchProfileTab('upload')" class="mt-2.5 px-3 py-1.5 rounded bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 text-xs font-medium transition">
+              Upload CV Document
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Target Applications Header & Job Pipeline -->
+      <div class="flex items-center justify-between pt-1">
+        <div class="flex items-center gap-2">
+          <h2 class="text-sm font-semibold text-zinc-100">Target Applications</h2>
+          <span id="jobCountBadge" class="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-850 text-zinc-400 border border-zinc-800">Loading...</span>
+        </div>
+        <div class="flex items-center gap-1.5">
+          <button onclick="openStorageModal()" class="px-2 py-1 rounded bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-zinc-200 text-xs font-mono border border-zinc-800 hover:border-zinc-700 transition flex items-center gap-1 shadow-sm" title="Manage Output PDFs and Disk Storage">
+            <svg class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+            <span id="headerStorageBadge">Storage</span>
+          </button>
+          <button onclick="openAutoScrapModal()" class="px-2.5 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-medium border border-zinc-700 flex items-center gap-1.5 transition shadow-sm" title="Autonomous Multi-Platform Job Scraper">
+            <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+            Auto-Scrap
+          </button>
+          <button onclick="fetchJobs()" class="text-xs text-zinc-400 hover:text-zinc-200 transition font-mono flex items-center gap-1">
+            ↻ Refresh
+          </button>
+        </div>
+      </div>
+
+      <div id="jobList" class="flex flex-col gap-2.5 max-h-[340px] overflow-y-auto custom-scroll pr-1">
+        <!-- Job Cards Rendered Dynamically -->
+        <div class="p-8 text-center border border-dashed border-zinc-800 rounded-xl text-zinc-500 text-xs">
+          Loading jobs...
+        </div>
+      </div>
+
+      <!-- 3. AI Strategy & ATS Insights Card (Dynamic for Selected Job) -->
+      <div id="agentStrategyCard" class="hidden border border-emerald-500/30 bg-emerald-950/10 rounded-xl p-4 flex flex-col gap-2.5 transition">
+        <div class="flex items-center justify-between border-b border-emerald-500/20 pb-2">
+          <div class="flex items-center gap-1.5">
+            <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+            <h4 class="text-xs font-semibold text-emerald-300 uppercase tracking-wider">AI Agent Tailoring Strategy</h4>
+          </div>
+          <span id="strategyScoreBadge" class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">95% ATS</span>
+        </div>
+        <p id="strategyReasoning" class="text-xs text-zinc-300 leading-relaxed"></p>
+        
+        <div id="keyStrengthsContainer" class="flex flex-wrap gap-1.5 pt-1"></div>
+
+        <div class="border-t border-zinc-800/80 pt-2 flex flex-col gap-1.5">
+          <div class="text-[11px] text-zinc-400 font-medium">Matched Job Keywords:</div>
+          <div id="matchedKeywordsList" class="flex flex-wrap gap-1"></div>
+        </div>
+
+        <!-- Role Interview Talking Points -->
+        <div id="interviewPrepSection" class="border-t border-emerald-500/20 pt-2 flex flex-col gap-1.5">
+          <div class="text-[11px] text-emerald-400 font-semibold flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+            Role Interview Talking Points:
+          </div>
+          <ul id="interviewPrepList" class="list-disc list-inside space-y-1 text-[10.5px] text-zinc-300 leading-snug"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Right: Format-Conforming ATS CV Preview Studio & Live Agent Activity (7 cols) -->
+    <section class="lg:col-span-7 xl:col-span-7 flex flex-col gap-4">
+      <!-- 1. Format-Conforming ATS CV Preview Card -->
+      <div class="border border-zinc-800 rounded-xl bg-zinc-900/60 p-4 flex flex-col gap-3 shadow-xl">
+        <!-- Preview Header Bar -->
+        <div class="flex items-center justify-between border-b border-zinc-800/80 pb-2.5">
+          <div class="flex items-center gap-2">
+            <span class="p-1 rounded bg-zinc-800 text-zinc-300">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+            </span>
+            <div>
+              <div class="flex items-center gap-2">
+                <h3 class="text-xs font-semibold uppercase tracking-wider text-zinc-200">Format-Conforming ATS CV Preview</h3>
+                <span id="previewJobBadge" class="hidden text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-800 text-zinc-300 border border-zinc-700/50 truncate max-w-[240px]"></span>
+              </div>
+              <p class="text-[10.5px] text-zinc-400">High-fidelity paper render with 100% authentic candidate data</p>
+            </div>
+          </div>
+
+          <div id="previewActions" class="hidden flex items-center gap-1.5 sm:gap-2">
+            <button id="toggleHighlightBtn" onclick="toggleResumeHighlight()" title="Toggle AI Improvements Highlight" class="text-xs px-2.5 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-amber-300 border border-amber-500/30 font-medium flex items-center gap-1.5 transition">
+              <span>✨</span>
+              <span id="highlightBtnText">AI Highlights</span>
+            </button>
+            <button onclick="openFullscreenResume()" title="Expand Fullscreen" class="text-xs px-2.5 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-300 border border-zinc-700 font-medium flex items-center gap-1.5 transition">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg>
+              <span>Expand</span>
+            </button>
+            <a id="downloadPdfBtn" href="#" target="_blank" class="text-xs px-3 py-1 rounded bg-zinc-100 hover:bg-white text-zinc-950 font-semibold flex items-center gap-1.5 transition shadow-sm">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+              <span>PDF</span>
+            </a>
+          </div>
+        </div>
+        
+        <!-- Large High-Fidelity Paper Frame -->
+        <div id="previewFrameContainer" class="h-[640px] xl:h-[720px] rounded-xl bg-zinc-950 p-2 sm:p-3 overflow-hidden border border-zinc-800 shadow-inner flex justify-center relative">
+          <!-- Empty State (Shown when no preview loaded) -->
+          <div id="previewEmptyPlaceholder" class="flex flex-col items-center justify-center h-full text-center p-8 text-zinc-500">
+            <div class="w-14 h-14 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 mb-3 shadow-inner">
+              <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+            </div>
+            <h4 class="text-sm font-semibold text-zinc-300">No Resume Preview Selected</h4>
+            <p class="text-xs text-zinc-500 mt-1 max-w-sm">Select an application from the pipeline on the left or click <span class="text-zinc-300 font-mono">⚡ Tailor CV</span> to render the format-conforming ATS CV.</p>
+          </div>
+
+          <!-- Active Iframe Container -->
+          <div id="previewIframeWrapper" class="hidden w-full h-full rounded-lg bg-white overflow-hidden shadow-2xl border border-zinc-300/50">
+            <iframe id="resumeIframe" class="w-full h-full border-none" src="about:blank"></iframe>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Live AI Agent Activity (Terminal Console Below Preview) -->
+      <div class="border border-zinc-800 rounded-xl bg-zinc-900/60 p-3.5 flex flex-col gap-2.5 shadow-sm">
+        <div class="flex items-center justify-between border-b border-zinc-800/80 pb-2">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <h3 class="text-xs font-semibold uppercase tracking-wider text-zinc-300">Live AI Agent Activity</h3>
+          </div>
+          <div class="flex items-center gap-2">
+            <span id="activeJobStatus" class="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-800 text-zinc-400 border border-zinc-700/50">IDLE</span>
+            <button onclick="clearConsole()" title="Clear terminal logs" class="text-[10px] font-mono text-zinc-500 hover:text-zinc-300 transition">Clear</button>
+          </div>
+        </div>
+        
+        <div id="logConsole" class="h-32 overflow-y-auto font-mono text-[11px] text-zinc-300 space-y-1.5 p-2.5 rounded-lg bg-zinc-950 border border-zinc-800/80 custom-scroll">
+          <div class="text-zinc-500">[System] JobFlow AI Agent Engine ready. Upload CV or select a job to start tailoring.</div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Modal: Master Profile & CV Upload -->
+  <div id="profileModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+    <div class="bg-zinc-900 border border-zinc-800 rounded-xl max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+      <!-- Modal Header with Tabs -->
+      <div class="p-5 border-b border-zinc-800 bg-zinc-950/50 flex flex-col gap-3">
+        <div class="flex justify-between items-center">
+          <div>
+            <h3 class="text-base font-semibold text-zinc-100 flex items-center gap-2">
+              <span>Candidate Master Profile & Ground Truth</span>
+              <span class="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">100% Fidelity</span>
+            </h3>
+            <p class="text-xs text-zinc-400 mt-0.5">Your original CV is the absolute baseline. Education, projects, and history are strictly preserved.</p>
+          </div>
+          <button onclick="closeProfileModal()" class="text-zinc-400 hover:text-zinc-200 text-lg p-1">✕</button>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="flex items-center gap-2 border-b border-zinc-800/80 -mb-2 pb-2">
+          <button id="tabBtnEditor" onclick="switchProfileTab('editor')" class="px-3 py-1 rounded text-xs font-medium transition bg-zinc-800 text-zinc-100 border border-zinc-700">
+            Profile Overview & Details
+          </button>
+          <button id="tabBtnUpload" onclick="switchProfileTab('upload')" class="px-3 py-1 rounded text-xs font-medium transition text-zinc-400 hover:text-zinc-200 hover:bg-zinc-850">
+            Upload CV & Raw Text
+          </button>
+        </div>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-6 overflow-y-auto space-y-6 custom-scroll flex-1 text-xs">
+        
+        <!-- Tab 1: Profile Overview & Full Section Views -->
+        <div id="tabContentEditor" class="space-y-5">
+          <!-- Contact Info -->
+          <div class="grid grid-cols-2 gap-3 bg-zinc-950 p-4 rounded-lg border border-zinc-800/80">
+            <div>
+              <div class="text-zinc-500 text-[11px]">Full Name:</div>
+              <div id="profName" class="font-medium text-zinc-100 text-sm mt-0.5">-</div>
+            </div>
+            <div>
+              <div class="text-zinc-500 text-[11px]">Email:</div>
+              <div id="profEmail" class="font-medium text-zinc-200 mt-0.5">-</div>
+            </div>
+            <div>
+              <div class="text-zinc-500 text-[11px]">Phone & Location:</div>
+              <div id="profPhoneLocation" class="text-zinc-300 mt-0.5">-</div>
+            </div>
+            <div>
+              <div class="text-zinc-500 text-[11px]">Detected Layout / Section Order:</div>
+              <div id="profSectionOrder" class="text-zinc-300 font-mono text-[10px] mt-0.5">-</div>
+            </div>
+          </div>
+
+          <!-- Summary -->
+          <div>
+            <div class="text-zinc-400 font-medium mb-1.5 flex items-center justify-between">
+              <span>Executive Summary</span>
+            </div>
+            <div id="profSummary" class="bg-zinc-950 p-3.5 rounded-lg border border-zinc-800/80 text-zinc-300 leading-relaxed text-[11px]"></div>
+          </div>
+
+          <!-- Education Section (Preserved) -->
+          <div>
+            <div class="text-zinc-300 font-semibold mb-2 flex items-center justify-between">
+              <span class="flex items-center gap-1.5 text-emerald-400">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path></svg>
+                Education Records (<span id="eduCountBadge">0</span>)
+              </span>
+            </div>
+            <div id="profEducation" class="space-y-2">
+              <div class="text-zinc-500 italic p-3 bg-zinc-950 rounded border border-zinc-800/80">No education records found.</div>
+            </div>
+          </div>
+
+          <!-- Projects Section (Preserved) -->
+          <div>
+            <div class="text-zinc-300 font-semibold mb-2 flex items-center justify-between">
+              <span class="flex items-center gap-1.5 text-emerald-400">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                Projects & Portfolio (<span id="projCountBadge">0</span>)
+              </span>
+            </div>
+            <div id="profProjects" class="space-y-2">
+              <div class="text-zinc-500 italic p-3 bg-zinc-950 rounded border border-zinc-800/80">No projects found.</div>
+            </div>
+          </div>
+
+          <!-- Work Experience Section -->
+          <div>
+            <div class="text-zinc-300 font-semibold mb-2 flex items-center justify-between">
+              <span class="flex items-center gap-1.5 text-emerald-400">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                Work Experience (<span id="expCountBadge">0</span>)
+              </span>
+            </div>
+            <div id="profExperience" class="space-y-2"></div>
+          </div>
+
+          <!-- Skills Overview -->
+          <div>
+            <div class="text-zinc-400 font-medium mb-1.5">Technical & Core Skills:</div>
+            <div id="profSkills" class="flex flex-wrap gap-1.5 bg-zinc-950 p-3.5 rounded-lg border border-zinc-800/80"></div>
+          </div>
+
+          <!-- Certifications -->
+          <div>
+            <div class="text-zinc-400 font-medium mb-1.5">Certifications & Credentials:</div>
+            <div id="profCertifications" class="flex flex-wrap gap-1.5 bg-zinc-950 p-3.5 rounded-lg border border-zinc-800/80"></div>
+          </div>
+
+          <!-- Adaptive & Custom Sections Discovered by AI -->
+          <div id="profCustomSectionsWrapper" class="space-y-2">
+            <div class="text-zinc-300 font-semibold flex items-center justify-between border-t border-zinc-800/80 pt-3">
+              <span class="flex items-center gap-1.5 text-emerald-400">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                Adaptive Sections Discovered (<span id="customSecCountBadge">0</span>)
+              </span>
+              <span class="text-[10px] text-zinc-500 font-normal">Auto-detected from CV (Awards, Publications, Languages, etc.)</span>
+            </div>
+            <div id="profCustomSectionsContainer" class="space-y-3">
+              <div class="text-zinc-500 italic p-3 bg-zinc-950 rounded border border-zinc-800/80">No additional custom sections detected.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 2: Upload File & Raw Text AI Ingestion -->
+        <div id="tabContentUpload" class="hidden space-y-4">
+          <!-- Dropzone -->
+          <div class="border-2 border-dashed border-zinc-700 hover:border-zinc-500 rounded-xl p-6 text-center bg-zinc-950/60 transition cursor-pointer" onclick="document.getElementById('cvFileInput').click()">
+            <input type="file" id="cvFileInput" class="hidden" accept=".pdf,.docx,.doc,.txt" onchange="handleCvFileSelect(event)">
+            <div class="flex flex-col items-center gap-2">
+              <div class="w-12 h-12 rounded-full bg-zinc-800 text-emerald-400 flex items-center justify-center">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+              </div>
+              <div>
+                <p class="text-sm font-medium text-zinc-200">Click to upload your CV, or drag and drop</p>
+                <p class="text-[11px] text-zinc-400 mt-0.5">Supports PDF, DOCX, or TXT (Max 10MB)</p>
+              </div>
+              <div id="uploadStatusMessage" class="hidden text-xs mt-2 font-medium"></div>
+            </div>
+          </div>
+
+          <!-- Raw CV Text Editor -->
+          <div class="flex flex-col gap-2">
+            <div class="flex items-center justify-between">
+              <label class="text-zinc-300 font-medium text-xs">Or View / Paste Raw CV Text Directly:</label>
+              <button onclick="reparseRawText()" id="reparseBtn" class="px-3 py-1 rounded bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 text-xs font-medium transition flex items-center gap-1">
+                ⚡ Re-Parse with AI Agent
+              </button>
+            </div>
+            <textarea id="rawCvInput" rows="12" placeholder="Paste your complete CV text here..." class="w-full bg-zinc-950 border border-zinc-800 rounded-lg p-3 text-zinc-200 font-mono text-[11px] leading-relaxed focus:outline-none focus:border-zinc-600 custom-scroll"></textarea>
+            <p class="text-[11px] text-zinc-500">You can paste or refine your exact CV text here. The AI Agent will harvest all education, projects, skills, and experiences with zero information loss.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Footer -->
+      <div class="p-4 border-t border-zinc-800 bg-zinc-950/50 flex justify-end gap-2">
+        <button onclick="closeProfileModal()" class="px-4 py-2 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-medium transition">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Add Job -->
+  <div id="addJobModal" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+    <div class="bg-zinc-900 border border-zinc-800 rounded-xl max-w-lg w-full p-6 shadow-2xl flex flex-col gap-4">
+      <div class="flex justify-between items-center border-b border-zinc-800 pb-3">
+        <h3 class="text-sm font-semibold text-zinc-100">Add Target Job</h3>
+        <button onclick="closeAddJobModal()" class="text-zinc-400 hover:text-zinc-200 text-sm">✕</button>
+      </div>
+
+      <div class="flex flex-col gap-3 text-xs">
+        <div>
+          <label class="block text-zinc-400 mb-1">Job URL (LinkedIn / JobStreet / Glints / Web)</label>
+          <div class="flex gap-2">
+            <input id="jobUrlInput" type="text" placeholder="https://..." class="flex-1 bg-zinc-950 border border-zinc-800 rounded px-3 py-2 text-zinc-200 focus:outline-none focus:border-zinc-500">
+            <button onclick="extractFromUrl()" id="extractBtn" class="px-3 py-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 rounded font-medium">Extract</button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-zinc-400 mb-1">Job Title</label>
+            <input id="jobTitleInput" type="text" placeholder="e.g. AI Engineer" class="w-full bg-zinc-950 border border-zinc-800 rounded px-3 py-2 text-zinc-200 focus:outline-none focus:border-zinc-500">
+          </div>
+          <div>
+            <label class="block text-zinc-400 mb-1">Company</label>
+            <input id="jobCompanyInput" type="text" placeholder="e.g. Acme Corp" class="w-full bg-zinc-950 border border-zinc-800 rounded px-3 py-2 text-zinc-200 focus:outline-none focus:border-zinc-500">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-zinc-400 mb-1">Job Description & Requirements</label>
+          <textarea id="jobDescInput" rows="5" placeholder="Paste requirements or job description text..." class="w-full bg-zinc-950 border border-zinc-800 rounded px-3 py-2 text-zinc-200 focus:outline-none focus:border-zinc-500 font-mono text-[11px]"></textarea>
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-2 border-t border-zinc-800 pt-3">
+        <button onclick="closeAddJobModal()" class="px-3.5 py-1.5 rounded bg-zinc-800 text-zinc-300 text-xs">Cancel</button>
+        <button onclick="submitJob()" class="px-3.5 py-1.5 rounded bg-zinc-100 hover:bg-white text-zinc-950 font-medium text-xs">Save & Ingest</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Auto-Scrap Jobs Harness -->
+  <div id="autoScrapModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+    <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-xl w-full p-6 shadow-2xl flex flex-col gap-4 max-h-[90vh] overflow-y-auto custom-scroll">
+      <div class="flex justify-between items-center border-b border-zinc-800 pb-3">
+        <div class="flex items-center gap-2.5">
+          <span class="p-1.5 rounded-lg bg-amber-500/20 text-amber-400">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+          </span>
+          <div>
+            <h3 class="text-sm font-semibold text-zinc-100">Auto-Scrap Jobs & AI Relevance Harness</h3>
+            <p class="text-[11px] text-zinc-400">Autonomous discovery across platforms grounded in your authentic CV</p>
+          </div>
+        </div>
+        <button onclick="closeAutoScrapModal()" class="text-zinc-400 hover:text-zinc-200 text-base">✕</button>
+      </div>
+
+      <!-- CV Ground Truth Preview Box -->
+      <div class="bg-zinc-950 border border-zinc-800/90 rounded-xl p-3.5 flex flex-col gap-2">
+        <div class="flex items-center justify-between text-xs">
+          <span class="font-medium text-zinc-300 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            CV Ground Truth Search Criteria:
+          </span>
+          <span id="autoScrapCandidateName" class="text-[10px] font-mono text-zinc-400">Inspecting CV...</span>
+        </div>
+        <div id="autoScrapCriteriaContent" class="flex flex-col gap-1.5 text-xs">
+          <div class="flex items-center gap-1.5 flex-wrap">
+            <span class="text-[10.5px] text-zinc-500 font-mono">Target Titles:</span>
+            <div id="autoScrapTitlesList" class="flex items-center gap-1 flex-wrap">
+              <span class="text-[10px] text-zinc-500 italic">Extracting from CV...</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-1.5 flex-wrap">
+            <span class="text-[10.5px] text-zinc-500 font-mono">Core Stack:</span>
+            <div id="autoScrapSkillsList" class="flex items-center gap-1 flex-wrap">
+              <span class="text-[10px] text-zinc-500 italic">Extracting skills...</span>
+            </div>
+          </div>
+        </div>
+        <div id="autoScrapNoProfileWarning" class="hidden text-[11px] text-amber-400 bg-amber-500/10 border border-amber-500/20 rounded p-2">
+          Candidate CV profile not detected. Please upload your CV first to establish search criteria and ground truth.
+        </div>
+      </div>
+
+      <!-- Discovery Settings -->
+      <div class="flex flex-col gap-3.5 text-xs">
+        <!-- Target Platforms -->
+        <div>
+          <label class="block text-zinc-300 font-medium mb-1.5">Target Platforms:</label>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            <label class="flex items-center gap-2 p-2 rounded bg-zinc-950 border border-zinc-800 hover:border-zinc-700 cursor-pointer">
+              <input type="checkbox" id="platformJobStreet" value="jobstreet" checked class="rounded border-zinc-700 bg-zinc-900 text-emerald-500 focus:ring-0">
+              <span class="text-zinc-200 text-xs">JobStreet</span>
+            </label>
+            <label class="flex items-center gap-2 p-2 rounded bg-zinc-950 border border-zinc-800 hover:border-zinc-700 cursor-pointer">
+              <input type="checkbox" id="platformLinkedIn" value="linkedin" checked class="rounded border-zinc-700 bg-zinc-900 text-emerald-500 focus:ring-0">
+              <span class="text-zinc-200 text-xs">LinkedIn</span>
+            </label>
+            <label class="flex items-center gap-2 p-2 rounded bg-zinc-950 border border-zinc-800 hover:border-zinc-700 cursor-pointer">
+              <input type="checkbox" id="platformGlints" value="glints" checked class="rounded border-zinc-700 bg-zinc-900 text-emerald-500 focus:ring-0">
+              <span class="text-zinc-200 text-xs">Glints</span>
+            </label>
+            <label class="flex items-center gap-2 p-2 rounded bg-zinc-950 border border-zinc-800 hover:border-zinc-700 cursor-pointer">
+              <input type="checkbox" id="platformRemoteOK" value="remoteok" checked class="rounded border-zinc-700 bg-zinc-900 text-emerald-500 focus:ring-0">
+              <span class="text-zinc-200 text-xs">RemoteOK</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Relevance Threshold Slider & Max Jobs -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <label class="text-zinc-300 font-medium">Relevance Threshold:</label>
+              <span id="relevanceValBadge" class="text-[11px] font-mono font-semibold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">60% Min</span>
+            </div>
+            <input type="range" id="minRelevanceSlider" min="40" max="90" step="5" value="60" oninput="document.getElementById('relevanceValBadge').innerText = this.value + '% Min'" class="w-full accent-emerald-400 bg-zinc-950 cursor-pointer">
+            <p class="text-[10px] text-zinc-500 mt-1">Filters out domain/stack mismatches (e.g. Sales, Accounting, non-matching tech).</p>
+          </div>
+          <div>
+            <label class="block text-zinc-300 font-medium mb-1">Max Positions to Save:</label>
+            <input type="number" id="maxJobsInput" min="1" max="25" value="8" class="w-full bg-zinc-950 border border-zinc-800 rounded px-3 py-1.5 text-zinc-200 focus:outline-none focus:border-zinc-500 font-mono">
+            <p class="text-[10px] text-zinc-500 mt-1">Stops harvesting once this quota of relevant jobs is reached.</p>
+          </div>
+        </div>
+
+        <!-- Location Filter & Optional Queries Override -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-zinc-300 font-medium mb-1">Target Location:</label>
+            <input type="text" id="autoScrapLocation" placeholder="e.g. Indonesia, Remote, Jakarta" value="Indonesia" class="w-full bg-zinc-950 border border-zinc-800 rounded px-3 py-1.5 text-zinc-200 focus:outline-none focus:border-zinc-500">
+          </div>
+          <div>
+            <label class="block text-zinc-300 font-medium mb-1">Custom Query Overrides (Optional):</label>
+            <input type="text" id="autoScrapCustomQueries" placeholder="e.g. AI Engineer, Python Backend" class="w-full bg-zinc-950 border border-zinc-800 rounded px-3 py-1.5 text-zinc-200 focus:outline-none focus:border-zinc-500">
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Footer -->
+      <div class="flex justify-between items-center border-t border-zinc-800 pt-3">
+        <span id="autoScrapStatusText" class="text-xs text-zinc-400 font-mono">Ready to harvest.</span>
+        <div class="flex items-center gap-2">
+          <button onclick="closeAutoScrapModal()" class="px-3.5 py-1.5 rounded bg-zinc-800 text-zinc-300 text-xs hover:bg-zinc-700 transition">Cancel</button>
+          <button onclick="runAutoScrap()" id="runAutoScrapBtn" class="px-4 py-1.5 rounded bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-semibold text-xs transition flex items-center gap-1.5 shadow-sm">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+            <span>Start Autonomous Job Hunt</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Output Storage & Deletion Manager -->
+  <div id="storageModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+    <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-lg w-full p-6 shadow-2xl flex flex-col gap-4 max-h-[90vh] overflow-y-auto custom-scroll">
+      <div class="flex justify-between items-center border-b border-zinc-800 pb-3">
+        <div class="flex items-center gap-2.5">
+          <span class="p-1.5 rounded-lg bg-zinc-800 text-zinc-300">
+            <svg class="w-4 h-4 text-zinc-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+          </span>
+          <div>
+            <h3 class="text-sm font-semibold text-zinc-100">Output Storage & Artifact Cleanup</h3>
+            <p class="text-[11px] text-zinc-400">Manage generated PDFs, screenshots, and pipeline deletion</p>
+          </div>
+        </div>
+        <button onclick="closeStorageModal()" class="text-zinc-400 hover:text-zinc-200 text-base">✕</button>
+      </div>
+
+      <!-- Current Storage Statistics -->
+      <div class="grid grid-cols-3 gap-2 bg-zinc-950 p-3 rounded-xl border border-zinc-800/80 text-center">
+        <div>
+          <div class="text-[10px] text-zinc-500 uppercase tracking-wider">Output Files</div>
+          <div id="storageTotalFiles" class="text-sm font-bold text-zinc-200 font-mono mt-0.5">--</div>
+        </div>
+        <div>
+          <div class="text-[10px] text-zinc-500 uppercase tracking-wider">Disk Usage</div>
+          <div id="storageTotalMb" class="text-sm font-bold text-zinc-200 font-mono mt-0.5">-- MB</div>
+        </div>
+        <div>
+          <div class="text-[10px] text-zinc-500 uppercase tracking-wider">Orphaned Files</div>
+          <div id="storageOrphanedCount" class="text-sm font-bold text-amber-400 font-mono mt-0.5">--</div>
+        </div>
+      </div>
+
+      <!-- Deletion / Cleanup Actions -->
+      <div class="flex flex-col gap-2.5 text-xs">
+        <!-- Action 1: Clean Orphaned Files -->
+        <div class="p-3.5 rounded-xl border border-zinc-800 bg-zinc-950/60 flex items-center justify-between gap-3">
+          <div class="flex-1">
+            <h4 class="font-medium text-zinc-200 flex items-center gap-1.5">
+              <span>🧹</span> Clean Orphaned Artifacts
+            </h4>
+            <p class="text-[11px] text-zinc-400 mt-0.5">Removes leftover PDFs and screenshots from previously deleted jobs. Safe: does not affect active jobs.</p>
+          </div>
+          <button onclick="executeStorageCleanup('orphaned')" class="px-3 py-1.5 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-medium border border-zinc-700 text-xs transition flex-shrink-0">
+            Clean Orphans
+          </button>
+        </div>
+
+        <!-- Action 2: Purge All Generated Output PDFs -->
+        <div class="p-3.5 rounded-xl border border-zinc-800 bg-zinc-950/60 flex items-center justify-between gap-3">
+          <div class="flex-1">
+            <h4 class="font-medium text-zinc-200 flex items-center gap-1.5">
+              <span>📄</span> Purge All Output PDFs
+            </h4>
+            <p class="text-[11px] text-zinc-400 mt-0.5">Deletes all generated PDFs in the output directory. Keeps job records in pipeline so they can be re-tailored.</p>
+          </div>
+          <button onclick="executeStorageCleanup('all')" class="px-3 py-1.5 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-medium border border-zinc-700 text-xs transition flex-shrink-0">
+            Purge PDFs
+          </button>
+        </div>
+
+        <!-- Action 3: Clear All Job Applications -->
+        <div class="p-3.5 rounded-xl border border-red-900/30 bg-red-950/10 flex items-center justify-between gap-3">
+          <div class="flex-1">
+            <h4 class="font-medium text-red-300 flex items-center gap-1.5">
+              <span>⚠️</span> Clear All Applications & Files
+            </h4>
+            <p class="text-[11px] text-zinc-400 mt-0.5">Deletes all job application records and completely empties the output directory.</p>
+          </div>
+          <button onclick="executeClearAllJobs()" class="px-3 py-1.5 rounded bg-red-950/80 hover:bg-red-900 text-red-300 font-medium border border-red-800/60 text-xs transition flex-shrink-0">
+            Clear All
+          </button>
+        </div>
+      </div>
+
+      <div class="flex justify-end border-t border-zinc-800 pt-3">
+        <button onclick="closeStorageModal()" class="px-4 py-1.5 rounded bg-zinc-800 text-zinc-300 text-xs hover:bg-zinc-700 transition">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Fullscreen Large Resume Preview -->
+  <div id="resumeFullscreenModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden items-center justify-center p-3 sm:p-6">
+    <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-5xl w-full h-[95vh] flex flex-col shadow-2xl overflow-hidden">
+      <!-- Modal Header -->
+      <div class="p-4 border-b border-zinc-800 bg-zinc-950/70 flex justify-between items-center">
+        <div class="flex items-center gap-2.5">
+          <span class="p-1.5 rounded-lg bg-emerald-500/20 text-emerald-400">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+          </span>
+          <div>
+            <h3 class="text-sm font-semibold text-zinc-100">Full-Size Format-Conforming ATS CV Preview</h3>
+            <p class="text-[11px] text-zinc-400">Standard A4 proportions formatted for maximal ATS readability & human recruiter scan</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <a id="fullscreenDownloadPdfBtn" href="#" target="_blank" class="px-3 py-1.5 rounded bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 text-xs font-medium flex items-center gap-1.5 transition">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+            Download PDF
+          </a>
+          <button onclick="closeFullscreenResume()" class="text-zinc-400 hover:text-zinc-200 p-1.5 rounded-lg hover:bg-zinc-800 text-lg transition">✕</button>
+        </div>
+      </div>
+      <!-- Modal Body Sheet -->
+      <div class="flex-1 bg-zinc-950 p-4 sm:p-6 flex justify-center overflow-auto custom-scroll">
+        <div class="w-full max-w-4xl h-full bg-white rounded-lg shadow-2xl overflow-hidden border border-zinc-300/50">
+          <iframe id="fullscreenResumeIframe" class="w-full h-full border-none" src="about:blank"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let pollInterval = null;
+    let currentJobsList = [];
+
+    // Initialize on page load / refresh
+    document.addEventListener('DOMContentLoaded', async () => {
+      await loadFullProfile();
+      await fetchJobs();
+      await loadStorageStats();
+
+      // Restore active resume preview across page refreshes
+      try {
+        const savedJobId = localStorage.getItem('jobflow_active_job_id');
+        if (savedJobId) {
+          const savedJob = (currentJobsList || []).find(x => Number(x.id) === Number(savedJobId));
+          if (savedJob && !savedJob.has_resume) {
+            selectUntailoredJob(savedJobId);
+          } else {
+            previewResume(savedJobId, false);
+          }
+        }
+      } catch (e) {
+        console.warn("Could not read localStorage for active job ID:", e);
+      }
+    });
+
+    async function fetchProfileStatus() {
+      await loadFullProfile();
+    }
+
+    function switchProfileTab(tabName) {
+      const tabEditor = document.getElementById('tabContentEditor');
+      const tabUpload = document.getElementById('tabContentUpload');
+      const btnEditor = document.getElementById('tabBtnEditor');
+      const btnUpload = document.getElementById('tabBtnUpload');
+
+      if (tabName === 'editor') {
+        tabEditor.classList.remove('hidden');
+        tabUpload.classList.add('hidden');
+        btnEditor.className = 'px-3 py-1 rounded text-xs font-medium transition bg-zinc-800 text-zinc-100 border border-zinc-700';
+        btnUpload.className = 'px-3 py-1 rounded text-xs font-medium transition text-zinc-400 hover:text-zinc-200 hover:bg-zinc-850';
+      } else {
+        tabUpload.classList.remove('hidden');
+        tabEditor.classList.add('hidden');
+        btnUpload.className = 'px-3 py-1 rounded text-xs font-medium transition bg-zinc-800 text-zinc-100 border border-zinc-700';
+        btnEditor.className = 'px-3 py-1 rounded text-xs font-medium transition text-zinc-400 hover:text-zinc-200 hover:bg-zinc-850';
+      }
+    }
+
+    async function reparseRawText() {
+      const rawInput = document.getElementById('rawCvInput');
+      const text = rawInput.value.trim();
+      if (!text) {
+        alert("Please paste your CV text first.");
+        return;
+      }
+
+      const btn = document.getElementById('reparseBtn');
+      const oldBtnText = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = `⏳ AI Parsing...`;
+      appendLog(`[AI Agent] Re-parsing raw CV text (${text.length} characters)...`, "info");
+
+      try {
+        const res = await fetch('/api/profile/parse-text', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          appendLog(`[AI Agent] Successfully re-parsed profile for ${data.profile.contact.full_name}!`, "success");
+          fetchProfileStatus();
+          await loadFullProfile();
+          switchProfileTab('editor');
+        } else {
+          appendLog(`[AI Agent] Parse error: ${data.detail || 'Failed to parse'}`, "error");
+          alert(`Error: ${data.detail || 'Failed to parse'}`);
+        }
+      } catch (err) {
+        appendLog(`[AI Agent] Network error during parse: ${err}`, "error");
+        alert(`Network error: ${err}`);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = oldBtnText;
+      }
+    }
+
+    async function loadFullProfile() {
+      try {
+        const res = await fetch('/api/profile');
+        const headerName = document.getElementById('headerProfileName');
+        const loadedView = document.getElementById('dashProfileLoadedView');
+        const emptyView = document.getElementById('dashProfileEmptyView');
+
+        if (!res.ok) {
+          if (headerName) headerName.innerText = "No CV Uploaded";
+          if (loadedView) loadedView.classList.add('hidden');
+          if (emptyView) emptyView.classList.remove('hidden');
+          return;
+        }
+
+        const prof = await res.json();
+        
+        // Show persistent dashboard card & hide empty state
+        if (loadedView) loadedView.classList.remove('hidden');
+        if (emptyView) emptyView.classList.add('hidden');
+
+        // Populate Dashboard Card
+        const dashName = document.getElementById('dashProfName');
+        if (dashName) dashName.innerText = prof.contact?.full_name || 'Candidate';
+
+        const dashContact = document.getElementById('dashProfContact');
+        if (dashContact) {
+          const parts = [prof.contact?.email, prof.contact?.phone, prof.contact?.location].filter(Boolean);
+          dashContact.innerText = parts.join(' • ') || 'No contact details';
+        }
+
+        const eduCount = prof.education ? prof.education.length : 0;
+        const expCount = prof.experience ? prof.experience.length : 0;
+        const projCount = prof.projects ? prof.projects.length : 0;
+        let skillCount = 0;
+        if (prof.skills && prof.skills.length > 0) {
+          prof.skills.forEach(c => skillCount += (c.skills ? c.skills.length : 0));
+        }
+
+        const dashEdu = document.getElementById('dashEduCount');
+        if (dashEdu) dashEdu.innerText = eduCount;
+        const dashExp = document.getElementById('dashExpCount');
+        if (dashExp) dashExp.innerText = expCount;
+        const dashProj = document.getElementById('dashProjCount');
+        if (dashProj) dashProj.innerText = projCount;
+        const dashSkill = document.getElementById('dashSkillCount');
+        if (dashSkill) dashSkill.innerText = skillCount;
+
+        const dashSummary = document.getElementById('dashProfSummarySnippet');
+        if (dashSummary) dashSummary.innerText = prof.summary || 'Authentic candidate ground truth baseline loaded from SQLite database.';
+
+        // Header Indicator
+        if (headerName) {
+          headerName.innerText = `${prof.contact?.full_name || 'Candidate'} (${expCount} exps)`;
+        }
+
+        // Modal Header & Info
+        document.getElementById('profName').innerText = prof.contact?.full_name || '-';
+        document.getElementById('profEmail').innerText = prof.contact?.email || '-';
+        document.getElementById('profPhoneLocation').innerText = `${prof.contact?.phone || ''} • ${prof.contact?.location || ''}`;
+        
+        const secOrder = (prof.style_preferences && prof.style_preferences.section_order) ? prof.style_preferences.section_order.join(' → ') : 'Default';
+        document.getElementById('profSectionOrder').innerText = secOrder;
+
+        document.getElementById('profSummary').innerText = prof.summary || 'No summary available.';
+
+        // Education
+        const eduContainer = document.getElementById('profEducation');
+        const eduBadge = document.getElementById('eduCountBadge');
+        if (prof.education && prof.education.length > 0) {
+          eduBadge.innerText = prof.education.length;
+          eduContainer.innerHTML = prof.education.map(edu => `
+            <div class="bg-zinc-950 p-3 rounded-lg border border-zinc-800/80">
+              <div class="flex justify-between items-baseline font-medium text-zinc-200">
+                <span class="text-zinc-100 font-semibold">${edu.degree} in ${edu.field_of_study}</span>
+                <span class="text-[10px] text-zinc-500 font-mono">${edu.start_date} - ${edu.end_date}</span>
+              </div>
+              <div class="text-[11px] text-emerald-400 mt-0.5">${edu.institution} ${edu.gpa ? '• GPA: ' + edu.gpa : ''}</div>
+              ${edu.highlights && edu.highlights.length > 0 ? `
+                <ul class="list-disc list-inside mt-2 text-zinc-400 space-y-1 text-[10px]">
+                  ${edu.highlights.map(h => `<li>${h}</li>`).join('')}
+                </ul>
+              ` : ''}
+            </div>
+          `).join('');
+        } else {
+          eduBadge.innerText = '0';
+          eduContainer.innerHTML = `<div class="text-zinc-500 italic p-3 bg-zinc-950 rounded border border-zinc-800/80">No education records found.</div>`;
+        }
+
+        // Projects
+        const projContainer = document.getElementById('profProjects');
+        const projBadge = document.getElementById('projCountBadge');
+        if (prof.projects && prof.projects.length > 0) {
+          projBadge.innerText = prof.projects.length;
+          projContainer.innerHTML = prof.projects.map(proj => `
+            <div class="bg-zinc-950 p-3 rounded-lg border border-zinc-800/80">
+              <div class="flex justify-between items-baseline">
+                <span class="font-semibold text-zinc-200">${proj.name}</span>
+                ${proj.link ? `<a href="${proj.link}" target="_blank" class="text-[10px] text-emerald-400 hover:underline">Link ↗</a>` : ''}
+              </div>
+              <p class="text-[11px] text-zinc-400 mt-1">${proj.description || ''}</p>
+              ${proj.technologies && proj.technologies.length > 0 ? `
+                <div class="flex flex-wrap gap-1 mt-2">
+                  ${proj.technologies.map(t => `<span class="px-1.5 py-0.5 rounded bg-zinc-900 text-zinc-400 border border-zinc-800 text-[9px] font-mono">${t}</span>`).join('')}
+                </div>
+              ` : ''}
+              ${proj.highlights && proj.highlights.length > 0 ? `
+                <ul class="list-disc list-inside mt-2 text-zinc-400 space-y-1 text-[10px]">
+                  ${proj.highlights.map(h => `<li>${h}</li>`).join('')}
+                </ul>
+              ` : ''}
+            </div>
+          `).join('');
+        } else {
+          projBadge.innerText = '0';
+          projContainer.innerHTML = `<div class="text-zinc-500 italic p-3 bg-zinc-950 rounded border border-zinc-800/80">No projects found.</div>`;
+        }
+
+        // Experiences
+        const expContainer = document.getElementById('profExperience');
+        const expBadge = document.getElementById('expCountBadge');
+        if (prof.experience && prof.experience.length > 0) {
+          expBadge.innerText = prof.experience.length;
+          expContainer.innerHTML = prof.experience.map(exp => `
+            <div class="bg-zinc-950 p-3 rounded-lg border border-zinc-800/80">
+              <div class="flex justify-between items-baseline font-medium text-zinc-200">
+                <span class="text-zinc-100 font-semibold">${exp.position}</span>
+                <span class="text-[10px] text-zinc-500 font-mono">${exp.start_date} - ${exp.end_date}</span>
+              </div>
+              <div class="text-[11px] text-zinc-400 mt-0.5">${exp.company} ${exp.location ? '• ' + exp.location : ''}</div>
+              ${exp.technologies && exp.technologies.length > 0 ? `
+                <div class="flex flex-wrap gap-1 mt-1.5">
+                  ${exp.technologies.map(t => `<span class="px-1.5 py-0.5 rounded bg-zinc-900 text-zinc-400 border border-zinc-800 text-[9px] font-mono">${t}</span>`).join('')}
+                </div>
+              ` : ''}
+              <ul class="list-disc list-inside mt-2 text-zinc-400 space-y-1 text-[10px]">
+                ${exp.highlights ? exp.highlights.map(h => `<li>${h}</li>`).join('') : ''}
+              </ul>
+            </div>
+          `).join('');
+        } else {
+          expBadge.innerText = '0';
+          expContainer.innerHTML = `<div class="text-zinc-500 italic p-3 bg-zinc-950 rounded border border-zinc-800/80">No work experience found.</div>`;
+        }
+
+        // Skills
+        const skillsContainer = document.getElementById('profSkills');
+        skillsContainer.innerHTML = '';
+        if (prof.skills && prof.skills.length > 0) {
+          prof.skills.forEach(cat => {
+            cat.skills.forEach(skill => {
+              const chip = document.createElement('span');
+              chip.className = 'px-2 py-0.5 rounded bg-zinc-800 text-zinc-300 text-[10px] border border-zinc-700/60 font-mono';
+              chip.innerText = skill;
+              skillsContainer.appendChild(chip);
+            });
+          });
+        } else {
+          skillsContainer.innerHTML = `<span class="text-zinc-500 italic text-[11px]">No skills listed.</span>`;
+        }
+
+        // Certifications
+        const certContainer = document.getElementById('profCertifications');
+        certContainer.innerHTML = '';
+        if (prof.certifications && prof.certifications.length > 0) {
+          prof.certifications.forEach(cert => {
+            const certName = typeof cert === 'string' ? cert : (cert.name || cert.title || JSON.stringify(cert));
+            const chip = document.createElement('span');
+            chip.className = 'px-2 py-0.5 rounded bg-emerald-950/40 text-emerald-300 text-[10px] border border-emerald-800/60 font-medium';
+            chip.innerText = `✦ ${certName}`;
+            certContainer.appendChild(chip);
+          });
+        } else {
+          certContainer.innerHTML = `<span class="text-zinc-500 italic text-[11px]">No certifications listed.</span>`;
+        }
+
+        // Adaptive Custom Sections (Awards, Publications, Languages, etc.)
+        const customSecContainer = document.getElementById('profCustomSectionsContainer');
+        const customSecBadge = document.getElementById('customSecCountBadge');
+        if (customSecContainer) {
+          customSecContainer.innerHTML = '';
+          const customSections = prof.custom_sections || [];
+          if (customSecBadge) customSecBadge.innerText = customSections.length;
+
+          if (customSections.length > 0) {
+            customSections.forEach(csec => {
+              const secCard = document.createElement('div');
+              secCard.className = 'bg-zinc-950 p-3.5 rounded-lg border border-zinc-800/80 space-y-2';
+              secCard.innerHTML = `
+                <div class="flex justify-between items-center pb-1.5 border-b border-zinc-850">
+                  <span class="text-xs font-semibold text-emerald-300 flex items-center gap-1.5">
+                    <span>❖</span> ${csec.heading}
+                  </span>
+                  <span class="text-[9px] font-mono uppercase px-1.5 py-0.5 rounded bg-zinc-850 text-zinc-400 border border-zinc-800">
+                    ${csec.items ? csec.items.length : 0} items
+                  </span>
+                </div>
+                <div class="space-y-2 pt-1">
+                  ${(csec.items || []).map(item => `
+                    <div class="text-[11px] border-b border-zinc-900 last:border-none pb-2 last:pb-0">
+                      <div class="flex justify-between items-baseline font-medium text-zinc-200">
+                        <span class="text-zinc-100 font-medium">${item.title || ''}</span>
+                        ${item.date_or_year ? `<span class="text-[10px] text-zinc-500 font-mono">${item.date_or_year}</span>` : ''}
+                      </div>
+                      ${item.subtitle ? `<div class="text-[10px] text-zinc-400 mt-0.5">${item.subtitle}</div>` : ''}
+                      ${item.description ? `<p class="text-[10px] text-zinc-400 mt-1">${item.description}</p>` : ''}
+                      ${item.bullets && item.bullets.length > 0 ? `
+                        <ul class="list-disc list-inside mt-1 text-zinc-400 space-y-0.5 text-[10px]">
+                          ${item.bullets.map(b => `<li>${b}</li>`).join('')}
+                        </ul>
+                      ` : ''}
+                    </div>
+                  `).join('')}
+                </div>
+              `;
+              customSecContainer.appendChild(secCard);
+            });
+          } else {
+            customSecContainer.innerHTML = `<div class="text-zinc-500 italic p-3 bg-zinc-950 rounded border border-zinc-800/80">No additional custom sections detected.</div>`;
+          }
+        }
+
+        // Populate raw CV text editor if available
+        if (prof.raw_cv_text) {
+          const rawCvEl = document.getElementById('rawCvInput');
+          if (rawCvEl && !rawCvEl.value) {
+            rawCvEl.value = prof.raw_cv_text;
+          }
+        }
+
+      } catch (e) {
+        console.error("Error loading profile details:", e);
+      }
+    }
+
+    function openProfileModal() {
+      document.getElementById('profileModal').classList.remove('hidden');
+      document.getElementById('profileModal').classList.add('flex');
+      loadFullProfile();
+    }
+
+    function closeProfileModal() {
+      document.getElementById('profileModal').classList.add('hidden');
+      document.getElementById('profileModal').classList.remove('flex');
+    }
+
+    async function handleCvFileSelect(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const statusEl = document.getElementById('uploadStatusMessage');
+      statusEl.classList.remove('hidden', 'text-red-400', 'text-emerald-400');
+      statusEl.classList.add('text-amber-300');
+      statusEl.innerText = `AI Agent reading and structuring "${file.name}"...`;
+
+      appendLog(`[AI Agent] Extracting text & parsing format from uploaded CV: ${file.name}...`, "info");
+
+      const formData = new FormData();
+      formData.append('file', file);
+
+      try {
+        const res = await fetch('/api/profile/upload-cv', {
+          method: 'POST',
+          body: formData
+        });
+        const data = await res.json();
+
+        if (res.ok) {
+          statusEl.classList.remove('text-amber-300');
+          statusEl.classList.add('text-emerald-400');
+          statusEl.innerText = `✓ ${data.message}`;
+          appendLog(`[AI Agent] Successfully extracted profile for ${data.profile.contact.full_name}!`, "success");
+          fetchProfileStatus();
+          await loadFullProfile();
+          switchProfileTab('editor');
+        } else {
+          statusEl.classList.remove('text-amber-300');
+          statusEl.classList.add('text-red-400');
+          statusEl.innerText = `Upload failed: ${data.detail || 'Unknown error'}`;
+          appendLog(`[AI Agent] CV parse error: ${data.detail}`, "error");
+        }
+      } catch (err) {
+        statusEl.classList.remove('text-amber-300');
+        statusEl.classList.add('text-red-400');
+        statusEl.innerText = `Network error: ${err}`;
+        appendLog(`[AI Agent] Upload request failed: ${err}`, "error");
+      }
+    }
+
+    async function fetchJobs() {
+      try {
+        const res = await fetch('/api/jobs');
+        const jobs = await res.json();
+        currentJobsList = jobs;
+        renderJobList(jobs);
+      } catch (err) {
+        console.error("Error fetching jobs:", err);
+      }
+    }
+
+    function renderJobList(jobs) {
+      const container = document.getElementById('jobList');
+      const countBadge = document.getElementById('jobCountBadge');
+
+      if (!jobs || jobs.length === 0) {
+        if (countBadge) countBadge.innerText = '0 Targets';
+        container.innerHTML = `
+          <div class="p-8 text-center border border-dashed border-zinc-800 rounded-xl text-zinc-500 text-xs">
+            No job applications added yet. Click "+ Add Job" above to start!
+          </div>`;
+        return;
+      }
+
+      if (countBadge) {
+        const tailoredCount = jobs.filter(j => j.has_resume).length;
+        countBadge.innerText = `${jobs.length} Targets · ${tailoredCount} Tailored`;
+      }
+
+      container.innerHTML = jobs.map(j => {
+        const isSelected = (currentPreviewJobId && Number(currentPreviewJobId) === Number(j.id));
+        const cardBorder = isSelected 
+          ? 'border-zinc-500 bg-zinc-850/90 ring-1 ring-zinc-700/60 shadow-md' 
+          : 'border-zinc-800 bg-zinc-900/40 hover:border-zinc-700';
+
+        const hasUrl = Boolean(j.url && j.url.startsWith('http'));
+
+        return `
+        <div data-job-id="${j.id}" class="border ${cardBorder} rounded-xl p-3.5 transition flex flex-col gap-2.5 cursor-pointer" onclick="handleCardClick(event, ${j.id}, ${j.has_resume})">
+          <div class="flex items-start justify-between gap-2">
+            <div class="min-w-0 flex-1">
+              <div class="flex items-center gap-2 flex-wrap">
+                ${hasUrl ? `
+                  <a href="${j.url}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" class="group inline-flex items-center gap-1.5 min-w-0" title="Open original job listing: ${j.url}">
+                    <h4 class="font-semibold text-xs sm:text-sm text-zinc-100 group-hover:text-emerald-400 truncate transition underline-offset-2 group-hover:underline">${j.title}</h4>
+                    <svg class="w-3.5 h-3.5 flex-shrink-0 text-zinc-500 group-hover:text-emerald-400 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                  </a>
+                ` : `
+                  <h4 class="font-semibold text-xs sm:text-sm text-zinc-100 truncate">${j.title}</h4>
+                `}
+                <span class="text-[9px] uppercase font-mono px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-400 border border-zinc-700/50">${j.platform}</span>
+              </div>
+              <p class="text-xs text-zinc-400 mt-0.5 truncate">${j.company} • <span class="text-zinc-500">${j.location}</span></p>
+            </div>
+            <div class="text-right flex-shrink-0">
+              <span class="text-xs font-mono font-semibold ${j.ats_score >= 70 ? 'text-emerald-400' : 'text-amber-400'}">
+                ATS: ${j.ats_score}%
+              </span>
+              <div class="text-[9px] uppercase font-mono text-zinc-500 mt-0.5">${j.status}</div>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between border-t border-zinc-800/80 pt-2.5">
+            <div class="flex items-center gap-1.5 flex-wrap" onclick="event.stopPropagation()">
+              <button onclick="tailorResume(${j.id})" class="px-2 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-medium transition flex items-center gap-1 shadow-sm">
+                ⚡ Tailor CV
+              </button>
+              ${j.has_resume ? `
+                <button onclick="previewResume(${j.id})" class="preview-btn px-2 py-1 rounded ${isSelected ? 'bg-zinc-100 text-zinc-950 font-semibold' : 'bg-zinc-800/50 hover:bg-zinc-700 text-zinc-300'} text-xs transition">
+                  Preview
+                </button>
+              ` : ''}
+              <button onclick="executeApply(${j.id})" class="px-2 py-1 rounded bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-medium transition">
+                🚀 Auto Apply
+              </button>
+              ${hasUrl ? `
+                <a href="${j.url}" target="_blank" rel="noopener noreferrer" class="px-2 py-1 rounded bg-zinc-850 hover:bg-zinc-800 text-emerald-400 hover:text-emerald-300 border border-emerald-500/30 text-xs font-medium transition flex items-center gap-1 shadow-sm" title="Direct link to job posting">
+                  <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                  <span>Link ↗</span>
+                </a>
+              ` : ''}
+            </div>
+            <button onclick="event.stopPropagation(); deleteJob(${j.id})" class="text-zinc-500 hover:text-red-400 text-xs transition">
+              Delete
+            </button>
+          </div>
+        </div>
+      `}).join('');
+    }
+
+    function handleCardClick(event, jobId, hasResume) {
+      if (hasResume) {
+        previewResume(jobId);
+      } else {
+        selectUntailoredJob(jobId);
+      }
+    }
+
+    async function selectUntailoredJob(jobId) {
+      currentPreviewJobId = jobId;
+      try {
+        localStorage.setItem('jobflow_active_job_id', jobId);
+      } catch (e) {}
+
+      // Visual selection highlight in job list
+      document.querySelectorAll('#jobList > div').forEach(card => {
+        const cId = card.getAttribute('data-job-id');
+        if (cId && Number(cId) === Number(jobId)) {
+          card.className = 'border border-zinc-500 bg-zinc-850/90 ring-1 ring-zinc-700/60 shadow-md rounded-xl p-3.5 transition flex flex-col gap-2.5 cursor-pointer';
+        } else {
+          card.className = 'border border-zinc-800 bg-zinc-900/40 hover:border-zinc-700 rounded-xl p-3.5 transition flex flex-col gap-2.5 cursor-pointer';
+        }
+      });
+
+      // Get job data
+      let job = (currentJobsList || []).find(x => Number(x.id) === Number(jobId));
+      try {
+        const res = await fetch(`/api/jobs/${jobId}`);
+        if (res.ok) {
+          job = await res.json();
+        }
+      } catch (e) {}
+
+      if (!job) return;
+
+      // Update header preview badge & action buttons
+      const titleBadge = document.getElementById('previewJobBadge');
+      if (titleBadge) {
+        titleBadge.innerText = `${job.title} @ ${job.company}`;
+        titleBadge.classList.remove('hidden');
+      }
+
+      const actions = document.getElementById('previewActions');
+      if (actions) actions.classList.add('hidden');
+
+      // Show details in preview placeholder
+      const wrapper = document.getElementById('previewIframeWrapper');
+      if (wrapper) wrapper.classList.add('hidden');
+      const placeholder = document.getElementById('previewEmptyPlaceholder');
+      if (placeholder) {
+        placeholder.classList.remove('hidden');
+        placeholder.innerHTML = `
+          <div class="max-w-xl w-full text-left bg-zinc-900 border border-zinc-800 rounded-2xl p-6 shadow-2xl flex flex-col gap-4 max-h-[600px] overflow-y-auto custom-scroll">
+            <div class="flex items-start justify-between gap-3 border-b border-zinc-800/80 pb-3">
+              <div>
+                <div class="flex items-center gap-2 flex-wrap">
+                  <h3 class="text-base font-bold text-zinc-100">${job.title}</h3>
+                  <span class="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-zinc-800 text-zinc-400 border border-zinc-700/50">${job.platform || 'Job'}</span>
+                </div>
+                <p class="text-xs text-zinc-400 mt-1">${job.company} • <span class="text-zinc-500">${job.location || 'Remote / Hybrid'}</span></p>
+              </div>
+              <span class="text-xs font-mono font-semibold px-2.5 py-1 rounded bg-zinc-800 text-zinc-300 border border-zinc-700/60">
+                Untailored
+              </span>
+            </div>
+
+            <div class="flex items-center gap-2 flex-wrap">
+              <button onclick="tailorResume(${job.id})" class="px-3.5 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-semibold text-xs transition flex items-center gap-1.5 shadow-sm">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                <span>⚡ Tailor CV for this Position</span>
+              </button>
+              ${job.url && job.url.startsWith('http') ? `
+                <a href="${job.url}" target="_blank" rel="noopener noreferrer" class="px-3.5 py-2 rounded-lg bg-zinc-800 hover:bg-zinc-750 text-emerald-400 hover:text-emerald-300 border border-emerald-500/30 font-medium text-xs transition flex items-center gap-1.5 shadow-sm" title="Visit original job listing">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                  <span>Open Job Posting ↗</span>
+                </a>
+              ` : ''}
+            </div>
+
+            ${job.requirements && job.requirements.length > 0 ? `
+              <div class="flex flex-col gap-1.5 pt-1">
+                <div class="text-[11px] uppercase tracking-wider font-semibold text-zinc-400">Target Requirements / Tech Stack:</div>
+                <div class="flex flex-wrap gap-1.5">
+                  ${job.requirements.map(r => `<span class="px-2 py-0.5 rounded bg-zinc-950 text-zinc-300 border border-zinc-800 text-[10px] font-mono">${r}</span>`).join('')}
+                </div>
+              </div>
+            ` : ''}
+
+            ${job.description ? `
+              <div class="flex flex-col gap-1.5 border-t border-zinc-800/80 pt-3">
+                <div class="text-[11px] uppercase tracking-wider font-semibold text-zinc-400">Job Description:</div>
+                <div class="text-xs text-zinc-400 leading-relaxed font-mono whitespace-pre-line max-h-48 overflow-y-auto custom-scroll p-3 bg-zinc-950 rounded-lg border border-zinc-800/80">
+                  ${job.description}
+                </div>
+              </div>
+            ` : ''}
+          </div>
+        `;
+      }
+    }
+
+    async function tailorResume(jobId) {
+      appendLog(`[Job #${jobId}] Initializing AI Agent Harness pipeline...`, "info");
+      document.getElementById('activeJobStatus').innerText = `TAILORING (#${jobId})`;
+      
+      try {
+        appendLog(`[AI Agent Harness] Phase 1/4: Deconstructing Job Requirements & Target Tech Stack...`, "info");
+        appendLog(`[AI Agent Harness] Phase 2/4: Cross-examining Candidate Profile against role priorities...`, "info");
+        appendLog(`[AI Agent Harness] Phase 3/4: Executing LLM synthesis with Google X-Y-Z formula...`, "info");
+        
+        const res = await fetch(`/api/resume/tailor/${jobId}`, { method: 'POST' });
+        const data = await res.json();
+
+        appendLog(`[AI Agent Harness] Phase 4/4: Schema Normalization & ATS Scoring complete! ATS: ${data.ats_score}%`, "success");
+        if (data.agent_reasoning) {
+          appendLog(`[AI Strategy] ${data.agent_reasoning.slice(0, 140)}...`, "info");
+        }
+
+        displayStrategyInsights(data);
+        fetchJobs();
+        previewResume(jobId);
+        document.getElementById('activeJobStatus').innerText = 'READY';
+      } catch (e) {
+        appendLog(`[Job #${jobId}] AI Agent Harness tailoring failed: ${e}`, "error");
+        document.getElementById('activeJobStatus').innerText = 'ERROR';
+      }
+    }
+
+    function displayStrategyInsights(tailored) {
+      const card = document.getElementById('agentStrategyCard');
+      card.classList.remove('hidden');
+
+      document.getElementById('strategyScoreBadge').innerText = `${tailored.ats_score}% ATS`;
+      document.getElementById('strategyReasoning').innerText = tailored.agent_reasoning || tailored.tailoring_notes || 'Tailored to job requirements.';
+
+      // Key strengths
+      const strengthsContainer = document.getElementById('keyStrengthsContainer');
+      strengthsContainer.innerHTML = '';
+      if (tailored.key_strengths && tailored.key_strengths.length > 0) {
+        tailored.key_strengths.forEach(s => {
+          const badge = document.createElement('span');
+          badge.className = 'px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 text-[10px] font-medium border border-emerald-500/30';
+          badge.innerText = `★ ${s}`;
+          strengthsContainer.appendChild(badge);
+        });
+      }
+
+      // Matched keywords
+      const matchedContainer = document.getElementById('matchedKeywordsList');
+      matchedContainer.innerHTML = '';
+      if (tailored.matching_keywords && tailored.matching_keywords.length > 0) {
+        tailored.matching_keywords.slice(0, 12).forEach(kw => {
+          const chip = document.createElement('span');
+          chip.className = 'px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-300 text-[10px] font-mono';
+          chip.innerText = kw;
+          matchedContainer.appendChild(chip);
+        });
+      }
+
+      // Interview talking points
+      const prepContainer = document.getElementById('interviewPrepList');
+      prepContainer.innerHTML = '';
+      if (tailored.interview_talking_points && tailored.interview_talking_points.length > 0) {
+        tailored.interview_talking_points.forEach(pt => {
+          const li = document.createElement('li');
+          li.innerText = pt;
+          prepContainer.appendChild(li);
+        });
+      } else {
+        prepContainer.innerHTML = '<li class="text-zinc-500 italic">No specific interview points generated.</li>';
+      }
+    }
+
+    let currentPreviewJobId = null;
+    let isHighlightActive = false;
+
+    function getPreviewUrl(jobId) {
+      return `/api/resume/preview/${jobId}${isHighlightActive ? '?highlight=true' : ''}`;
+    }
+
+    function getDownloadUrl(jobId) {
+      return `/api/resume/download/${jobId}${isHighlightActive ? '?highlight=true' : ''}`;
+    }
+
+    function updatePreviewUrls() {
+      if (!currentPreviewJobId) return;
+      const pUrl = getPreviewUrl(currentPreviewJobId);
+      const dUrl = getDownloadUrl(currentPreviewJobId);
+
+      const placeholder = document.getElementById('previewEmptyPlaceholder');
+      const wrapper = document.getElementById('previewIframeWrapper');
+      if (placeholder) placeholder.classList.add('hidden');
+      if (wrapper) wrapper.classList.remove('hidden');
+
+      const iframe = document.getElementById('resumeIframe');
+      if (iframe) iframe.src = pUrl;
+
+      const fsIframe = document.getElementById('fullscreenResumeIframe');
+      if (fsIframe && !document.getElementById('resumeFullscreenModal').classList.contains('hidden')) {
+        fsIframe.src = pUrl;
+      }
+
+      const downloadBtn = document.getElementById('downloadPdfBtn');
+      if (downloadBtn) downloadBtn.href = dUrl;
+
+      const fsDownloadBtn = document.getElementById('fullscreenDownloadPdfBtn');
+      if (fsDownloadBtn) fsDownloadBtn.href = dUrl;
+
+      // Update button styling
+      const btn = document.getElementById('toggleHighlightBtn');
+      const text = document.getElementById('highlightBtnText');
+      if (btn && text) {
+        if (isHighlightActive) {
+          btn.className = 'text-xs px-2.5 py-1 rounded bg-amber-500/30 text-amber-200 border border-amber-400 font-semibold flex items-center gap-1.5 transition shadow-sm';
+          text.innerText = 'Highlights ON';
+        } else {
+          btn.className = 'text-xs px-2.5 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-amber-300 border border-amber-500/30 font-medium flex items-center gap-1.5 transition';
+          text.innerText = 'AI Highlights';
+        }
+      }
+    }
+
+    function toggleResumeHighlight() {
+      isHighlightActive = !isHighlightActive;
+      updatePreviewUrls();
+      appendLog(`[Preview] Toggled AI improvement highlights ${isHighlightActive ? 'ON' : 'OFF'}.`, "info");
+    }
+
+    function clearConsole() {
+      const consoleEl = document.getElementById('logConsole');
+      if (consoleEl) {
+        consoleEl.innerHTML = '<div class="text-zinc-500">[System] Terminal output cleared. Ready.</div>';
+      }
+    }
+
+    async function previewResume(jobId, scroll = true) {
+      currentPreviewJobId = jobId;
+      try {
+        localStorage.setItem('jobflow_active_job_id', jobId);
+      } catch (e) {}
+      updatePreviewUrls();
+
+      const actions = document.getElementById('previewActions');
+      if (actions) actions.classList.remove('hidden');
+
+      // Unhide resume actions that selectUntailoredJob might have hidden
+      const dlBtn = document.getElementById('downloadPdfBtn');
+      if (dlBtn) dlBtn.classList.remove('hidden');
+      const hlBtn = document.getElementById('toggleHighlightBtn');
+      if (hlBtn) hlBtn.classList.remove('hidden');
+
+      // Resolve job details for badge
+      let job = (currentJobsList || []).find(x => Number(x.id) === Number(jobId));
+      if (!job) {
+        try {
+          const r = await fetch(`/api/jobs/${jobId}`);
+          if (r.ok) job = await r.json();
+        } catch (e) {}
+      }
+
+      const titleBadge = document.getElementById('previewJobBadge');
+      if (titleBadge && job) {
+        titleBadge.innerText = `${job.title} @ ${job.company}`;
+        titleBadge.classList.remove('hidden');
+      }
+
+      // Highlight active card in job list
+      document.querySelectorAll('#jobList > div').forEach(card => {
+        const cId = card.getAttribute('data-job-id');
+        if (cId && Number(cId) === Number(jobId)) {
+          card.className = 'border border-zinc-500 bg-zinc-850/90 ring-1 ring-zinc-700/60 shadow-md rounded-xl p-3.5 transition flex flex-col gap-2.5 cursor-pointer';
+          const pBtn = card.querySelector('.preview-btn');
+          if (pBtn) pBtn.className = 'preview-btn px-2 py-1 rounded bg-zinc-100 text-zinc-950 font-semibold text-xs transition';
+        } else {
+          card.className = 'border border-zinc-800 bg-zinc-900/40 hover:border-zinc-700 rounded-xl p-3.5 transition flex flex-col gap-2.5 cursor-pointer';
+          const pBtn = card.querySelector('.preview-btn');
+          if (pBtn) pBtn.className = 'preview-btn px-2 py-1 rounded bg-zinc-800/50 hover:bg-zinc-700 text-zinc-300 text-xs transition';
+        }
+      });
+
+      // Scroll preview into view smoothly if on small screens
+      if (scroll && window.innerWidth < 1024) {
+        document.getElementById('previewFrameContainer').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      // Also load full agent strategy and interview points for this job
+      try {
+        const res = await fetch(`/api/resume/details/${jobId}`);
+        if (res.ok) {
+          const details = await res.json();
+          displayStrategyInsights(details);
+
+          // Update preview job title badge if present
+          if (titleBadge && details.job_title) {
+            titleBadge.innerText = `${details.job_title}`;
+            titleBadge.classList.remove('hidden');
+          }
+        }
+      } catch (err) {
+        console.error("Could not fetch resume details:", err);
+      }
+    }
+
+    function openFullscreenResume() {
+      if (!currentPreviewJobId) return;
+      const fsIframe = document.getElementById('fullscreenResumeIframe');
+      fsIframe.src = getPreviewUrl(currentPreviewJobId);
+      document.getElementById('resumeFullscreenModal').classList.remove('hidden');
+      document.getElementById('resumeFullscreenModal').classList.add('flex');
+    }
+
+    function closeFullscreenResume() {
+      document.getElementById('resumeFullscreenModal').classList.add('hidden');
+      document.getElementById('resumeFullscreenModal').classList.remove('flex');
+    }
+
+    async function executeApply(jobId) {
+      appendLog(`[Job #${jobId}] Dispatching background Playwright automation worker...`, "info");
+      document.getElementById('activeJobStatus').innerText = `APPLYING (#${jobId})`;
+      
+      try {
+        await fetch(`/api/apply/execute/${jobId}`, { method: 'POST' });
+        startPolling(jobId);
+      } catch (e) {
+        appendLog(`[Job #${jobId}] Apply dispatch error: ${e}`, "error");
+      }
+    }
+
+    function startPolling(jobId) {
+      if (pollInterval) clearInterval(pollInterval);
+      pollInterval = setInterval(async () => {
+        const res = await fetch(`/api/apply/status/${jobId}`);
+        const data = await res.json();
+        
+        if (data.logs && data.logs.length > 0) {
+          const consoleEl = document.getElementById('logConsole');
+          consoleEl.innerHTML = data.logs.map(l => `<div><span class="text-zinc-600">${l.time.slice(11,19)}</span> <span class="${l.level === 'error' ? 'text-red-400' : 'text-zinc-300'}">${l.msg}</span></div>`).join('');
+          consoleEl.scrollTop = consoleEl.scrollHeight;
+        }
+
+        if (data.status === 'applied' || data.status === 'failed') {
+          clearInterval(pollInterval);
+          document.getElementById('activeJobStatus').innerText = data.status.toUpperCase();
+          fetchJobs();
+        }
+      }, 1500);
+    }
+
+    function appendLog(msg, type = "info") {
+      const consoleEl = document.getElementById('logConsole');
+      const time = new Date().toTimeString().slice(0, 8);
+      const color = type === "error" ? "text-red-400" : (type === "success" ? "text-emerald-400" : "text-zinc-300");
+      consoleEl.innerHTML += `<div><span class="text-zinc-600">${time}</span> <span class="${color}">${msg}</span></div>`;
+      while (consoleEl.children.length > 150) {
+        consoleEl.removeChild(consoleEl.firstChild);
+      }
+      consoleEl.scrollTop = consoleEl.scrollHeight;
+    }
+
+    function openAddJobModal() {
+      document.getElementById('addJobModal').classList.remove('hidden');
+      document.getElementById('addJobModal').classList.add('flex');
+    }
+
+    function closeAddJobModal() {
+      document.getElementById('addJobModal').classList.add('hidden');
+      document.getElementById('addJobModal').classList.remove('flex');
+    }
+
+    function openAutoScrapModal() {
+      document.getElementById('autoScrapModal').classList.remove('hidden');
+      document.getElementById('autoScrapModal').classList.add('flex');
+      loadAutoScrapPreview();
+    }
+
+    function closeAutoScrapModal() {
+      document.getElementById('autoScrapModal').classList.add('hidden');
+      document.getElementById('autoScrapModal').classList.remove('flex');
+    }
+
+    async function loadAutoScrapPreview() {
+      const candidateNameEl = document.getElementById('autoScrapCandidateName');
+      const titlesContainer = document.getElementById('autoScrapTitlesList');
+      const skillsContainer = document.getElementById('autoScrapSkillsList');
+      const warningEl = document.getElementById('autoScrapNoProfileWarning');
+      const criteriaContent = document.getElementById('autoScrapCriteriaContent');
+
+      try {
+        const res = await fetch('/api/jobs/auto-discover/preview-queries');
+        if (!res.ok) {
+          warningEl.classList.remove('hidden');
+          criteriaContent.classList.add('hidden');
+          if (candidateNameEl) candidateNameEl.innerText = 'No profile';
+          return;
+        }
+
+        const data = await res.json();
+        const c = data.criteria;
+        warningEl.classList.add('hidden');
+        criteriaContent.classList.remove('hidden');
+
+        if (candidateNameEl) {
+          candidateNameEl.innerText = c.candidate_name ? `${c.candidate_name} (${c.seniority_level || 'Mid'})` : 'Candidate CV';
+        }
+
+        if (titlesContainer && c.target_roles) {
+          titlesContainer.innerHTML = c.target_roles.map(r => 
+            `<span class="px-2 py-0.5 rounded bg-zinc-850 text-zinc-200 border border-zinc-700 text-[10px] font-medium">${r}</span>`
+          ).join('');
+        }
+
+        if (skillsContainer && c.core_skills) {
+          skillsContainer.innerHTML = c.core_skills.slice(0, 8).map(s => 
+            `<span class="px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 text-[9.5px] font-mono">${s}</span>`
+          ).join('');
+        }
+
+        const locInput = document.getElementById('autoScrapLocation');
+        if (locInput && c.location && (!locInput.value || locInput.value === 'Indonesia')) {
+          locInput.value = c.location;
+        }
+
+      } catch (err) {
+        console.error("Error loading auto-scrap preview criteria:", err);
+      }
+    }
+
+    async function runAutoScrap() {
+      const btn = document.getElementById('runAutoScrapBtn');
+      const statusText = document.getElementById('autoScrapStatusText');
+      const originalBtnText = btn.innerHTML;
+
+      // Harvest platforms
+      const platforms = [];
+      if (document.getElementById('platformJobStreet').checked) platforms.push('jobstreet');
+      if (document.getElementById('platformLinkedIn').checked) platforms.push('linkedin');
+      if (document.getElementById('platformGlints').checked) platforms.push('glints');
+      if (document.getElementById('platformRemoteOK').checked) platforms.push('remoteok');
+
+      if (platforms.length === 0) {
+        alert('Please select at least one platform.');
+        return;
+      }
+
+      const minRelevance = parseFloat(document.getElementById('minRelevanceSlider').value) || 60.0;
+      const maxJobs = parseInt(document.getElementById('maxJobsInput').value) || 8;
+      const location = document.getElementById('autoScrapLocation').value.trim() || undefined;
+      const customQueriesVal = document.getElementById('autoScrapCustomQueries').value.trim();
+      const customQueries = customQueriesVal ? customQueriesVal.split(',').map(s => s.trim()).filter(Boolean) : undefined;
+
+      // Update UI state
+      btn.disabled = true;
+      btn.innerHTML = `<svg class="animate-spin -ml-1 mr-2 h-3.5 w-3.5 text-zinc-950" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg> Scraping & Filtering...`;
+      statusText.innerText = 'Scraping and analyzing job matches...';
+
+      appendLog(`[Auto-Scraper] Initializing discovery across ${platforms.join(', ')} (Min Relevance: ${minRelevance}%)...`, "info");
+      document.getElementById('activeJobStatus').innerText = 'HARVESTING';
+
+      try {
+        const res = await fetch('/api/jobs/auto-discover', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            platforms,
+            min_relevance: minRelevance,
+            max_jobs: maxJobs,
+            location,
+            custom_queries: customQueries
+          })
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          appendLog(`[Auto-Scraper] Harvesting complete! Found ${data.total_found} listings across platforms.`, "success");
+          appendLog(`[Relevance Guard] Passed: ${data.total_relevant} | Irrelevant/Mismatch: ${data.total_rejected} | Newly Saved to DB: ${data.saved_jobs.length}`, "info");
+
+          if (data.saved_jobs && data.saved_jobs.length > 0) {
+            data.saved_jobs.forEach(sj => {
+              appendLog(`[Discovery] + Added: "${sj.title}" @ ${sj.company} (${sj.platform.toUpperCase()}) - Match: ${sj.relevance_score}%`, "success");
+            });
+          } else {
+            appendLog(`[Discovery] No new qualifying jobs above ${minRelevance}% threshold to add.`, "info");
+          }
+
+          statusText.innerText = `Saved ${data.saved_jobs.length} jobs!`;
+          await fetchJobs();
+
+          setTimeout(() => {
+            closeAutoScrapModal();
+            statusText.innerText = 'Ready to harvest.';
+          }, 1200);
+
+          document.getElementById('activeJobStatus').innerText = 'READY';
+
+          if (data.saved_jobs && data.saved_jobs.length > 0) {
+            // Auto select first saved job in detail pane
+            selectUntailoredJob(data.saved_jobs[0].id);
+          }
+        } else {
+          appendLog(`[Auto-Scraper] Discovery error: ${data.detail || 'Failed'}`, "error");
+          statusText.innerText = 'Error occurred during discovery.';
+          document.getElementById('activeJobStatus').innerText = 'ERROR';
+          alert(`Error: ${data.detail || 'Failed to auto-discover'}`);
+        }
+      } catch (err) {
+        appendLog(`[Auto-Scraper] Network error: ${err}`, "error");
+        statusText.innerText = 'Network error.';
+        document.getElementById('activeJobStatus').innerText = 'ERROR';
+        alert(`Network error: ${err}`);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = originalBtnText;
+      }
+    }
+
+    async function extractFromUrl() {
+      const url = document.getElementById('jobUrlInput').value;
+      if (!url) return;
+      const btn = document.getElementById('extractBtn');
+      btn.innerText = 'Extracting...';
+      try {
+        const res = await fetch('/api/jobs/extract', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url })
+        });
+        const data = await res.json();
+        document.getElementById('jobTitleInput').value = data.title || '';
+        document.getElementById('jobCompanyInput').value = data.company || '';
+        document.getElementById('jobDescInput').value = data.description || '';
+      } catch (e) {
+        alert('Could not auto-extract URL. You can paste description manually.');
+      } finally {
+        btn.innerText = 'Extract';
+      }
+    }
+
+    async function submitJob() {
+      const title = document.getElementById('jobTitleInput').value;
+      const company = document.getElementById('jobCompanyInput').value;
+      const desc = document.getElementById('jobDescInput').value;
+      const url = document.getElementById('jobUrlInput').value;
+
+      if (!title || !company) {
+        alert('Please provide title and company.');
+        return;
+      }
+
+      const res = await fetch('/api/jobs', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title,
+          company,
+          description: desc,
+          url: url || null,
+          platform: url && url.includes('linkedin') ? 'linkedin' : (url && url.includes('jobstreet') ? 'jobstreet' : 'generic')
+        })
+      });
+
+      const data = await res.json();
+      closeAddJobModal();
+      await fetchJobs();
+      if (data && data.id) {
+        selectUntailoredJob(data.id);
+      }
+    }
+
+    function openStorageModal() {
+      document.getElementById('storageModal').classList.remove('hidden');
+      document.getElementById('storageModal').classList.add('flex');
+      loadStorageStats();
+    }
+
+    function closeStorageModal() {
+      document.getElementById('storageModal').classList.add('hidden');
+      document.getElementById('storageModal').classList.remove('flex');
+    }
+
+    async function loadStorageStats() {
+      try {
+        const res = await fetch('/api/jobs/storage/stats');
+        if (res.ok) {
+          const stats = await res.json();
+          const totalEl = document.getElementById('storageTotalFiles');
+          const mbEl = document.getElementById('storageTotalMb');
+          const orphanEl = document.getElementById('storageOrphanedCount');
+          const briefEl = document.getElementById('headerStorageBadge');
+
+          if (totalEl) totalEl.innerText = stats.total_files;
+          if (mbEl) mbEl.innerText = `${stats.total_size_mb} MB`;
+          if (orphanEl) orphanEl.innerText = stats.orphaned_count;
+          if (briefEl) briefEl.innerText = stats.orphaned_count > 0 ? `Storage (${stats.orphaned_count} orphans)` : 'Storage';
+        }
+      } catch (e) {
+        console.error("Could not fetch storage stats:", e);
+      }
+    }
+
+    async function executeStorageCleanup(mode) {
+      if (mode === 'all') {
+        if (!confirm('Purge all generated resume PDFs? Job records will remain in pipeline, but tailored PDFs will need to be re-tailored.')) return;
+      }
+      appendLog(`[Storage] Running cleanup (${mode})...`, "info");
+      try {
+        const res = await fetch('/api/jobs/storage/cleanup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ mode })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          appendLog(`[Storage] ${data.message}`, "success");
+          await loadStorageStats();
+          await fetchJobs();
+        } else {
+          appendLog(`[Storage] Cleanup error: ${data.detail || 'Failed'}`, "error");
+        }
+      } catch (err) {
+        appendLog(`[Storage] Cleanup network error: ${err}`, "error");
+      }
+    }
+
+    async function executeClearAllJobs() {
+      if (!confirm('Are you sure you want to delete ALL job applications and purge all output files? This cannot be undone.')) return;
+      appendLog(`[Storage] Purging all job applications and output files...`, "info");
+      try {
+        const res = await fetch('/api/jobs/clear-all?delete_files=true', {
+          method: 'DELETE'
+        });
+        const data = await res.json();
+        if (res.ok) {
+          appendLog(`[Storage] ${data.message}`, "success");
+          currentPreviewJobId = null;
+          const iframe = document.getElementById('resumeIframe');
+          if (iframe) iframe.src = 'about:blank';
+          const actions = document.getElementById('previewActions');
+          if (actions) actions.classList.add('hidden');
+          const placeholder = document.getElementById('previewEmptyPlaceholder');
+          const wrapper = document.getElementById('previewIframeWrapper');
+          if (placeholder) placeholder.classList.remove('hidden');
+          if (wrapper) wrapper.classList.add('hidden');
+          const strategyCard = document.getElementById('agentStrategyCard');
+          if (strategyCard) strategyCard.classList.add('hidden');
+          const titleBadge = document.getElementById('previewJobBadge');
+          if (titleBadge) titleBadge.classList.add('hidden');
+
+          await loadStorageStats();
+          await fetchJobs();
+          closeStorageModal();
+        } else {
+          appendLog(`[Storage] Error: ${data.detail || 'Failed to clear'}`, "error");
+        }
+      } catch (err) {
+        appendLog(`[Storage] Network error: ${err}`, "error");
+      }
+    }
+
+    async function deleteJob(id) {
+      if (!confirm('Delete this job record and its generated output files?')) return;
+      try {
+        if (localStorage.getItem('jobflow_active_job_id') == id) {
+          localStorage.removeItem('jobflow_active_job_id');
+        }
+      } catch (e) {}
+
+      if (currentPreviewJobId && Number(currentPreviewJobId) === Number(id)) {
+        currentPreviewJobId = null;
+        const iframe = document.getElementById('resumeIframe');
+        if (iframe) iframe.src = 'about:blank';
+        const actions = document.getElementById('previewActions');
+        if (actions) actions.classList.add('hidden');
+        const placeholder = document.getElementById('previewEmptyPlaceholder');
+        const wrapper = document.getElementById('previewIframeWrapper');
+        if (placeholder) placeholder.classList.remove('hidden');
+        if (wrapper) wrapper.classList.add('hidden');
+        const strategyCard = document.getElementById('agentStrategyCard');
+        if (strategyCard) strategyCard.classList.add('hidden');
+        const titleBadge = document.getElementById('previewJobBadge');
+        if (titleBadge) titleBadge.classList.add('hidden');
+      }
+
+      const res = await fetch(`/api/jobs/${id}`, { method: 'DELETE' });
+      if (res.ok) {
+        const data = await res.json();
+        const filesCount = data.deleted_files ? data.deleted_files.length : 0;
+        appendLog(`[Storage] Deleted job #${id}${filesCount > 0 ? ` and ${filesCount} associated files` : ''}.`, "info");
+      }
+      await fetchJobs();
+      await loadStorageStats();
+    }
+  </script>
+</body>
+</html>
