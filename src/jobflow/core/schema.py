@@ -1,6 +1,6 @@
 """Pydantic schemas for JobFlow AI core data structures."""
 
-from typing import List, Optional, Dict, Any
+from typing import List, Optional, Dict, Any, Union
 from pydantic import BaseModel, Field, HttpUrl
 from enum import Enum
 
@@ -72,6 +72,30 @@ class QAPair(BaseModel):
     answer: str
 
 
+class StylePreferences(BaseModel):
+    section_order: List[str] = Field(
+        default_factory=lambda: ["summary", "skills", "experience", "education", "projects", "certifications"]
+    )
+    layout_style: str = "modern_clean"  # modern_clean, classic_executive, compact_tech
+    accent_color: str = "#111827"
+    font_family: str = "Helvetica Neue, Helvetica, Arial, sans-serif"
+    bullet_style: str = "bullet"
+
+
+class CustomSectionItem(BaseModel):
+    title: Optional[str] = None
+    subtitle: Optional[str] = None
+    date_or_year: Optional[str] = None
+    description: Optional[str] = None
+    bullets: List[str] = Field(default_factory=list)
+
+
+class CustomSection(BaseModel):
+    id: str
+    heading: str
+    items: List[CustomSectionItem] = Field(default_factory=list)
+
+
 class MasterProfile(BaseModel):
     contact: ContactInfo
     summary: str
@@ -79,8 +103,11 @@ class MasterProfile(BaseModel):
     experience: List[WorkExperience]
     education: List[Education]
     projects: List[Project] = Field(default_factory=list)
-    certifications: List[str] = Field(default_factory=list)
+    certifications: List[Union[str, Dict[str, Any]]] = Field(default_factory=list)
+    custom_sections: List[CustomSection] = Field(default_factory=list)
     common_answers: List[QAPair] = Field(default_factory=list)
+    style_preferences: Optional[StylePreferences] = Field(default_factory=StylePreferences)
+    raw_cv_text: Optional[str] = None
 
 
 class JobListing(BaseModel):
@@ -103,13 +130,19 @@ class TailoredResume(BaseModel):
     experience: List[WorkExperience]
     education: List[Education]
     projects: List[Project] = Field(default_factory=list)
-    certifications: List[str] = Field(default_factory=list)
+    certifications: List[Union[str, Dict[str, Any]]] = Field(default_factory=list)
+    custom_sections: List[CustomSection] = Field(default_factory=list)
     job_title_target: str
     target_company: str
     ats_score: float = 0.0
     matching_keywords: List[str] = Field(default_factory=list)
     missing_keywords: List[str] = Field(default_factory=list)
     tailoring_notes: Optional[str] = None
+    style_preferences: Optional[StylePreferences] = Field(default_factory=StylePreferences)
+    agent_reasoning: Optional[str] = None
+    key_strengths: List[str] = Field(default_factory=list)
+    interview_talking_points: List[str] = Field(default_factory=list)
+    job_fit_summary: Optional[Dict[str, Any]] = None
 
 
 class ATSAnalysisResult(BaseModel):

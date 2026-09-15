@@ -17,19 +17,20 @@ class PDFGenerator:
         self.env = Environment(loader=FileSystemLoader(str(TEMPLATES_DIR)))
         self.html_template = self.env.get_template("resume_clean.html")
 
-    def render_html(self, resume: TailoredResume | MasterProfile) -> str:
-        """Render resume data into HTML."""
-        return self.html_template.render(resume=resume)
+    def render_html(self, resume: TailoredResume | MasterProfile, show_highlights: bool = False) -> str:
+        """Render resume data into HTML with optional AI improvement highlights."""
+        return self.html_template.render(resume=resume, show_highlights=show_highlights)
 
     async def generate_pdf(
         self,
         resume: TailoredResume | MasterProfile,
         output_filename: str = "tailored_resume.pdf",
-        method: str = "auto"
+        method: str = "auto",
+        show_highlights: bool = False
     ) -> Path:
         """Generate PDF using best available method (Playwright > WeasyPrint > Typst > ReportLab)."""
         output_path = OUTPUT_DIR / output_filename
-        rendered_html = self.render_html(resume)
+        rendered_html = self.render_html(resume, show_highlights=show_highlights)
 
         if method == "typst" or (method == "auto" and shutil.which("typst")):
             typst_success = await self._render_with_typst(resume, output_path)
@@ -228,35 +229,71 @@ class PDFGenerator:
         story.append(Paragraph(contact_str, contact_style))
         story.append(Spacer(1, 8))
 
-        # Summary
-        if resume.summary:
-            story.append(Paragraph("<b>PROFESSIONAL SUMMARY</b>", sec_header_style))
-            story.append(Paragraph(resume.summary, body_style))
-            story.append(Spacer(1, 4))
-
-        # Skills
-        if resume.skills:
-            story.append(Paragraph("<b>TECHNICAL SKILLS</b>", sec_header_style))
-            for cat in resume.skills:
-                story.append(Paragraph(f"<b>{cat.category}:</b> {', '.join(cat.skills)}", body_style))
-            story.append(Spacer(1, 4))
-
-        # Experience
-        if resume.experience:
-            story.append(Paragraph("<b>WORK EXPERIENCE</b>", sec_header_style))
-            for exp in resume.experience:
-                story.append(Paragraph(f"<b>{exp.position}</b> — {exp.company} ({exp.start_date} - {exp.end_date})", body_style))
-                for hl in exp.highlights:
-                    story.append(Paragraph(f"• {hl}", bullet_style))
+        def add_summary():
+            if resume.summary:
+                story.append(Paragraph("<b>PROFESSIONAL SUMMARY</b>", sec_header_style))
+                story.append(Paragraph(resume.summary, body_style))
                 story.append(Spacer(1, 4))
 
-        # Education
-        if resume.education:
-            story.append(Paragraph("<b>EDUCATION</b>", sec_header_style))
-            for edu in resume.education:
-                story.append(Paragraph(f"<b>{edu.institution}</b> — {edu.degree} in {edu.field_of_study} ({edu.start_date} - {edu.end_date})", body_style))
-                for hl in edu.highlights:
-                    story.append(Paragraph(f"• {hl}", bullet_style))
+        def add_skills():
+            if resume.skills:
+                story.append(Paragraph("<b>TECHNICAL SKILLS</b>", sec_header_style))
+                for cat in resume.skills:
+                    story.append(Paragraph(f"<b>{cat.category}:</b> {', '.join(cat.skills)}", body_style))
                 story.append(Spacer(1, 4))
+
+        def add_experience():
+            if resume.experience:
+                story.append(Paragraph("<b>WORK EXPERIENCE</b>", sec_header_style))
+                for exp in resume.experience:
+                    story.append(Paragraph(f"<b>{exp.position}</b> — {exp.company} ({exp.start_date} - {exp.end_date})", body_style))
+                    for hl in exp.highlights:
+                        story.append(Paragraph(f"• {hl}", bullet_style))
+                    story.append(Spacer(1, 4))
+
+        def add_projects():
+            if getattr(resume, "projects", None):
+                story.append(Paragraph("<b>FEATURED PROJECTS</b>", sec_header_style))
+                for proj in resume.projects:
+                    tech_str = f" | {', '.join(proj.technologies)}" if proj.technologies else ""
+                    story.append(Paragraph(f"<b>{proj.name}</b>{tech_str}", body_style))
+                    if proj.description:
+                        story.append(Paragraph(proj.description, body_style))
+                    for hl in proj.highlights:
+                        story.append(Paragraph(f"• {hl}", bullet_style))
+                    story.append(Spacer(1, 4))
+
+        def add_education():
+            if resume.education:
+                story.append(Paragraph("<b>EDUCATION</b>", sec_header_style))
+                for edu in resume.education:
+                    story.append(Paragraph(f"<b>{edu.institution}</b> — {edu.degree} in {edu.field_of_study} ({edu.start_date} - {edu.end_date})", body_style))
+                    for hl in edu.highlights:
+                        story.append(Paragraph(f"• {hl}", bullet_style))
+                    story.append(Spacer(1, 4))
+
+        def add_certifications():
+            if getattr(resume, "certifications", None):
+                story.append(Paragraph("<b>CERTIFICATIONS</b>", sec_header_style))
+                for cert in resume.certifications:
+                    story.append(Paragraph(f"• {cert}", bullet_style))
+                story.append(Spacer(1, 4))
+
+        section_dispatch = {
+            "summary": add_summary,
+            "skills": add_skills,
+            "experience": add_experience,
+            "projects": add_projects,
+            "education": add_education,
+            "certifications": add_certifications,
+        }
+
+        order = ["summary", "skills", "experience", "education", "projects", "certifications"]
+        if getattr(resume, "style_preferences", None) and resume.style_preferences.section_order:
+            order = resume.style_preferences.section_order
+
+        for sec in order:
+            if sec in section_dispatch:
+                section_dispatch[sec]()
 
         doc.build(story)

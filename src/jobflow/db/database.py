@@ -11,9 +11,18 @@ async_session = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False
 
 
 async def init_db():
-    """Initialize database tables."""
+    """Initialize database tables and auto-seed profile if table is empty."""
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
+
+    # Auto-seed profile from master_profile.json if empty
+    try:
+        from jobflow.db.profile_repo import get_active_profile
+        async with async_session() as session:
+            await get_active_profile(session)
+    except Exception as e:
+        import logging
+        logging.getLogger("jobflow.db").warning(f"Could not auto-seed profile during init_db: {e}")
 
 
 async def get_db():

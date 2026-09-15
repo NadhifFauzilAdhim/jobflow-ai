@@ -54,4 +54,6 @@ settings = Settings()
 # Ensure directories exist
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+STATIC_DIR.mkdir(parents=True, exist_ok=True)
+TEMPLATES_DIR.mkdir(parents=True, exist_ok=True)
 Path(settings.USER_DATA_DIR).mkdir(parents=True, exist_ok=True)

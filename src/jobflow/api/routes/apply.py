@@ -12,7 +12,9 @@ from jobflow.automations.applier import JobApplier
 from jobflow.core.resume_engine import ResumeEngine
 from jobflow.core.pdf_generator import PDFGenerator
 from jobflow.config import settings
+from jobflow.db.profile_repo import get_active_profile
 import json
+import os
 import logging
 
 logger = logging.getLogger("jobflow.apply_route")
@@ -27,27 +29,33 @@ async def run_application_background(job_id: int):
             return
 
         record.status = ApplicationStatus.APPLYING.value
-        record.logs = [{"time": datetime.utcnow().isoformat(), "msg": "Starting application automation worker...", "level": "info"}]
+        record.logs = [{"time": datetime.utcnow().isoformat(), "msg": f"Starting application automation worker for {record.title}...", "level": "info"}]
         await db.commit()
 
         def log_cb(msg: str, level: str = "info"):
+            entry = {"time": datetime.utcnow().isoformat(), "msg": msg, "level": level}
             current_logs = list(record.logs or [])
-            current_logs.append({"time": datetime.utcnow().isoformat(), "msg": msg, "level": level})
+            current_logs.append(entry)
             record.logs = current_logs
 
         try:
-            # Ensure resume exists
+            log_cb(f"Starting auto-apply process for {record.title} at {record.company}...")
+
+            # Ensure tailored resume exists
             if not record.resume_pdf_path or not Path(record.resume_pdf_path).exists():
-                log_cb("Generating tailored resume before applying...")
-                engine = ResumeEngine()
+                log_cb("No existing tailored resume PDF found. Generating tailored resume on the fly...")
                 job_schema = JobListing(
                     id=str(record.id),
                     title=record.title,
                     company=record.company,
+                    location=record.location,
                     url=record.url,
+                    platform=PlatformType(record.platform) if record.platform in PlatformType._value2member_map_ else PlatformType.GENERIC,
                     description=record.description or "",
                     requirements=record.requirements or []
                 )
+                active_profile = await get_active_profile(db)
+                engine = ResumeEngine(master_profile=active_profile)
                 tailored = await engine.tailor_resume(job_schema)
                 generator = PDFGenerator()
                 pdf_name = f"resume_{record.id}_{record.company.lower().replace(' ', '_')}.pdf"
@@ -56,8 +64,13 @@ async def run_application_background(job_id: int):
                 record.tailored_resume_data = tailored.model_dump()
                 record.ats_score = tailored.ats_score
 
-            with open(settings.MASTER_PROFILE_PATH, "r", encoding="utf-8") as f:
-                profile = MasterProfile(**json.load(f))
+            profile = await get_active_profile(db)
+            if not profile and os.path.exists(settings.MASTER_PROFILE_PATH):
+                with open(settings.MASTER_PROFILE_PATH, "r", encoding="utf-8") as f:
+                    profile = MasterProfile(**json.load(f))
+
+            if not profile:
+                raise ValueError("No candidate profile found in database or file cache.")
 
             applier = JobApplier(profile)
             job_listing = JobListing(

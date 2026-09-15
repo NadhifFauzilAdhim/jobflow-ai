@@ -10,6 +10,7 @@ from jobflow.core.schema import JobListing, TailoredResume, ATSAnalysisResult, P
 from jobflow.core.resume_engine import ResumeEngine
 from jobflow.core.pdf_generator import PDFGenerator
 from jobflow.core.ats_scorer import evaluate_ats
+from jobflow.db.profile_repo import get_active_profile
 
 router = APIRouter(prefix="/api/resume", tags=["Resume"])
 
@@ -31,7 +32,8 @@ async def tailor_resume_for_job(job_id: int, db: AsyncSession = Depends(get_db))
         requirements=record.requirements or []
     )
 
-    engine = ResumeEngine()
+    active_profile = await get_active_profile(db)
+    engine = ResumeEngine(master_profile=active_profile)
     tailored = await engine.tailor_resume(job)
 
     # Generate PDF
@@ -54,20 +56,24 @@ async def tailor_resume_for_job(job_id: int, db: AsyncSession = Depends(get_db))
 
 
 @router.get("/download/{job_id}")
-async def download_resume_pdf(job_id: int, db: AsyncSession = Depends(get_db)):
+async def download_resume_pdf(job_id: int, highlight: bool = False, db: AsyncSession = Depends(get_db)):
     record = await db.get(JobApplicationRecord, job_id)
-    if not record or not record.resume_pdf_path:
-        raise HTTPException(status_code=404, detail="Resume PDF not found for this job")
+    if not record or not record.tailored_resume_data:
+        raise HTTPException(status_code=404, detail="Tailored resume data not found for this job")
     
-    file_path = Path(record.resume_pdf_path)
-    if not file_path.exists():
-        # Re-generate on the fly
-        if record.tailored_resume_data:
-            tailored = TailoredResume(**record.tailored_resume_data)
-            generator = PDFGenerator()
-            file_path = await generator.generate_pdf(tailored, output_filename=file_path.name)
-        else:
-            raise HTTPException(status_code=404, detail="PDF file does not exist on disk")
+    tailored = TailoredResume(**record.tailored_resume_data)
+    generator = PDFGenerator()
+
+    if highlight:
+        highlighted_filename = f"resume_{record.id}_{record.company.lower().replace(' ', '_')}_highlighted.pdf"
+        file_path = await generator.generate_pdf(tailored, output_filename=highlighted_filename, show_highlights=True)
+    else:
+        file_path = Path(record.resume_pdf_path) if record.resume_pdf_path else None
+        if not file_path or not file_path.exists():
+            clean_filename = f"resume_{record.id}_{record.company.lower().replace(' ', '_')}.pdf"
+            file_path = await generator.generate_pdf(tailored, output_filename=clean_filename, show_highlights=False)
+            record.resume_pdf_path = str(file_path)
+            await db.commit()
 
     return FileResponse(
         path=str(file_path),
@@ -77,11 +83,19 @@ async def download_resume_pdf(job_id: int, db: AsyncSession = Depends(get_db)):
 
 
 @router.get("/preview/{job_id}", response_class=HTMLResponse)
-async def preview_resume_html(job_id: int, db: AsyncSession = Depends(get_db)):
+async def preview_resume_html(job_id: int, highlight: bool = False, db: AsyncSession = Depends(get_db)):
     record = await db.get(JobApplicationRecord, job_id)
     if not record or not record.tailored_resume_data:
         raise HTTPException(status_code=404, detail="Tailored resume data not found")
     
     tailored = TailoredResume(**record.tailored_resume_data)
     generator = PDFGenerator()
-    return generator.render_html(tailored)
+    return generator.render_html(tailored, show_highlights=highlight)
+
+
+@router.get("/details/{job_id}", response_model=TailoredResume)
+async def get_tailored_resume_details(job_id: int, db: AsyncSession = Depends(get_db)):
+    record = await db.get(JobApplicationRecord, job_id)
+    if not record or not record.tailored_resume_data:
+        raise HTTPException(status_code=404, detail="Tailored resume data not found")
+    return TailoredResume(**record.tailored_resume_data)
