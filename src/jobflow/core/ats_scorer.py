@@ -108,3 +108,46 @@ def evaluate_ats(resume: TailoredResume | MasterProfile, job: JobListing) -> ATS
         missing_keywords=missing,
         suggestions=suggestions
     )
+
+
+class ATSScorer:
+    """Object-oriented engine for standalone ATS matching and keyword scoring."""
+
+    def calculate_score(
+        self,
+        resume_text: str,
+        job_description: str,
+        required_keywords: List[str] | None = None
+    ) -> dict:
+        job_text = f"{job_description} {' '.join(required_keywords or [])}"
+        job_keywords = extract_keywords(job_text, max_keywords=35)
+        resume_tokens = set(clean_and_tokenize(resume_text))
+        
+        matched: List[str] = []
+        missing: List[str] = []
+        
+        for kw in job_keywords:
+            if kw in resume_tokens or any(kw in tok for tok in resume_tokens):
+                matched.append(kw)
+            else:
+                missing.append(kw)
+                
+        total = len(job_keywords)
+        score = (len(matched) / total * 100.0) if total > 0 else 100.0
+        score = round(min(100.0, max(0.0, score)), 1)
+        
+        suggestions = []
+        if score < 70:
+            suggestions.append(f"Incorporate missing core keywords: {', '.join(missing[:5])}")
+        if len(matched) < 10:
+            suggestions.append("Highlight specific tech stacks and metrics matching this job description.")
+        if not suggestions:
+            suggestions.append("Great alignment! Resume matches high-priority job keywords.")
+            
+        return {
+            "score": score,
+            "matched_keywords": matched,
+            "missing_keywords": missing,
+            "suggestions": suggestions
+        }
+

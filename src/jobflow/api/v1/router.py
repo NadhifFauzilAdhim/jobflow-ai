@@ -6,7 +6,7 @@ Job Extractor, Auto-Discovery, Application Pipeline) for external applications.
 
 import io
 from typing import List, Optional
-from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Response, status
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Response, BackgroundTasks, status
 from pydantic import BaseModel, Field
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -24,8 +24,8 @@ from jobflow.core.resume_engine import ResumeEngine
 from jobflow.core.pdf_generator import PDFGenerator
 from jobflow.core.storage_cleaner import delete_job_files
 from jobflow.core.job_discovery_harness import JobDiscoveryHarness
-from jobflow.extractors.platform_extractors import PlatformExtractor
-from jobflow.automations.applier import apply_worker
+from jobflow.extractors.platform_extractors import get_job_extractor
+from jobflow.api.routes.apply import run_application_background
 from jobflow.api.deps import require_developer_auth
 
 router = APIRouter(
@@ -147,8 +147,8 @@ class AutoDiscoverApiRequest(BaseModel):
 async def extract_job_from_url(req: ExtractJobRequest):
     """Extract clean, structured job metadata from an external job listing URL."""
     try:
-        extractor = PlatformExtractor()
-        job = await extractor.extract(req.url)
+        extractor = get_job_extractor(req.url)
+        job = await extractor.extract_from_url(req.url)
         return job
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Failed to extract job from URL: {str(e)}")
@@ -313,6 +313,7 @@ async def update_candidate_profile(
 @router.post("/apply/execute/{job_id}", response_model=dict)
 async def execute_automated_application(
     job_id: int,
+    background_tasks: BackgroundTasks,
     headless: bool = True,
     db: AsyncSession = Depends(get_db)
 ):
@@ -325,8 +326,7 @@ async def execute_automated_application(
     if not profile:
         raise HTTPException(status_code=400, detail="Active profile required for auto-apply")
 
-    import asyncio
-    asyncio.create_task(apply_worker(job_id=job_id, headless=headless))
+    background_tasks.add_task(run_application_background, job_id)
     return {"status": "dispatched", "job_id": job_id, "message": "Automation worker running in background"}
 
 
