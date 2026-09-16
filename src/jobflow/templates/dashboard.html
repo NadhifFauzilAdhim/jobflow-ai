@@ -42,24 +42,9 @@
     .custom-scroll::-webkit-scrollbar-thumb {
       background: #27272a;
       border-radius: 3px;
-    }
-    @keyframes indeterminateProgress {
-      0% { transform: translateX(-100%) scaleX(0.2); }
-      50% { transform: translateX(0%) scaleX(0.7); }
-      100% { transform: translateX(100%) scaleX(0.2); }
-    }
-    .animate-progress-shimmer {
-      animation: indeterminateProgress 1.4s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
-      transform-origin: 0% 50%;
-    }
   </style>
 </head>
 <body class="min-h-screen flex flex-col antialiased selection:bg-zinc-800 selection:text-white relative">
-
-  <!-- Top Global Shimmering Progress Bar -->
-  <div id="globalProgressBar" class="fixed top-0 left-0 right-0 h-1 bg-zinc-850/80 z-50 hidden overflow-hidden">
-    <div class="h-full w-full bg-gradient-to-r from-emerald-500 via-teal-300 to-emerald-400 animate-progress-shimmer"></div>
-  </div>
 
   <!-- Floating Bottom-Right Active Process Toast -->
   <div id="globalProcessToast" class="fixed bottom-5 right-5 z-50 hidden bg-zinc-900/95 backdrop-blur-md border border-emerald-500/40 text-zinc-100 px-4 py-2.5 rounded-xl shadow-2xl items-center gap-3 transition-all duration-300">
@@ -1040,9 +1025,6 @@
     let tailorInterval = null;
 
     function showGlobalLoader(message = 'Sedang memproses...') {
-      const bar = document.getElementById('globalProgressBar');
-      if (bar) bar.classList.remove('hidden');
-
       const toast = document.getElementById('globalProcessToast');
       const label = document.getElementById('globalProcessToastLabel');
       if (toast) {
@@ -1053,9 +1035,6 @@
     }
 
     function hideGlobalLoader() {
-      const bar = document.getElementById('globalProgressBar');
-      if (bar) bar.classList.add('hidden');
-
       const toast = document.getElementById('globalProcessToast');
       if (toast) {
         toast.classList.add('hidden');
