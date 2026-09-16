@@ -359,3 +359,332 @@ LANGUAGES
     assert "Alex Morgan" in html
     assert any(heading in html for heading in ["Awards & Honors", "Languages", "Publications & Research", "Publications"])
     assert any(term in html for term in ["Hackathon", "English", "IEEE"])
+
+
+def test_schema_normalizer_education_and_projects():
+    from jobflow.core.agent_harness import SchemaNormalizer
+    from jobflow.core.schema import Education, Project
+
+    # 1. Test normalize_education
+    fallback_edu = [
+        Education(
+            institution="Universitas Amikom",
+            degree="Bachelor of Informatics",
+            field_of_study="Informatics",
+            start_date="2022",
+            end_date="2026",
+            gpa="3.89",
+            highlights=["Relevant coursework: Machine Learning, Database Systems, Computer Networks, Software Engineering"]
+        )
+    ]
+    raw_edu = [
+        {
+            "institution": "Universitas Amikom",
+            "degree": "Bachelor of Informatics",
+            "highlights": ["Relevant coursework: Database Systems, Software Engineering, Machine Learning, Computer Networks"]
+        }
+    ]
+    # For a backend job with keywords: ['database', 'software']
+    norm_edu = SchemaNormalizer.normalize_education(raw_edu, fallback_edu, job_keywords=["database", "software"])
+    assert len(norm_edu) == 1
+    assert norm_edu[0].institution == "Universitas Amikom"
+    assert norm_edu[0].degree == "Bachelor of Informatics"
+    assert norm_edu[0].gpa == "3.89"
+    # Coursework should prioritize 'Database Systems' and 'Software Engineering' first
+    hl = norm_edu[0].highlights[0]
+    assert "Database Systems" in hl
+    assert hl.startswith("Relevant coursework: Database Systems, Software Engineering")
+
+    # 2. Test normalize_projects
+    fallback_proj = [
+        Project(
+            name="FlowServe — Smart POS",
+            description="POS system for restaurants.",
+            technologies=["Vue.js", "Laravel", "PostgreSQL", "Redis"],
+            highlights=["Built POS app."]
+        ),
+        Project(
+            name="FocusEye — Attention Detection",
+            description="Computer vision detection system.",
+            technologies=["Python", "TensorFlow", "YOLO"],
+            highlights=["Built CV pipeline."]
+        )
+    ]
+    raw_proj = [
+        {
+            "name": "FocusEye",
+            "description": "Real-time edge attention monitoring system reaching 91% accuracy.",
+            "technologies": ["TensorFlow", "Python", "MediaPipe"],
+            "highlights": [
+                "Engineered real-time computer vision inference reaching 91% accuracy, reducing false positives by 34%."
+            ]
+        },
+        {
+            "name": "FlowServe",
+            "description": "High-throughput restaurant POS architecture processing 450 orders daily.",
+            "technologies": ["PostgreSQL", "Redis", "Laravel"],
+            "highlights": [
+                "Optimized database indexing and Redis caching, cutting p95 API latency by 30%."
+            ]
+        }
+    ]
+    # Target job keywords: ['python', 'tensorflow', 'computervision']
+    norm_proj = SchemaNormalizer.normalize_projects(raw_proj, fallback_proj, job_keywords=["python", "tensorflow"])
+    assert len(norm_proj) == 2
+    # First project should be FocusEye as prioritized by LLM
+    assert "FocusEye" in norm_proj[0].name
+    assert "91% accuracy" in norm_proj[0].description
+    assert "reducing false positives by 34%" in norm_proj[0].highlights[0]
+    # Technologies should prioritize python & tensorflow first
+    assert norm_proj[0].technologies[0].lower() in ["python", "tensorflow"]
+
+    # Second project FlowServe should also be preserved and tailored
+    assert "FlowServe" in norm_proj[1].name
+    assert "cutting p95 API latency by 30%" in norm_proj[1].highlights[0]
+
+
+@pytest.mark.asyncio
+async def test_heuristic_synthesis_tailors_projects_and_education():
+    from jobflow.core.agent_harness import AIAgentHarness
+    from jobflow.core.schema import MasterProfile, ContactInfo, SkillCategory, WorkExperience, Education, Project, JobListing
+
+    profile = MasterProfile(
+        contact=ContactInfo(full_name="Jane Doe", email="jane@example.com", phone="123", location="Jakarta"),
+        summary="General Software Developer",
+        skills=[SkillCategory(category="Languages", skills=["PHP", "Python", "Go"])],
+        experience=[
+            WorkExperience(
+                company="Acme Corp",
+                position="Developer",
+                start_date="2022",
+                end_date="Present",
+                highlights=[
+                    "Built PHP websites for clients",
+                    "Architected high-scale Python microservices and PostgreSQL database schemas"
+                ],
+                technologies=["PHP", "Python", "PostgreSQL"]
+            )
+        ],
+        education=[
+            Education(
+                institution="Tech University",
+                degree="B.S. CS",
+                field_of_study="Computer Science",
+                start_date="2018",
+                end_date="2022",
+                highlights=["Relevant coursework: Graphic Design, Database Systems, Operating Systems"]
+            )
+        ],
+        projects=[
+            Project(
+                name="WordPress Blog Theme",
+                description="CMS blog template in PHP.",
+                technologies=["PHP", "WordPress", "CSS"],
+                highlights=["Created themes."]
+            ),
+            Project(
+                name="Cloud Data Pipeline",
+                description="Distributed streaming pipeline in Python and PostgreSQL.",
+                technologies=["Python", "PostgreSQL", "Kafka"],
+                highlights=["Processed 500k messages daily."]
+            )
+        ]
+    )
+
+    harness = AIAgentHarness(master_profile=profile)
+    job = JobListing(
+        title="Python Data Engineer",
+        company="DataFlow Systems",
+        description="Seeking Python and PostgreSQL engineer for scalable data infrastructure.",
+        requirements=["Python", "PostgreSQL", "Data Pipeline"]
+    )
+
+    # Force heuristic fallback
+    tailored = harness._run_heuristic_synthesis(job, {"core_keywords": ["python", "postgresql", "data"]}, {})
+
+    # 1. Projects: Cloud Data Pipeline should be ranked #1 because it matches Python + PostgreSQL
+    assert tailored.projects[0].name == "Cloud Data Pipeline"
+    assert "Python" in tailored.projects[0].technologies[:2]
+
+    # 2. Education: Coursework should prioritize 'Database Systems' & 'Operating Systems' over 'Graphic Design'
+    edu_hl = tailored.education[0].highlights[0]
+    assert edu_hl.index("Database Systems") < edu_hl.index("Graphic Design")
+
+    # 3. Experience: Highlight mentioning Python/PostgreSQL should be moved to first position
+    assert "Python microservices" in tailored.experience[0].highlights[0]
+
+
+@pytest.mark.asyncio
+async def test_html_rendering_highlights_all_sections():
+    from jobflow.core.schema import TailoredResume, ContactInfo, SkillCategory, WorkExperience, Education, Project
+    from jobflow.core.pdf_generator import PDFGenerator
+
+    tailored = TailoredResume(
+        contact=ContactInfo(full_name="Nadhif Adhim", email="nadhif@example.com", phone="123", location="Jakarta"),
+        summary="Experienced Full-Stack and AI Engineer.",
+        skills=[SkillCategory(category="Backend", skills=["Python", "PostgreSQL", "Redis"])],
+        experience=[
+            WorkExperience(
+                company="Tech Co",
+                position="Software Engineer",
+                start_date="2023",
+                end_date="Present",
+                highlights=["Optimized database queries cutting latency by 40%."],
+                technologies=["Python", "PostgreSQL"]
+            )
+        ],
+        education=[
+            Education(
+                institution="Universitas Amikom",
+                degree="Bachelor of Informatics",
+                field_of_study="Informatics",
+                start_date="2022",
+                end_date="2026",
+                highlights=["Relevant coursework: Database Systems, Computer Vision"]
+            )
+        ],
+        projects=[
+            Project(
+                name="FocusEye Attention Tracker",
+                description="Computer vision student attention system.",
+                technologies=["Python", "TensorFlow", "PostgreSQL"],
+                highlights=["Built real-time video pipeline achieving 91% accuracy."]
+            )
+        ],
+        job_title_target="Python Backend Engineer",
+        target_company="Target Corp",
+        matching_keywords=["Python", "PostgreSQL", "Database Systems"]
+    )
+
+    pdf_gen = PDFGenerator()
+    html = pdf_gen.render_html(tailored, show_highlights=True)
+
+    # Check top banner
+    assert "COMPREHENSIVE AI TAILORING & ATS OPTIMIZATIONS" in html
+
+    # Check Summary badge
+    assert "✦ AI-Adapted for Target Role" in html
+
+    # Check Skills badge & keyword highlight
+    assert "✦ Prioritized to Match Target JD" in html
+
+    # Check Experience badge & XYZ formula indicator
+    assert "✦ Enhanced with Google X-Y-Z Formula" in html
+
+    # Check Featured Projects badge & highlights
+    assert "✦ AI-Prioritized & Metrics-Tailored" in html
+    assert "FocusEye Attention Tracker" in html
+    # Python & PostgreSQL should be highlighted in the project tech stack
+    assert 'background: #d1fae5; color: #065f46; font-weight: 700; padding: 0 3px; border-radius: 2px;">Python</span>' in html
+
+    # Check Education badge & highlights
+    assert "✦ Curated Coursework & Academic Focus" in html
+    assert "Universitas Amikom" in html
+    assert "Relevant coursework: Database Systems, Computer Vision" in html
+
+
+@pytest.mark.asyncio
+async def test_adaptive_section_recognition_and_tailoring():
+    from jobflow.core.cv_parser import CVParserAgent
+    from jobflow.core.agent_harness import AIAgentHarness, SchemaNormalizer
+    from jobflow.core.schema import CustomSection, CustomSectionItem, JobListing
+    from jobflow.core.pdf_generator import PDFGenerator
+
+    cv_with_arbitrary_sections = """
+Budi Santoso
+Email: budi@example.com
+Phone: +62 812 3456 7890
+Location: Jakarta, Indonesia
+
+RINGKASAN PROFESIONAL
+Full-Stack Developer dengan spesialisasi arsitektur cloud dan web berskala besar.
+
+KEAHLIAN TEKNIS
+Python, Go, PostgreSQL, Docker, Redis
+
+PENGALAMAN KERJA
+Software Engineer
+PT Inovasi Digital
+2022 - Sekarang
+• Membangun sistem backend pembayaran terdistribusi.
+
+RIWAYAT PENDIDIKAN
+Universitas Indonesia
+Sarjana Ilmu Komputer
+2018 - 2022
+
+PORTOFOLIO & PROYEK
+PayFlow Gateway
+Sistem gateway transaksi keuangan.
+• Menangani 100k transaksi per hari.
+
+PENGALAMAN ORGANISASI
+Ketua Divisi Teknologi - Himpunan Mahasiswa Ilmu Komputer
+2020 - 2021
+• Memimpin 15 anggota divisi dalam merancang portal akademik fakultas.
+• Mengorganisasi pelatihan Git dan web development untuk 120 mahasiswa baru.
+
+PELATIHAN & BOOTCAMP
+Google Cloud Certified Data & AI Engineer Bootcamp
+2023
+• Menyelesaikan 200 jam pelatihan intensif arsitektur big data dan model training.
+
+BEASISWA & PENGHARGAAN
+Penerima Beasiswa Prestasi Nasional
+Kementerian Pendidikan
+2021
+• Diberikan atas prestasi akademis dan kepemimpinan terbaik tingkat universitas.
+"""
+
+    # 1. Test that the heuristic parser adaptively recognizes ALL non-standard sections
+    agent = CVParserAgent()
+    profile = agent._parse_heuristically(cv_with_arbitrary_sections)
+
+    assert len(profile.custom_sections) >= 3
+    section_headings = [cs.heading.lower() for cs in profile.custom_sections]
+    assert any("organisasi" in h for h in section_headings)
+    assert any("bootcamp" in h or "pelatihan" in h for h in section_headings)
+    assert any("penghargaan" in h or "beasiswa" in h for h in section_headings)
+
+    # 2. Test SchemaNormalizer.normalize_custom_sections adapts and preserves items
+    job_kws = ["arsitektur", "portal", "cloud", "pelatihan"]
+    raw_custom = [
+        {
+            "id": profile.custom_sections[0].id,
+            "items": [
+                {
+                    "title": profile.custom_sections[0].items[0].title,
+                    "bullets": [
+                        "Architected faculty academic portal leading 15 engineers with 99% uptime.",
+                        "Organized intensive web architecture and Git workshops for 120 students."
+                    ]
+                }
+            ]
+        }
+    ]
+    norm_custom = SchemaNormalizer.normalize_custom_sections(raw_custom, profile.custom_sections, job_kws)
+    assert len(norm_custom) == len(profile.custom_sections)
+    # The tailored bullets should be adopted
+    first_sec = norm_custom[0]
+    assert "99% uptime" in first_sec.items[0].bullets[0] or "portal" in first_sec.items[0].bullets[0]
+
+    # 3. Test AIAgentHarness tailoring adapts custom sections and custom section ordering
+    harness = AIAgentHarness(master_profile=profile)
+    job = JobListing(
+        title="Lead Full-Stack Cloud Architect",
+        company="Enterprise Global Tech",
+        description="Seeking leader to guide technical teams and architect cloud platforms.",
+        requirements=["Python", "Cloud", "Leadership"]
+    )
+    tailored = await harness.tailor_for_job(job)
+    assert len(tailored.custom_sections) >= 3
+    tailored_csec_ids = [cs.id for cs in tailored.custom_sections]
+    assert profile.custom_sections[0].id in tailored_csec_ids
+
+    # 4. Test HTML rendering includes custom section with AI badge
+    pdf_gen = PDFGenerator()
+    html = pdf_gen.render_html(tailored, show_highlights=True)
+    assert "✦ AI-Adapted & Role-Aligned" in html
+    assert any(term in html for term in ["Organisasi", "Pelatihan", "Bootcamp", "Penghargaan"])
+
+

@@ -529,42 +529,84 @@ class CVParserAgent:
             )
         ]
 
-        # 8. Adaptive & Custom Section Extraction
+        # 8. Adaptive & Dynamic Custom Section Discovery (captures ANY section not already handled)
         custom_sections: List[CustomSection] = []
-        custom_patterns = [
-            ("awards", "Awards & Honors", r"(?:awards?|honors?|achievements?|penghargaan)[:\s\n]+([^\n]+(?:\n[^\n]+){1,8})"),
-            ("publications", "Publications & Research", r"(?:publications?|papers?|research|publikasi)[:\s\n]+([^\n]+(?:\n[^\n]+){1,8})"),
-            ("languages", "Languages", r"(?:languages?|bahasa)[:\s\n]+([^\n]+(?:\n[^\n]+){1,6})"),
-            ("volunteer_experience", "Volunteer & Community", r"(?:volunteer(?:ing)?|community|relawan)[:\s\n]+([^\n]+(?:\n[^\n]+){1,8})"),
-            ("organizations", "Organizational Experience", r"(?:organizations?|organisasi|leadership)[:\s\n]+([^\n]+(?:\n[^\n]+){1,8})"),
+        known_standard_keywords = [
+            "summary", "profile", "about me", "ringkasan", "profil", "objective",
+            "skills", "technical skills", "keahlian", "kompetensi", "core competencies", "tech stack",
+            "experience", "work experience", "employment", "pengalaman kerja", "riwayat pekerjaan", "career",
+            "education", "academic", "pendidikan", "riwayat pendidikan",
+            "projects", "portfolio", "featured projects", "proyek", "karya", "personal projects",
+            "certifications", "certificates", "licenses", "sertifikasi", "lisensi"
         ]
 
-        for sec_id, sec_heading, pattern in custom_patterns:
-            m = re.search(pattern, raw_text, re.IGNORECASE)
-            if m:
-                block = m.group(1).strip()
-                sec_lines = [l.strip() for l in block.split("\n") if l.strip()]
-                items = []
-                for line in sec_lines:
-                    cleaned = line.lstrip("•-*0123456789.) ")
-                    if not cleaned or len(cleaned) < 2:
-                        continue
-                    if " - " in cleaned:
-                        parts = cleaned.split(" - ", 1)
-                        items.append(CustomSectionItem(title=parts[0].strip(), subtitle=parts[1].strip()))
-                    elif ":" in cleaned:
-                        parts = cleaned.split(":", 1)
-                        items.append(CustomSectionItem(title=parts[0].strip(), subtitle=parts[1].strip()))
+        heading_indices = []
+        raw_lines = raw_text.split("\n")
+        for idx, line in enumerate(raw_lines):
+            stripped = line.strip()
+            if not stripped or len(stripped) < 3 or len(stripped) > 55:
+                continue
+            if "@" in stripped or "http://" in stripped or "https://" in stripped or "github.com" in stripped or "linkedin.com" in stripped:
+                continue
+            if stripped.startswith(("-", "•", "*")):
+                continue
+
+            clean_title = stripped.lstrip("#").rstrip(":").strip()
+            is_header = False
+            if stripped.startswith("#"):
+                is_header = True
+            elif stripped.isupper() and any(c.isalpha() for c in stripped) and len(stripped.split()) <= 6:
+                is_header = True
+            elif stripped.endswith(":") and len(stripped.split()) <= 6 and not any(k in stripped.lower() for k in ["email:", "phone:", "location:", "github:", "linkedin:"]):
+                is_header = True
+
+            if is_header and clean_title:
+                is_standard = any(sk in clean_title.lower() for sk in known_standard_keywords)
+                heading_indices.append((idx, clean_title, is_standard))
+
+        captured_custom_ids = set()
+        for i, (line_idx, heading_title, is_standard) in enumerate(heading_indices):
+            if is_standard:
+                continue
+            sec_id = re.sub(r'[^a-z0-9_]+', '_', heading_title.lower()).strip('_')
+            if not sec_id or sec_id in captured_custom_ids:
+                continue
+
+            next_line_idx = heading_indices[i + 1][0] if i + 1 < len(heading_indices) else len(raw_lines)
+            block_lines = [l.strip() for l in raw_lines[line_idx + 1:next_line_idx] if l.strip()]
+
+            items = []
+            current_item = None
+            for bl in block_lines:
+                if bl.startswith(("•", "-", "*")):
+                    bullet_text = bl.lstrip("•-* ").strip()
+                    if current_item:
+                        current_item.bullets.append(bullet_text)
                     else:
-                        items.append(CustomSectionItem(title=cleaned))
-                if items:
-                    custom_sections.append(CustomSection(
-                        id=sec_id,
-                        heading=sec_heading,
-                        items=items
-                    ))
-                    if sec_id not in detected_order:
-                        detected_order.append(sec_id)
+                        current_item = CustomSectionItem(title=bullet_text)
+                        items.append(current_item)
+                else:
+                    if " - " in bl:
+                        parts = bl.split(" - ", 1)
+                        current_item = CustomSectionItem(title=parts[0].strip(), subtitle=parts[1].strip())
+                        items.append(current_item)
+                    elif ":" in bl and not bl.startswith("http"):
+                        parts = bl.split(":", 1)
+                        current_item = CustomSectionItem(title=parts[0].strip(), subtitle=parts[1].strip())
+                        items.append(current_item)
+                    else:
+                        current_item = CustomSectionItem(title=bl)
+                        items.append(current_item)
+
+            if items:
+                custom_sections.append(CustomSection(
+                    id=sec_id,
+                    heading=heading_title.title(),
+                    items=items
+                ))
+                captured_custom_ids.add(sec_id)
+                if sec_id not in detected_order:
+                    detected_order.append(sec_id)
 
         return MasterProfile(
             contact=contact,

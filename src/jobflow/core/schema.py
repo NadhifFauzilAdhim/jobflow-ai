@@ -151,3 +151,45 @@ class ATSAnalysisResult(BaseModel):
     matched_keywords: List[str]
     missing_keywords: List[str]
     suggestions: List[str]
+
+
+class ATSDiagnosticIssue(BaseModel):
+    id: str
+    category: str  # quantifying_impact, repetition, spelling_grammar, bullets_consistency, keywords, sections
+    severity: str = "warning"  # error, warning, suggestion
+    title: str
+    description: str
+    section_name: Optional[str] = None
+    target_text: Optional[str] = None
+    suggestion: str
+    needs_user_context: bool = False
+    context_question: Optional[str] = None
+    context_field_id: Optional[str] = None
+
+
+class ATSCategoryStatus(BaseModel):
+    category_id: str
+    name: str
+    score: float
+    status: str  # pass, warning, error
+    status_label: str  # "No issues", "1 issue", "5 issues"
+    issue_count: int
+    issues: List[ATSDiagnosticIssue] = Field(default_factory=list)
+
+
+class ATSDiagnosticReport(BaseModel):
+    overall_score: float
+    content_score: float
+    sections_score: float
+    keywords_score: float
+    parse_rate_score: float
+    categories: List[ATSCategoryStatus] = Field(default_factory=list)
+    issues: List[ATSDiagnosticIssue] = Field(default_factory=list)
+    context_required_issues: List[ATSDiagnosticIssue] = Field(default_factory=list)
+    summary_insight: str
+
+
+class ResumeImprovementRequest(BaseModel):
+    user_context: Dict[str, str] = Field(default_factory=dict)
+    auto_estimate_missing: bool = True
+

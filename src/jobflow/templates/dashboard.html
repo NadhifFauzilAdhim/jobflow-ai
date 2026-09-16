@@ -237,6 +237,53 @@
           <ul id="interviewPrepList" class="list-disc list-inside space-y-1 text-[10.5px] text-zinc-300 leading-snug"></ul>
         </div>
       </div>
+
+      <!-- 4. ATS Deficiency Diagnostic & Improvement Card -->
+      <div id="atsDiagnosticCard" class="hidden border border-zinc-800 bg-zinc-900/80 rounded-xl p-4 flex flex-col gap-3 transition shadow-lg">
+        <div class="flex items-center justify-between border-b border-zinc-800 pb-2.5">
+          <div class="flex items-center gap-2">
+            <span class="p-1 rounded bg-indigo-500/20 text-indigo-400">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+            </span>
+            <div>
+              <h4 class="text-xs font-semibold uppercase tracking-wider text-zinc-200">ATS Deficiency Diagnostic</h4>
+              <p class="text-[10px] text-zinc-400">Pemeriksaan standar Resume Worded & ATS Checker</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <span id="atsContentBadge" class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">CONTENT 63%</span>
+            <span id="atsSectionsBadge" class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">SECTIONS 97%</span>
+          </div>
+        </div>
+
+        <!-- Category Checklist Rows (Exact layout from user screenshot) -->
+        <div id="atsCategoryList" class="flex flex-col gap-1.5 text-xs">
+          <!-- Dynamically populated categories -->
+        </div>
+
+        <!-- Issues Accordion / Summary -->
+        <div id="atsIssuesContainer" class="border-t border-zinc-800/80 pt-2 flex flex-col gap-2">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-semibold text-zinc-300 flex items-center gap-1.5">
+              <span>Daftar Kekurangan Terdeteksi:</span>
+              <span id="atsIssueTotalCount" class="text-[10px] px-1.5 py-0.2 rounded bg-zinc-800 text-zinc-400 font-mono">0 issues</span>
+            </span>
+            <button onclick="toggleIssuesList()" id="toggleIssuesBtn" class="text-[10px] text-zinc-400 hover:text-zinc-200 underline">Lihat Detail</button>
+          </div>
+          <div id="atsIssuesDetailList" class="hidden flex flex-col gap-2 max-h-56 overflow-y-auto custom-scroll pr-1">
+            <!-- Individual issue cards -->
+          </div>
+        </div>
+
+        <!-- Action Button: Improve CV with Context -->
+        <div class="pt-1">
+          <button id="openImproveModalBtn" onclick="openImproveResumeModal()" class="w-full py-2 px-3 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-semibold text-xs transition flex items-center justify-center gap-2 shadow-md">
+            <span>✨</span>
+            <span id="improveBtnLabel">Perbaiki Kekurangan CV dengan AI</span>
+            <span id="contextNeededBadge" class="hidden text-[9px] font-mono px-1.5 py-0.5 rounded bg-zinc-950/80 text-emerald-300 font-bold">+1 Konteks</span>
+          </button>
+        </div>
+      </div>
     </section>
 
     <!-- Right: Format-Conforming ATS CV Preview Studio & Live Agent Activity (7 cols) -->
@@ -259,6 +306,10 @@
           </div>
 
           <div id="previewActions" class="hidden flex items-center gap-1.5 sm:gap-2">
+            <button onclick="openImproveResumeModal()" title="Perbaiki Kekurangan CV & Lengkapi Metrik" class="text-xs px-2.5 py-1 rounded bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 font-semibold flex items-center gap-1.5 transition shadow-sm">
+              <span>✨</span>
+              <span>Improve CV</span>
+            </button>
             <button id="toggleHighlightBtn" onclick="toggleResumeHighlight()" title="Toggle AI Improvements Highlight" class="text-xs px-2.5 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-amber-300 border border-amber-500/30 font-medium flex items-center gap-1.5 transition">
               <span>✨</span>
               <span id="highlightBtnText">AI Highlights</span>
@@ -737,6 +788,70 @@
         <div class="w-full max-w-4xl h-full bg-white rounded-lg shadow-2xl overflow-hidden border border-zinc-300/50">
           <iframe id="fullscreenResumeIframe" class="w-full h-full border-none" src="about:blank"></iframe>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Improve Resume with User Context -->
+  <div id="resumeImproveModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden items-center justify-center p-3 sm:p-6">
+    <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-2xl w-full max-h-[92vh] flex flex-col shadow-2xl overflow-hidden">
+      <!-- Header -->
+      <div class="p-4 sm:p-5 border-b border-zinc-800 bg-zinc-950/80 flex justify-between items-center">
+        <div class="flex items-center gap-2.5">
+          <span class="p-2 rounded-xl bg-emerald-500/20 text-emerald-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+          </span>
+          <div>
+            <h3 class="text-sm sm:text-base font-semibold text-zinc-100 flex items-center gap-2">
+              Optimalkan Skor Konten ATS
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Target 95%+</span>
+            </h3>
+            <p class="text-xs text-zinc-400 mt-0.5">Lengkapi metrik nyata untuk poin-poin yang belum terukur agar lolos filter ATS</p>
+          </div>
+        </div>
+        <button onclick="closeImproveResumeModal()" class="text-zinc-400 hover:text-zinc-200 p-1.5 rounded-lg hover:bg-zinc-800 text-lg transition">✕</button>
+      </div>
+
+      <!-- Body -->
+      <div class="p-4 sm:p-6 overflow-y-auto custom-scroll flex flex-col gap-4 flex-1">
+        <!-- Diagnostic Summary Banner inside modal -->
+        <div class="rounded-xl border border-zinc-800 bg-zinc-950/60 p-3.5 flex flex-col gap-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold text-zinc-300">Status Saat Ini:</span>
+            <span id="modalCurrentContentScore" class="text-xs font-mono font-bold text-amber-400">CONTENT 63%</span>
+          </div>
+          <p id="modalSummaryInsight" class="text-xs text-zinc-400 leading-relaxed"></p>
+        </div>
+
+        <!-- Questions Section -->
+        <div id="modalContextQuestionsContainer" class="flex flex-col gap-3.5">
+          <!-- Populated dynamically if there are context_required_issues -->
+        </div>
+
+        <!-- Empty / No context needed state -->
+        <div id="modalNoContextNeededMsg" class="hidden rounded-xl border border-emerald-500/30 bg-emerald-950/20 p-4 text-center text-xs text-emerald-300">
+          ✓ Seluruh poin sudah memiliki metrik dasar. AI akan langsung mendiversifikasi action verbs, memperbaiki tanda baca, dan mengoptimalkan kepadatan kata kunci lowongan!
+        </div>
+
+        <!-- Auto estimate toggle -->
+        <div class="rounded-xl border border-zinc-800 bg-zinc-950/40 p-3 flex items-start gap-2.5">
+          <input type="checkbox" id="autoEstimateCheckbox" checked class="mt-0.5 rounded border-zinc-700 bg-zinc-800 text-emerald-500 focus:ring-emerald-500/40">
+          <label for="autoEstimateCheckbox" class="text-xs text-zinc-300 cursor-pointer select-none">
+            <span class="font-medium text-zinc-200">Gunakan estimasi rasional standar industri</span>
+            <span class="block text-[11px] text-zinc-500 mt-0.5">Jika kolom pertanyaan di atas dikosongkan, AI akan menyusun metrik rasional yang realistis sesuai domain proyek tanpa mengubah fakta riil.</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="p-4 border-t border-zinc-800 bg-zinc-950/80 flex items-center justify-between">
+        <button onclick="closeImproveResumeModal()" class="text-xs px-4 py-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-medium transition">
+          Batal
+        </button>
+        <button id="submitImproveResumeBtn" onclick="submitImproveResume()" class="text-xs px-5 py-2.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-bold flex items-center gap-2 shadow-lg transition">
+          <span>🚀</span>
+          <span>Terapkan Perbaikan & Re-Score ATS</span>
+        </button>
       </div>
     </div>
   </div>
@@ -1590,6 +1705,240 @@
         }
       } catch (err) {
         console.error("Could not fetch resume details:", err);
+      }
+
+      // Load in-depth ATS Deficiency Diagnostic Audit
+      loadAtsAudit(jobId);
+    }
+
+    let currentDiagnosticReport = null;
+
+    async function loadAtsAudit(jobId) {
+      const card = document.getElementById('atsDiagnosticCard');
+      if (!card) return;
+
+      try {
+        const res = await fetch(`/api/resume/audit/${jobId}`);
+        if (!res.ok) {
+          card.classList.add('hidden');
+          return;
+        }
+        const report = await res.json();
+        currentDiagnosticReport = report;
+
+        // Update score badges
+        const contentBadge = document.getElementById('atsContentBadge');
+        if (contentBadge) {
+          contentBadge.innerText = `CONTENT ${Math.round(report.content_score)}%`;
+          contentBadge.className = `text-xs font-mono font-bold px-2 py-0.5 rounded border ${
+            report.content_score >= 80 ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30' : 'bg-amber-500/20 text-amber-300 border-amber-500/30'
+          }`;
+        }
+
+        const secBadge = document.getElementById('atsSectionsBadge');
+        if (secBadge) {
+          secBadge.innerText = `SECTIONS ${Math.round(report.sections_score)}%`;
+          secBadge.className = `text-xs font-mono font-bold px-2 py-0.5 rounded border ${
+            report.sections_score >= 85 ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30' : 'bg-amber-500/20 text-amber-300 border-amber-500/30'
+          }`;
+        }
+
+        // Render categories list matching ATS checker screenshot
+        const catList = document.getElementById('atsCategoryList');
+        if (catList && report.categories) {
+          catList.innerHTML = report.categories.map(c => {
+            const isPass = (c.status === 'pass' || c.issue_count === 0);
+            return `
+              <div class="flex items-center justify-between p-2 rounded-lg bg-zinc-950/50 border border-zinc-800/80">
+                <div class="flex items-center gap-2">
+                  <span class="${isPass ? 'text-emerald-400 font-bold' : 'text-rose-400 font-bold'} text-sm">
+                    ${isPass ? '✓' : '✗'}
+                  </span>
+                  <span class="text-zinc-200 font-medium text-xs">${c.name}</span>
+                </div>
+                <span class="px-2 py-0.5 rounded-full text-[10.5px] font-semibold font-mono border ${
+                  isPass 
+                    ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' 
+                    : 'bg-rose-500/10 text-rose-300 border-rose-500/20'
+                }">
+                  ${c.status_label}
+                </span>
+              </div>
+            `;
+          }).join('');
+        }
+
+        // Render issues count and details
+        const totalCountEl = document.getElementById('atsIssueTotalCount');
+        if (totalCountEl) {
+          totalCountEl.innerText = `${report.issues.length} issue${report.issues.length === 1 ? '' : 's'}`;
+        }
+
+        const detailList = document.getElementById('atsIssuesDetailList');
+        if (detailList) {
+          if (report.issues.length === 0) {
+            detailList.innerHTML = '<div class="text-emerald-400 text-xs italic p-2 bg-emerald-950/20 rounded-lg border border-emerald-500/20">✓ Seluruh kriteria konten ATS telah terpenuhi dengan sangat baik.</div>';
+          } else {
+            detailList.innerHTML = report.issues.map(iss => `
+              <div class="rounded-lg p-2.5 bg-zinc-950/70 border border-zinc-800 flex flex-col gap-1 text-[11px]">
+                <div class="flex items-center justify-between">
+                  <span class="font-semibold text-zinc-200">${iss.title}</span>
+                  ${iss.needs_user_context ? '<span class="px-1.5 py-0.2 rounded bg-indigo-500/20 text-indigo-300 text-[9px] font-mono border border-indigo-500/30">Butuh Angka/Konteks</span>' : ''}
+                </div>
+                ${iss.target_text ? `<div class="text-zinc-400 italic text-[10.5px] bg-zinc-900/80 p-1.5 rounded border border-zinc-800/80 my-0.5 truncate max-w-full">"${iss.target_text}"</div>` : ''}
+                <div class="text-zinc-400">${iss.description}</div>
+                <div class="text-emerald-400 text-[10.5px] mt-0.5">💡 Rekomendasi: ${iss.suggestion}</div>
+              </div>
+            `).join('');
+          }
+        }
+
+        // Context badge on improve button
+        const ctxBadge = document.getElementById('contextNeededBadge');
+        if (ctxBadge) {
+          if (report.context_required_issues && report.context_required_issues.length > 0) {
+            ctxBadge.innerText = `+${report.context_required_issues.length} Konteks`;
+            ctxBadge.classList.remove('hidden');
+          } else {
+            ctxBadge.classList.add('hidden');
+          }
+        }
+
+        card.classList.remove('hidden');
+      } catch (err) {
+        console.error("Failed to load ATS audit:", err);
+      }
+    }
+
+    function toggleIssuesList() {
+      const list = document.getElementById('atsIssuesDetailList');
+      const btn = document.getElementById('toggleIssuesBtn');
+      if (!list) return;
+      if (list.classList.contains('hidden')) {
+        list.classList.remove('hidden');
+        if (btn) btn.innerText = 'Sembunyikan';
+      } else {
+        list.classList.add('hidden');
+        if (btn) btn.innerText = 'Lihat Detail';
+      }
+    }
+
+    function openImproveResumeModal() {
+      if (!currentPreviewJobId) return;
+      const modal = document.getElementById('resumeImproveModal');
+      if (!modal) return;
+
+      const report = currentDiagnosticReport || { content_score: 63, summary_insight: '', context_required_issues: [] };
+      const scoreEl = document.getElementById('modalCurrentContentScore');
+      if (scoreEl) {
+        scoreEl.innerText = `CONTENT ${Math.round(report.content_score || 0)}%`;
+      }
+      const insightEl = document.getElementById('modalSummaryInsight');
+      if (insightEl) {
+        insightEl.innerText = report.summary_insight || 'AI akan mengoptimalkan metrik Google X-Y-Z, mendiversifikasi action verbs, dan memperbaiki tipografi resume.';
+      }
+
+      const container = document.getElementById('modalContextQuestionsContainer');
+      const noCtxMsg = document.getElementById('modalNoContextNeededMsg');
+
+      if (report.context_required_issues && report.context_required_issues.length > 0) {
+        if (container) {
+          container.classList.remove('hidden');
+          container.innerHTML = report.context_required_issues.map((iss, i) => `
+            <div class="rounded-xl border border-zinc-800 bg-zinc-950/70 p-3.5 flex flex-col gap-2 shadow-sm">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-800 text-zinc-300 border border-zinc-700/50">
+                  ${iss.section_name || 'Pencapaian'}
+                </span>
+                <span class="text-[10px] text-amber-400 font-medium">Metrik Belum Ada</span>
+              </div>
+              <div class="text-xs text-zinc-300 italic bg-zinc-900/60 p-2 rounded-lg border border-zinc-800/80">
+                "${iss.target_text}"
+              </div>
+              <label for="${iss.context_field_id}" class="text-xs font-semibold text-zinc-200 mt-1">
+                ${iss.context_question || 'Berapa angka metrik hasil atau efisiensi yang dicapai?'}
+              </label>
+              <input type="text" id="${iss.context_field_id}" placeholder="Contoh: 100k transaksi per hari, latensi turun 35%, tim 15 orang"
+                class="w-full px-3 py-2 text-xs rounded-lg bg-zinc-900 border border-zinc-700 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-emerald-500 transition">
+            </div>
+          `).join('');
+        }
+        if (noCtxMsg) noCtxMsg.classList.add('hidden');
+      } else {
+        if (container) {
+          container.classList.add('hidden');
+          container.innerHTML = '';
+        }
+        if (noCtxMsg) noCtxMsg.classList.remove('hidden');
+      }
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeImproveResumeModal() {
+      const modal = document.getElementById('resumeImproveModal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    }
+
+    async function submitImproveResume() {
+      if (!currentPreviewJobId) return;
+      const btn = document.getElementById('submitImproveResumeBtn');
+      const origText = btn ? btn.innerHTML : '';
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<svg class="w-4 h-4 animate-spin text-zinc-950" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> <span>Mengoptimalkan...</span>';
+      }
+
+      // Gather context inputs
+      const userContext = {};
+      if (currentDiagnosticReport && currentDiagnosticReport.context_required_issues) {
+        currentDiagnosticReport.context_required_issues.forEach(iss => {
+          const input = document.getElementById(iss.context_field_id);
+          if (input && input.value && input.value.trim()) {
+            userContext[iss.context_field_id] = input.value.trim();
+          }
+        });
+      }
+
+      const autoEstimate = document.getElementById('autoEstimateCheckbox')?.checked ?? true;
+
+      appendLog(`[Job #${currentPreviewJobId}] Memulai AI Resume Perfection & Context Injection...`, "info");
+      appendLog(`[AI Engine] Menginjeksi ${Object.keys(userContext).length} metrik kandidat ke dalam formula Google X-Y-Z...`, "info");
+      appendLog(`[AI Engine] Mendiversifikasi power action verbs dan merevisi tipografi...`, "info");
+
+      try {
+        const res = await fetch(`/api/resume/improve/${currentPreviewJobId}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            user_context: userContext,
+            auto_estimate_missing: autoEstimate
+          })
+        });
+
+        if (!res.ok) {
+          const errData = await res.json();
+          throw new Error(errData.detail || 'Gagal memproses perbaikan CV.');
+        }
+
+        const data = await res.json();
+        appendLog(`[AI Improvement] Selesai! Skor Konten meningkat menjadi ${Math.round(data.content_score)}% (ATS: ${data.ats_score}%).`, "success");
+
+        closeImproveResumeModal();
+        updatePreviewUrls();
+        await loadAtsAudit(currentPreviewJobId);
+        fetchJobs();
+      } catch (err) {
+        appendLog(`[AI Improvement Error] ${err.message || err}`, "error");
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = origText;
+        }
       }
     }
 
