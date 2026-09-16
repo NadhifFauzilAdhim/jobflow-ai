@@ -73,8 +73,8 @@ async def test_job_and_resume_flow():
         # 6. Preview HTML with AI Highlights
         res_prev_hl = await ac.get(f"/api/resume/preview/{job_id}?highlight=true")
         assert res_prev_hl.status_code == 200
-        assert "AI TAILORING IMPROVEMENTS" in res_prev_hl.text
-        assert "AI-Adapted" in res_prev_hl.text or "Google X-Y-Z" in res_prev_hl.text
+        assert "AI-Tailored & ATS-Optimized Document" in res_prev_hl.text
+        assert "Role-Adapted" in res_prev_hl.text or "Google X-Y-Z" in res_prev_hl.text
 
         # 7. Check highlighted PDF download endpoint
         res_pdf_hl = await ac.get(f"/api/resume/download/{job_id}?highlight=true")

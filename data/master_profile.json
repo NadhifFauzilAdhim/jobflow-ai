@@ -3,228 +3,97 @@
     "full_name": "Alex Morgan",
     "email": "alex.morgan@example.com",
     "phone": "+1 (555) 019-2834",
-    "location": "San Francisco, CA (or Remote)",
+    "location": "San Francisco, CA",
     "linkedin_url": "https://linkedin.com/in/alexmorgan-dev",
     "github_url": "https://github.com/alexmorgan-dev",
-    "portfolio_url": "https://alexmorgan.dev"
+    "portfolio_url": ""
   },
-  "summary": "Lead AI & Full-Stack Software Engineer with 4+ years of hands-on experience designing scalable web architectures, automated AI pipelines, and computer vision systems. Proven track record deploying production microservices in Python, FastAPI, TypeScript, and Docker, with automated testing, event-driven queues, and high-availability standards.",
+  "summary": "Lead AI and Full-Stack Software Engineer with 4+ years of experience designing scalable web architectures, automated AI pipelines, and computer vision systems.",
   "skills": [
     {
-      "category": "Languages",
+      "category": "Languages & Frameworks",
       "skills": [
         "Python",
-        "TypeScript",
-        "JavaScript",
-        "Go",
-        "SQL",
-        "C++"
-      ]
-    },
-    {
-      "category": "AI / Machine Learning",
-      "skills": [
-        "PyTorch",
-        "TensorFlow",
-        "MediaPipe",
-        "OpenCV",
-        "NumPy",
-        "Pandas",
-        "scikit-learn"
-      ]
-    },
-    {
-      "category": "AI Deployment & MLOps",
-      "skills": [
-        "ONNX Runtime",
-        "TensorRT",
-        "Model Quantization (INT8/FP16)",
-        "Edge Inference",
-        "MLflow"
-      ]
-    },
-    {
-      "category": "LLM Engineering",
-      "skills": [
-        "OpenAI / Anthropic API",
-        "Prompt Engineering",
-        "Structured Output",
-        "RAG",
-        "Vector Embeddings",
-        "pgvector"
-      ]
-    },
-    {
-      "category": "Backend & API",
-      "skills": [
         "FastAPI",
-        "REST API",
-        "WebSocket",
-        "Redis Queue",
-        "Event-Driven Architecture",
-        "Celery"
+        "TypeScript",
+        "React",
+        "Next.js"
       ]
     },
     {
-      "category": "Frontend",
-      "skills": [
-        "React.js",
-        "Next.js",
-        "Tailwind CSS",
-        "HTML5 / Modern Vanilla CSS"
-      ]
-    },
-    {
-      "category": "Database",
+      "category": "Databases & Infrastructure",
       "skills": [
         "PostgreSQL",
-        "MySQL",
-        "SQLite",
-        "Redis"
+        "Redis",
+        "Docker"
       ]
     },
     {
-      "category": "DevOps & Cloud",
+      "category": "Automation & Tools",
       "skills": [
-        "Docker",
-        "Docker Compose",
-        "Git",
-        "GitHub Actions",
-        "CI/CD",
-        "Linux",
-        "Nginx"
-      ]
-    },
-    {
-      "category": "Testing & Automation",
-      "skills": [
-        "Playwright",
-        "Pytest",
-        "Selenium",
-        "Integration Testing"
+        "Playwright"
       ]
     }
   ],
   "experience": [
     {
       "company": "TechNova Solutions",
-      "position": "Lead AI & Full-Stack Engineer",
-      "location": "San Francisco, CA / Remote",
+      "position": "Lead AI & Full Stack Engineer",
+      "location": "San Francisco, CA",
       "start_date": "2023",
       "end_date": "Present",
-      "current": true,
       "highlights": [
         "Architected and deployed distributed AI pipelines and microservices serving 20k+ monthly active requests with 99.9% uptime.",
-        "Built real-time video detection service reaching 10 FPS with INT8 quantization, cutting inference latency by 65%.",
         "Engineered autonomous browser automation bots utilizing Playwright, cutting manual data entry workflows by 80%."
-      ]
-    },
-    {
-      "company": "Apex Cloud Systems",
-      "position": "Backend Developer",
-      "location": "Remote",
-      "start_date": "2021",
-      "end_date": "2023",
-      "current": false,
-      "highlights": [
-        "Developed high-throughput REST and WebSocket APIs using Python FastAPI and PostgreSQL, handling over 10M requests daily.",
-        "Designed Redis-backed caching and message queue workflows, reducing p95 latency from 320ms to 45ms.",
-        "Created CI/CD automated test suites and containerized environments with Docker and GitHub Actions."
+      ],
+      "technologies": [
+        "Python",
+        "Playwright",
+        "FastAPI",
+        "Docker"
       ]
     }
   ],
   "education": [
     {
       "institution": "State University of Technology",
-      "degree": "Bachelor of Science in Computer Science",
-      "field_of_study": "Computer Science & Artificial Intelligence",
-      "location": "San Francisco, CA",
-      "start_date": "2017",
-      "end_date": "2021",
-      "gpa": "3.85 / 4.00",
-      "highlights": [
-        "Coursework: Computer Vision, Distributed Systems, Database Management, Algorithms & Data Structures."
-      ]
+      "degree": "Bachelor of Computer Science",
+      "field_of_study": "Computer Science",
+      "start_date": "2019",
+      "end_date": "2023",
+      "gpa": null,
+      "highlights": []
     }
   ],
   "projects": [
     {
-      "name": "VisionGuard — Real-Time Computer Vision Pipeline",
-      "description": "Distributed edge-computing surveillance system with real-time alert notifications.",
+      "name": "JobFlow AI",
+      "description": "Autonomous Job Application Engine & ATS CV Generator built with Python and FastAPI.",
       "technologies": [
         "Python",
-        "OpenCV",
-        "YOLO",
-        "FastAPI",
-        "Redis",
-        "Docker"
+        "FastAPI"
       ],
-      "link": "https://github.com/alexmorgan-dev/vision-guard",
+      "link": null,
       "highlights": [
-        "Built a multi-camera detection pipeline running on edge hardware with 15ms inference latency.",
-        "Implemented real-time WebSocket telemetry dashboard with sub-second alert dispatch."
-      ]
-    },
-    {
-      "name": "FastCommerce — Scalable Event-Driven POS & Microservices",
-      "description": "Full-stack point-of-sale platform handling high concurrency orders and analytics.",
-      "technologies": [
-        "Python",
-        "FastAPI",
-        "React",
-        "PostgreSQL",
-        "Redis",
-        "Docker"
-      ],
-      "link": "https://github.com/alexmorgan-dev/fast-commerce",
-      "highlights": [
-        "Engineered transactional backend processing 1,000+ daily orders with zero data loss.",
-        "Built real-time kitchen display and sales reporting dashboards."
+        "Implemented intelligent CV tailoring and automated job submission."
       ]
     }
   ],
-  "certifications": [
-    "AWS Certified Solutions Architect (Associate)",
-    "TensorFlow Developer Certificate",
-    "Professional Scrum Developer"
-  ],
-  "custom_sections": [
-    {
-      "id": "languages",
-      "heading": "Languages",
-      "items": [
-        {
-          "title": "English",
-          "subtitle": "Native / Bilingual",
-          "date_or_year": null,
-          "description": "Native proficiency",
-          "bullets": []
-        },
-        {
-          "title": "Spanish",
-          "subtitle": "Professional Working Proficiency",
-          "date_or_year": null,
-          "description": "Professional Working Proficiency",
-          "bullets": []
-        }
-      ]
-    }
-  ],
+  "certifications": [],
+  "custom_sections": [],
   "common_answers": [],
   "style_preferences": {
     "section_order": [
       "summary",
       "skills",
       "experience",
-      "projects",
       "education",
-      "certifications",
-      "languages"
+      "projects"
     ],
     "layout_style": "modern_clean",
     "accent_color": "#111827",
     "font_family": "Helvetica Neue, Helvetica, Arial, sans-serif",
     "bullet_style": "bullet"
   },
-  "raw_cv_text": "Alex Morgan\nAI Engineer | Full-Stack Developer\nSan Francisco, CA • +1 (555) 019-2834 • alex.morgan@example.com\nalexmorgan.dev • linkedin.com/in/alexmorgan-dev • github.com/alexmorgan-dev\n\nSUMMARY\nLead AI & Full-Stack Software Engineer with 4+ years of hands-on experience designing scalable web architectures, automated AI pipelines, and computer vision systems. Proven track record deploying production microservices in Python, FastAPI, TypeScript, and Docker, with automated testing, event-driven queues, and high-availability standards.\n\nTECHNICAL SKILLS\nLanguages: Python, TypeScript, JavaScript, Go, SQL, C++\nAI / Machine Learning: PyTorch, TensorFlow, MediaPipe, OpenCV, NumPy, Pandas, scikit-learn\nAI Deployment & MLOps: ONNX Runtime, TensorRT, Model Quantization (INT8/FP16), Edge Inference, MLflow\nLLM Engineering: OpenAI / Anthropic API, Prompt Engineering, Structured Output, RAG, Vector Embeddings, pgvector\nBackend & API: FastAPI, REST API, WebSocket, Redis Queue, Event-Driven Architecture, Celery\nFrontend: React.js, Next.js, Tailwind CSS, HTML5 / Modern Vanilla CSS\nDatabase: PostgreSQL, MySQL, SQLite, Redis\nDevOps & Cloud: Docker, Docker Compose, Git, GitHub Actions, CI/CD, Linux, Nginx\nTesting & Automation: Playwright, Pytest, Selenium, Integration Testing\n\nWORK EXPERIENCE\nTechNova Solutions — San Francisco, CA / Remote\nLead AI & Full-Stack Engineer — 2023 – Present\n• Architected and deployed distributed AI pipelines and microservices serving 20k+ monthly active requests with 99.9% uptime.\n• Built real-time video detection service reaching 10 FPS with INT8 quantization, cutting inference latency by 65%.\n• Engineered autonomous browser automation bots utilizing Playwright, cutting manual data entry workflows by 80%.\n\nApex Cloud Systems — Remote\nBackend Developer — 2021 – 2023\n• Developed high-throughput REST and WebSocket APIs using Python FastAPI and PostgreSQL, handling over 10M requests daily.\n• Designed Redis-backed caching and message queue workflows, reducing p95 latency from 320ms to 45ms.\n• Created CI/CD automated test suites and containerized environments with Docker and GitHub Actions.\n\nPROJECTS\nVisionGuard — Real-Time Computer Vision Pipeline\nPython • OpenCV • YOLO • FastAPI • Redis • Docker\n• Built a multi-camera detection pipeline running on edge hardware with 15ms inference latency.\n• Implemented real-time WebSocket telemetry dashboard with sub-second alert dispatch.\n\nFastCommerce — Scalable Event-Driven POS & Microservices\nPython • FastAPI • React • PostgreSQL • Redis • Docker\n• Engineered transactional backend processing 1,000+ daily orders with zero data loss.\n• Built real-time kitchen display and sales reporting dashboards.\n\nEDUCATION\nState University of Technology — San Francisco, CA\nBachelor of Science in Computer Science — GPA 3.85 / 4.00 — 2017 – 2021\nCoursework: Computer Vision, Distributed Systems, Database Management, Algorithms & Data Structures.\n\nCERTIFICATIONS\n• AWS Certified Solutions Architect (Associate)\n• TensorFlow Developer Certificate\n• Professional Scrum Developer\n\nLANGUAGES\nEnglish (Native / Bilingual) • Spanish (Professional Working Proficiency)"
+  "raw_cv_text": "Alex Morgan\nEmail: alex.morgan@example.com\nPhone: +1 (555) 019-2834\nLocation: San Francisco, CA\nLinkedIn: linkedin.com/in/alexmorgan-dev\nGitHub: github.com/alexmorgan-dev\n\nSUMMARY\nLead AI and Full-Stack Software Engineer with 4+ years of experience designing scalable web architectures, automated AI pipelines, and computer vision systems.\n\nTECHNICAL SKILLS\nPython, FastAPI, TypeScript, React, Next.js, Docker, PostgreSQL, Redis, Playwright\n\nWORK EXPERIENCE\nLead AI & Full Stack Engineer\nTechNova Solutions - San Francisco, CA\n2023 - Present\n\u2022 Architected and deployed distributed AI pipelines and microservices serving 20k+ monthly active requests with 99.9% uptime.\n\u2022 Engineered autonomous browser automation bots utilizing Playwright, cutting manual data entry workflows by 80%.\n\nEDUCATION\nState University of Technology\nBachelor of Computer Science\n2019 - 2023\n\nPROJECTS\nJobFlow AI\nAutonomous Job Application Engine & ATS CV Generator built with Python and FastAPI.\n\u2022 Implemented intelligent CV tailoring and automated job submission."
 }
