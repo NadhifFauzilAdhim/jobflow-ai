@@ -575,7 +575,7 @@ async def test_html_rendering_highlights_all_sections():
     assert "Target-Aligned" in html
     assert "FocusEye Attention Tracker" in html
     # Python & PostgreSQL should be highlighted in the project tech stack
-    assert 'background: #d1fae5; color: #065f46; font-weight: 700; padding: 0 3px; border-radius: 2px;">Python</span>' in html
+    assert 'background: #f4f4f5; color: #09090b; font-weight: 700; padding: 0 3px; border-radius: 2px; border-bottom: 1.5px solid #09090b;">Python</span>' in html
 
     # Check Education badge & highlights
     assert "Curated Coursework" in html

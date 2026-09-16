@@ -152,12 +152,12 @@
   </div>
 
   {% if show_highlights %}
-  <div style="background: #f0fdf4; border: 1px solid #86efac; border-radius: 6px; padding: 8px 12px; margin-bottom: 14px; font-size: 8.5pt;">
-    <div style="font-weight: 600; color: #047857; display: flex; align-items: center; justify-content: space-between;">
+  <div style="background: #fafafa; border: 1px solid #18181b; border-left: 4px solid #18181b; border-radius: 4px; padding: 8px 12px; margin-bottom: 14px; font-size: 8.5pt;">
+    <div style="font-weight: 700; color: #09090b; display: flex; align-items: center; justify-content: space-between;">
       <span>AI-Tailored & ATS-Optimized Document</span>
-      {% if resume.ats_score %}<span style="background: #10b981; color: #ffffff; padding: 1px 6px; border-radius: 4px; font-size: 7.5pt; font-weight: 700; font-family: monospace;">{{ resume.ats_score }}% ATS MATCH</span>{% endif %}
+      {% if resume.ats_score %}<span style="background: #09090b; color: #ffffff; padding: 1.5px 7px; border-radius: 3px; font-size: 7.5pt; font-weight: 700; font-family: monospace;">{{ resume.ats_score }}% ATS MATCH</span>{% endif %}
     </div>
-    <div style="color: #065f46; font-size: 8pt; margin-top: 3px; line-height: 1.35;">
+    <div style="color: #52525b; font-size: 8pt; margin-top: 3px; line-height: 1.35;">
       Every section is tailored by AI: strategic summary, prioritized skill keywords, Google X-Y-Z formula on work experience, aligned featured projects & tech stack, and role-relevant academic coursework.
     </div>
   </div>
@@ -168,9 +168,9 @@
     <div class="section">
       <div class="section-title">
         Professional Summary
-        {% if show_highlights %}<span style="font-size: 7pt; font-weight: 600; color: #047857; text-transform: uppercase; margin-left: 6px; background: #d1fae5; padding: 1.5px 5px; border-radius: 3px; letter-spacing: 0.02em;">Role-Adapted</span>{% endif %}
+        {% if show_highlights %}<span style="font-size: 7pt; font-weight: 600; color: #09090b; text-transform: uppercase; margin-left: 6px; background: #f4f4f5; border: 1px solid #e4e4e7; padding: 1.5px 5px; border-radius: 3px; letter-spacing: 0.02em;">Role-Adapted</span>{% endif %}
       </div>
-      <div class="summary-text" {% if show_highlights %}style="background: #f0fdf4; border-left: 3px solid #10b981; padding: 6px 10px; border-radius: 0 4px 4px 0;"{% endif %}>
+      <div class="summary-text" {% if show_highlights %}style="background: #f8fafc; border-left: 3px solid #09090b; padding: 6px 10px; border-radius: 0 4px 4px 0;"{% endif %}>
         {{ resume.summary }}
       </div>
     </div>
@@ -182,7 +182,7 @@
     <div class="section">
       <div class="section-title">
         Technical Skills
-        {% if show_highlights %}<span style="font-size: 7pt; font-weight: 600; color: #047857; text-transform: uppercase; margin-left: 6px; background: #d1fae5; padding: 1.5px 5px; border-radius: 3px; letter-spacing: 0.02em;">JD-Prioritized</span>{% endif %}
+        {% if show_highlights %}<span style="font-size: 7pt; font-weight: 600; color: #09090b; text-transform: uppercase; margin-left: 6px; background: #f4f4f5; border: 1px solid #e4e4e7; padding: 1.5px 5px; border-radius: 3px; letter-spacing: 0.02em;">JD-Prioritized</span>{% endif %}
       </div>
       <div class="skills-grid">
         {% for cat in resume.skills %}
@@ -196,7 +196,7 @@
                   {% if kw|lower in s|lower or s|lower in kw|lower %}{% set ns.is_match = true %}{% endif %}
                 {% endfor %}
                 {% if ns.is_match %}
-                  <span style="background: #d1fae5; color: #065f46; font-weight: 700; padding: 0 3px; border-radius: 2px;">{{ s }}</span>{% if not loop.last %}, {% endif %}
+                  <span style="background: #f4f4f5; color: #09090b; font-weight: 700; padding: 0 3px; border-radius: 2px; border-bottom: 1.5px solid #09090b;">{{ s }}</span>{% if not loop.last %}, {% endif %}
                 {% else %}
                   <span>{{ s }}</span>{% if not loop.last %}, {% endif %}
                 {% endif %}
@@ -217,7 +217,7 @@
     <div class="section">
       <div class="section-title">
         Work Experience
-        {% if show_highlights %}<span style="font-size: 7pt; font-weight: 600; color: #047857; text-transform: uppercase; margin-left: 6px; background: #d1fae5; padding: 1.5px 5px; border-radius: 3px; letter-spacing: 0.02em;">Google X-Y-Z Optimized</span>{% endif %}
+        {% if show_highlights %}<span style="font-size: 7pt; font-weight: 600; color: #09090b; text-transform: uppercase; margin-left: 6px; background: #f4f4f5; border: 1px solid #e4e4e7; padding: 1.5px 5px; border-radius: 3px; letter-spacing: 0.02em;">Google X-Y-Z Optimized</span>{% endif %}
       </div>
       {% for exp in resume.experience %}
       <div style="margin-bottom: 6px;">
@@ -231,7 +231,7 @@
         {% if exp.highlights %}
         <ul>
           {% for hl in exp.highlights %}
-          <li {% if show_highlights %}style="background: #f0fdf4; border-left: 2px solid #10b981; padding-left: 6px; margin-bottom: 3px; border-radius: 0 2px 2px 0;"{% endif %}>
+          <li {% if show_highlights %}style="background: #f8fafc; border-left: 2px solid #09090b; padding-left: 6px; margin-bottom: 3px; border-radius: 0 2px 2px 0;"{% endif %}>
             {{ hl }}
           </li>
           {% endfor %}
@@ -248,7 +248,7 @@
     <div class="section">
       <div class="section-title">
         Featured Projects
-        {% if show_highlights %}<span style="font-size: 7pt; font-weight: 600; color: #047857; text-transform: uppercase; margin-left: 6px; background: #d1fae5; padding: 1.5px 5px; border-radius: 3px; letter-spacing: 0.02em;">Target-Aligned</span>{% endif %}
+        {% if show_highlights %}<span style="font-size: 7pt; font-weight: 600; color: #09090b; text-transform: uppercase; margin-left: 6px; background: #f4f4f5; border: 1px solid #e4e4e7; padding: 1.5px 5px; border-radius: 3px; letter-spacing: 0.02em;">Target-Aligned</span>{% endif %}
       </div>
       {% for proj in resume.projects %}
       <div style="margin-bottom: 5px;">
@@ -264,7 +264,7 @@
                       {% if kw|lower in t|lower or t|lower in kw|lower %}{% set ns.is_match = true %}{% endif %}
                     {% endfor %}
                     {% if ns.is_match %}
-                      <span style="background: #d1fae5; color: #065f46; font-weight: 700; padding: 0 3px; border-radius: 2px;">{{ t }}</span>{% if not loop.last %}, {% endif %}
+                      <span style="background: #f4f4f5; color: #09090b; font-weight: 700; padding: 0 3px; border-radius: 2px; border-bottom: 1.5px solid #09090b;">{{ t }}</span>{% if not loop.last %}, {% endif %}
                     {% else %}
                       <span>{{ t }}</span>{% if not loop.last %}, {% endif %}
                     {% endif %}
@@ -281,7 +281,7 @@
         {% if proj.highlights %}
         <ul>
           {% for hl in proj.highlights %}
-          <li {% if show_highlights %}style="background: #f0fdf4; border-left: 2px solid #10b981; padding-left: 6px; margin-bottom: 3px; border-radius: 0 2px 2px 0;"{% endif %}>
+          <li {% if show_highlights %}style="background: #f8fafc; border-left: 2px solid #09090b; padding-left: 6px; margin-bottom: 3px; border-radius: 0 2px 2px 0;"{% endif %}>
             {{ hl }}
           </li>
           {% endfor %}
@@ -298,7 +298,7 @@
     <div class="section">
       <div class="section-title">
         Education
-        {% if show_highlights %}<span style="font-size: 7pt; font-weight: 600; color: #047857; text-transform: uppercase; margin-left: 6px; background: #d1fae5; padding: 1.5px 5px; border-radius: 3px; letter-spacing: 0.02em;">Curated Coursework</span>{% endif %}
+        {% if show_highlights %}<span style="font-size: 7pt; font-weight: 600; color: #09090b; text-transform: uppercase; margin-left: 6px; background: #f4f4f5; border: 1px solid #e4e4e7; padding: 1.5px 5px; border-radius: 3px; letter-spacing: 0.02em;">Curated Coursework</span>{% endif %}
       </div>
       {% for edu in resume.education %}
       <div style="margin-bottom: 5px;">
@@ -312,7 +312,7 @@
         {% if edu.highlights %}
         <ul>
           {% for hl in edu.highlights %}
-          <li {% if show_highlights %}style="background: #f0fdf4; border-left: 2px solid #10b981; padding-left: 6px; margin-bottom: 3px; border-radius: 0 2px 2px 0;"{% endif %}>
+          <li {% if show_highlights %}style="background: #f8fafc; border-left: 2px solid #09090b; padding-left: 6px; margin-bottom: 3px; border-radius: 0 2px 2px 0;"{% endif %}>
             {{ hl }}
           </li>
           {% endfor %}
@@ -329,11 +329,11 @@
     <div class="section">
       <div class="section-title">
         Certifications
-        {% if show_highlights %}<span style="font-size: 7pt; font-weight: 600; color: #047857; text-transform: uppercase; margin-left: 6px; background: #d1fae5; padding: 1.5px 5px; border-radius: 3px; letter-spacing: 0.02em;">Verified</span>{% endif %}
+        {% if show_highlights %}<span style="font-size: 7pt; font-weight: 600; color: #09090b; text-transform: uppercase; margin-left: 6px; background: #f4f4f5; border: 1px solid #e4e4e7; padding: 1.5px 5px; border-radius: 3px; letter-spacing: 0.02em;">Verified</span>{% endif %}
       </div>
       <ul>
         {% for cert in resume.certifications %}
-        <li {% if show_highlights %}style="background: #f0fdf4; border-left: 2px solid #10b981; padding-left: 6px; margin-bottom: 3px; border-radius: 0 2px 2px 0;"{% endif %}>
+        <li {% if show_highlights %}style="background: #f8fafc; border-left: 2px solid #09090b; padding-left: 6px; margin-bottom: 3px; border-radius: 0 2px 2px 0;"{% endif %}>
           {{ cert }}
         </li>
         {% endfor %}
@@ -347,7 +347,7 @@
     <div class="section">
       <div class="section-title">
         {{ csec.heading }}
-        {% if show_highlights %}<span style="font-size: 7pt; font-weight: 600; color: #047857; text-transform: uppercase; margin-left: 6px; background: #d1fae5; padding: 1.5px 5px; border-radius: 3px; letter-spacing: 0.02em;">Role-Aligned</span>{% endif %}
+        {% if show_highlights %}<span style="font-size: 7pt; font-weight: 600; color: #09090b; text-transform: uppercase; margin-left: 6px; background: #f4f4f5; border: 1px solid #e4e4e7; padding: 1.5px 5px; border-radius: 3px; letter-spacing: 0.02em;">Role-Aligned</span>{% endif %}
       </div>
       {% for item in csec.items %}
       <div style="margin-bottom: 5px;">
@@ -363,12 +363,12 @@
         </div>
         {% endif %}
         {% if item.description %}
-        <div style="font-size: 9pt; color: #374151; margin-bottom: 2px;" {% if show_highlights %}style="background: #f0fdf4; border-left: 2px solid #10b981; padding-left: 6px; margin-bottom: 3px; border-radius: 0 2px 2px 0;"{% endif %}>{{ item.description }}</div>
+        <div style="font-size: 9pt; color: #374151; margin-bottom: 2px;" {% if show_highlights %}style="background: #f8fafc; border-left: 2px solid #09090b; padding-left: 6px; margin-bottom: 3px; border-radius: 0 2px 2px 0;"{% endif %}>{{ item.description }}</div>
         {% endif %}
         {% if item.bullets %}
         <ul>
           {% for b in item.bullets %}
-          <li {% if show_highlights %}style="background: #f0fdf4; border-left: 2px solid #10b981; padding-left: 6px; margin-bottom: 3px; border-radius: 0 2px 2px 0;"{% endif %}>
+          <li {% if show_highlights %}style="background: #f8fafc; border-left: 2px solid #09090b; padding-left: 6px; margin-bottom: 3px; border-radius: 0 2px 2px 0;"{% endif %}>
             {{ b }}
           </li>
           {% endfor %}

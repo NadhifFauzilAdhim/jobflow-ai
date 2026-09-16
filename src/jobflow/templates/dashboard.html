@@ -47,12 +47,12 @@
 <body class="min-h-screen flex flex-col antialiased selection:bg-zinc-800 selection:text-white relative">
 
   <!-- Floating Bottom-Right Active Process Toast -->
-  <div id="globalProcessToast" class="fixed bottom-5 right-5 z-50 hidden bg-zinc-900/95 backdrop-blur-md border border-emerald-500/40 text-zinc-100 px-4 py-2.5 rounded-xl shadow-2xl items-center gap-3 transition-all duration-300">
+  <div id="globalProcessToast" class="fixed bottom-5 right-5 z-50 hidden bg-zinc-900/95 backdrop-blur-md border border-zinc-700 text-zinc-100 px-4 py-2.5 rounded-xl shadow-2xl items-center gap-3 transition-all duration-300">
     <span class="relative flex h-2.5 w-2.5">
-      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-      <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-zinc-400 opacity-75"></span>
+      <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-zinc-200"></span>
     </span>
-    <svg class="w-4 h-4 animate-spin text-emerald-400 flex-shrink-0" fill="none" viewBox="0 0 24 24">
+    <svg class="w-4 h-4 animate-spin text-zinc-200 flex-shrink-0" fill="none" viewBox="0 0 24 24">
       <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
       <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
     </svg>
@@ -62,13 +62,13 @@
   <!-- Navigation Header -->
   <header class="border-b border-zinc-800 bg-zinc-950/90 backdrop-blur-md sticky top-0 z-40 px-5 sm:px-6 py-3 flex items-center justify-between">
     <div class="flex items-center gap-3">
-      <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 flex items-center justify-center font-bold text-sm shadow-sm">
+      <div class="w-8 h-8 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 flex items-center justify-center font-bold text-sm shadow-sm">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
       </div>
       <div>
         <div class="flex items-center gap-2">
           <h1 class="font-bold text-sm tracking-tight text-zinc-100">JobFlow</h1>
-          <span class="text-[10px] font-mono font-semibold px-1.5 py-0.5 rounded bg-zinc-800 text-emerald-400 border border-zinc-700">AI</span>
+          <span class="text-[10px] font-mono font-semibold px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-300 border border-zinc-700">AI</span>
         </div>
         <p class="text-[11px] text-zinc-400">Autonomous Career Agent & ATS Suite</p>
       </div>
@@ -77,7 +77,7 @@
     <div class="flex items-center gap-2.5">
       <!-- Active Profile Indicator -->
       <div id="activeProfileBadge" onclick="openProfileModal()" class="cursor-pointer px-3 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-850 border border-zinc-800 text-xs text-zinc-300 flex items-center gap-2 transition shadow-sm">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span class="w-2 h-2 rounded-full bg-zinc-400 animate-pulse"></span>
         <span id="headerProfileName" class="font-medium">Loading Profile...</span>
       </div>
 
@@ -104,10 +104,10 @@
       <!-- Authenticated User & Logout -->
       <div class="flex items-center gap-2 border-l border-zinc-800 pl-3 ml-1">
         <span class="text-xs font-mono text-zinc-400 px-2.5 py-1 rounded-md bg-zinc-900 border border-zinc-800 flex items-center gap-1.5" title="Logged in user">
-          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+          <span class="w-1.5 h-1.5 rounded-full bg-zinc-400"></span>
           <span>{{ username or 'admin' }}</span>
         </span>
-        <a href="/logout" title="Sign Out of Session" class="p-1.5 rounded-lg hover:bg-zinc-850 text-zinc-400 hover:text-rose-400 transition flex items-center gap-1 text-xs">
+        <a href="/logout" title="Sign Out of Session" class="p-1.5 rounded-lg hover:bg-zinc-850 text-zinc-400 hover:text-zinc-100 transition flex items-center gap-1 text-xs">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
           </svg>
@@ -125,11 +125,11 @@
       <div id="masterProfileCard" class="border border-zinc-800 bg-zinc-900/50 rounded-xl p-4 shadow-sm flex flex-col gap-3 transition">
         <div class="flex items-center justify-between border-b border-zinc-800/80 pb-2.5">
           <div class="flex items-center gap-2">
-            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span class="w-2 h-2 rounded-full bg-zinc-400"></span>
             <h3 class="text-xs font-semibold text-zinc-200">Candidate Profile</h3>
           </div>
           <span id="dashDbStatusBadge" class="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-800 text-zinc-400 border border-zinc-700/60 flex items-center gap-1">
-            <svg class="w-3 h-3 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+            <svg class="w-3 h-3 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
             Ground Truth
           </span>
         </div>
@@ -186,7 +186,7 @@
           <div id="dashProfileEmptyView" class="hidden flex flex-col items-center justify-center p-5 text-center border border-dashed border-zinc-800 rounded-lg">
             <p class="text-xs text-zinc-400">No Candidate Master Profile in database yet.</p>
             <p class="text-[11px] text-zinc-500 mt-0.5">Upload your CV once to establish your baseline ground truth.</p>
-            <button onclick="openProfileModal(); switchProfileTab('upload')" class="mt-2.5 px-3 py-1.5 rounded-md bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 text-xs font-medium transition">
+            <button onclick="openProfileModal(); switchProfileTab('upload')" class="mt-2.5 px-3 py-1.5 rounded-md bg-zinc-800 hover:bg-zinc-750 text-zinc-200 border border-zinc-700 text-xs font-medium transition">
               Upload CV Document
             </button>
           </div>
@@ -205,7 +205,7 @@
             <span id="headerStorageBadge">Storage</span>
           </button>
           <button onclick="openAutoScrapModal()" class="px-2.5 py-1 rounded-md bg-zinc-800 hover:bg-zinc-750 text-zinc-200 text-xs font-medium border border-zinc-700 flex items-center gap-1.5 transition shadow-sm" title="Autonomous Multi-Platform Job Scraper">
-            <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            <svg class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
             <span>Auto-Scrap</span>
           </button>
           <button onclick="fetchJobs()" class="px-2.5 py-1 rounded-md bg-zinc-900 hover:bg-zinc-850 text-zinc-400 hover:text-zinc-200 text-xs font-medium border border-zinc-800 transition flex items-center gap-1.5" title="Refresh Application List">
@@ -224,54 +224,59 @@
     </section>
 
     <!-- Right: Application Studio (Document, ATS Audit, Strategy & Fit, Activity) (7 cols) -->
-    <section class="lg:col-span-7 xl:col-span-7 flex flex-col gap-4">
-      <div class="border border-zinc-800 rounded-xl bg-zinc-900/60 p-3.5 sm:p-4 flex flex-col gap-3 shadow-xl">
+    <section class="lg:col-span-7 xl:col-span-7 flex flex-col gap-4 min-w-0">
+      <div class="border border-zinc-800 rounded-xl bg-zinc-900/60 p-3.5 sm:p-4 flex flex-col gap-3 shadow-xl overflow-hidden">
         <!-- Studio Navigation Bar (Tabs & Active Context) -->
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-zinc-800/80 pb-3">
-          <!-- Studio Tabs -->
-          <div class="flex items-center gap-1 bg-zinc-950 p-1 rounded-lg border border-zinc-800 self-start sm:self-auto">
-            <button id="btnTab_document" onclick="switchStudioTab('document')" class="px-3 py-1.5 rounded-md text-xs font-medium transition flex items-center gap-1.5 bg-zinc-800 text-zinc-100 border border-zinc-700/60 shadow-sm">
-              <svg class="w-3.5 h-3.5 text-zinc-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-              <span>Document</span>
-            </button>
-            <button id="btnTab_audit" onclick="switchStudioTab('audit')" class="px-3 py-1.5 rounded-md text-xs font-medium transition flex items-center gap-1.5 text-zinc-400 hover:text-zinc-200 border border-transparent">
-              <svg class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-              <span>ATS Audit</span>
-              <span id="tabAuditScoreBadge" class="hidden text-[10px] font-mono px-1.5 py-0.5 rounded bg-zinc-800 text-emerald-400 border border-zinc-700"></span>
-            </button>
-            <button id="btnTab_strategy" onclick="switchStudioTab('strategy')" class="px-3 py-1.5 rounded-md text-xs font-medium transition flex items-center gap-1.5 text-zinc-400 hover:text-zinc-200 border border-transparent">
-              <svg class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-              <span>Strategy & Fit</span>
-              <span id="tabStrategyScoreBadge" class="hidden text-[10px] font-mono px-1.5 py-0.5 rounded bg-zinc-800 text-emerald-400 border border-zinc-700"></span>
-            </button>
-            <button id="btnTab_activity" onclick="switchStudioTab('activity')" class="px-3 py-1.5 rounded-md text-xs font-medium transition flex items-center gap-1.5 text-zinc-400 hover:text-zinc-200 border border-transparent">
-              <svg class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-              <span>Activity</span>
-              <span id="tabActivityStatusDot" class="w-1.5 h-1.5 rounded-full bg-zinc-600"></span>
-            </button>
-          </div>
+        <div class="flex flex-col gap-2.5 border-b border-zinc-800/80 pb-3">
+          <!-- Row 1: Studio Tabs (Left) & Actions Toolbar (Right) -->
+          <div class="flex items-center justify-between gap-2 flex-wrap">
+            <!-- Studio Tabs -->
+            <div class="flex items-center gap-1 bg-zinc-950 p-1 rounded-lg border border-zinc-800 shrink-0">
+              <button id="btnTab_document" onclick="switchStudioTab('document')" class="px-2.5 sm:px-3 py-1.5 rounded-md text-xs font-medium transition flex items-center gap-1.5 bg-zinc-800 text-zinc-100 border border-zinc-700/60 shadow-sm">
+                <svg class="w-3.5 h-3.5 text-zinc-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                <span>Document</span>
+              </button>
+              <button id="btnTab_audit" onclick="switchStudioTab('audit')" class="px-2.5 sm:px-3 py-1.5 rounded-md text-xs font-medium transition flex items-center gap-1.5 text-zinc-400 hover:text-zinc-200 border border-transparent">
+                <svg class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                <span>ATS Audit</span>
+                <span id="tabAuditScoreBadge" class="hidden text-[10px] font-mono px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-100 border border-zinc-700 font-semibold"></span>
+              </button>
+              <button id="btnTab_strategy" onclick="switchStudioTab('strategy')" class="px-2.5 sm:px-3 py-1.5 rounded-md text-xs font-medium transition flex items-center gap-1.5 text-zinc-400 hover:text-zinc-200 border border-transparent">
+                <svg class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                <span>Strategy & Fit</span>
+                <span id="tabStrategyScoreBadge" class="hidden text-[10px] font-mono px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-100 border border-zinc-700 font-semibold"></span>
+              </button>
+              <button id="btnTab_activity" onclick="switchStudioTab('activity')" class="px-2.5 sm:px-3 py-1.5 rounded-md text-xs font-medium transition flex items-center gap-1.5 text-zinc-400 hover:text-zinc-200 border border-transparent">
+                <svg class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                <span>Activity</span>
+                <span id="tabActivityStatusDot" class="w-1.5 h-1.5 rounded-full bg-zinc-500"></span>
+              </button>
+            </div>
 
-          <!-- Active Job Badge & Toolbar -->
-          <div class="flex items-center gap-2 flex-wrap sm:flex-nowrap justify-between sm:justify-end">
-            <span id="previewJobBadge" class="hidden text-xs font-medium px-2.5 py-1 rounded-md bg-zinc-800 text-zinc-200 border border-zinc-700/60 truncate max-w-[260px]"></span>
-            <div id="previewActions" class="hidden flex items-center gap-1.5">
-              <button onclick="openImproveResumeModal()" title="Perbaiki Kekurangan CV & Lengkapi Metrik" class="text-xs px-2.5 py-1 rounded bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 font-semibold flex items-center gap-1.5 transition shadow-sm">
-                <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            <!-- Active Toolbar (Right) -->
+            <div id="previewActions" class="hidden flex items-center gap-1.5 shrink-0 flex-wrap justify-end">
+              <button onclick="openImproveResumeModal()" title="Perbaiki Kekurangan CV & Lengkapi Metrik" class="text-xs px-2.5 py-1 rounded bg-white hover:bg-zinc-200 text-zinc-950 font-bold border border-white shadow-sm flex items-center gap-1.5 transition">
+                <svg class="w-3.5 h-3.5 text-zinc-950" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                 <span>Improve CV</span>
               </button>
-              <button id="toggleHighlightBtn" onclick="toggleResumeHighlight()" title="Toggle AI Improvements Highlight" class="text-xs px-2.5 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-amber-300 border border-amber-500/30 font-medium flex items-center gap-1.5 transition">
-                <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+              <button id="toggleHighlightBtn" onclick="toggleResumeHighlight()" title="Toggle AI Improvements Highlight" class="text-xs px-2.5 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700 font-medium flex items-center gap-1.5 transition">
+                <svg id="toggleHighlightIcon" class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
                 <span id="highlightBtnText">AI Highlights</span>
               </button>
               <button onclick="openFullscreenResume()" title="Expand Fullscreen" class="text-xs px-2.5 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-300 border border-zinc-700 font-medium flex items-center gap-1.5 transition">
                 <svg class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/></svg>
                 <span>Expand</span>
               </button>
-              <a id="downloadPdfBtn" href="#" target="_blank" class="text-xs px-2.5 py-1 rounded bg-zinc-100 hover:bg-white text-zinc-950 font-semibold flex items-center gap-1.5 transition shadow-sm">
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+              <a id="downloadPdfBtn" href="#" target="_blank" class="text-xs px-2.5 py-1 rounded bg-zinc-900 hover:bg-zinc-800 text-zinc-200 border border-zinc-700 font-medium flex items-center gap-1.5 transition">
+                <svg class="w-3.5 h-3.5 text-zinc-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                 <span>PDF</span>
               </a>
             </div>
+          </div>
+
+          <!-- Row 2: Target Position Sub-bar (Full Width) -->
+          <div id="previewJobBadgeContainer" class="flex items-center gap-2 min-w-0">
+            <span id="previewJobBadge" class="hidden text-xs font-medium px-2.5 py-1 rounded-md bg-zinc-950 text-zinc-300 border border-zinc-800 truncate max-w-full"></span>
           </div>
         </div>
 
@@ -284,9 +289,9 @@
               <!-- High-Tech Animated Loading Overlay -->
               <div id="previewLoadingOverlay" class="hidden absolute inset-0 bg-zinc-950/95 backdrop-blur-md z-30 flex flex-col items-center justify-center gap-4 text-center p-6 transition-all duration-300">
                 <div class="relative w-14 h-14 flex items-center justify-center">
-                  <div class="absolute inset-0 rounded-full border-2 border-emerald-500/20 animate-ping"></div>
-                  <div class="w-12 h-12 rounded-full border-2 border-emerald-500/30 border-t-emerald-400 animate-spin"></div>
-                  <div class="absolute w-2 h-2 rounded-full bg-emerald-400"></div>
+                  <div class="absolute inset-0 rounded-full border-2 border-zinc-700/40 animate-ping"></div>
+                  <div class="w-12 h-12 rounded-full border-2 border-zinc-700 border-t-zinc-200 animate-spin"></div>
+                  <div class="absolute w-2 h-2 rounded-full bg-zinc-200"></div>
                 </div>
                 <div class="flex flex-col items-center gap-1 max-w-sm">
                   <h4 id="previewLoadingTitle" class="text-sm font-semibold text-zinc-100">AI Agent Processing...</h4>
@@ -294,8 +299,8 @@
                 </div>
                 <!-- Interactive Step Badges -->
                 <div id="previewLoadingSteps" class="flex flex-col gap-1.5 w-full max-w-xs text-[11px] font-mono text-zinc-400 text-left pt-2 border-t border-zinc-800/80 mt-1">
-                  <div id="loaderStep1" class="flex items-center gap-2 text-emerald-400">
-                    <svg class="w-3.5 h-3.5 text-emerald-400 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/></svg>
+                  <div id="loaderStep1" class="flex items-center gap-2 text-zinc-200">
+                    <svg class="w-3.5 h-3.5 text-zinc-200 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/></svg>
                     <span>Deconstructing job requirements</span>
                   </div>
                   <div id="loaderStep2" class="flex items-center gap-2 text-zinc-500">
@@ -346,8 +351,8 @@
                   <p class="text-xs text-zinc-400 mt-0.5">Automated screening against Resume Worded & enterprise ATS standards</p>
                 </div>
                 <div class="flex items-center gap-2">
-                  <span id="atsContentBadge" class="text-xs font-mono font-bold px-2.5 py-1 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">CONTENT --%</span>
-                  <span id="atsSectionsBadge" class="text-xs font-mono font-bold px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">SECTIONS --%</span>
+                  <span id="atsContentBadge" class="text-xs font-mono font-bold px-2.5 py-1 rounded bg-zinc-800 text-zinc-100 border border-zinc-700">CONTENT --%</span>
+                  <span id="atsSectionsBadge" class="text-xs font-mono font-bold px-2.5 py-1 rounded bg-zinc-800 text-zinc-100 border border-zinc-700">SECTIONS --%</span>
                 </div>
               </div>
 
@@ -372,10 +377,10 @@
 
               <!-- Action Button: Improve CV with Context -->
               <div class="pt-2">
-                <button id="openImproveModalBtn" onclick="openImproveResumeModal()" class="w-full py-2.5 px-4 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-semibold text-xs transition flex items-center justify-center gap-2 shadow-md">
+                <button id="openImproveModalBtn" onclick="openImproveResumeModal()" class="w-full py-2.5 px-4 rounded-lg bg-white hover:bg-zinc-200 text-zinc-950 font-bold text-xs transition flex items-center justify-center gap-2 shadow-md border border-white">
                   <svg class="w-4 h-4 text-zinc-950" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                   <span id="improveBtnLabel">Perbaiki Kekurangan CV dengan AI</span>
-                  <span id="contextNeededBadge" class="hidden text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-950/80 text-emerald-300 font-bold">+1 Konteks</span>
+                  <span id="contextNeededBadge" class="hidden text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-900 text-zinc-100 border border-zinc-700 font-bold">+1 Konteks</span>
                 </button>
               </div>
             </div>
@@ -397,7 +402,7 @@
                   <h4 class="text-sm font-semibold text-zinc-200">Role Alignment Strategy</h4>
                   <p class="text-xs text-zinc-400 mt-0.5">Autonomous tailoring rationale and keyword matrix for this position</p>
                 </div>
-                <span id="strategyScoreBadge" class="text-xs font-mono font-bold px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">95% ATS</span>
+                <span id="strategyScoreBadge" class="text-xs font-mono font-bold px-2.5 py-1 rounded bg-zinc-800 text-zinc-100 border border-zinc-700">95% ATS</span>
               </div>
 
               <!-- AI Alignment Reasoning -->
@@ -420,7 +425,7 @@
 
               <!-- Role Interview Talking Points -->
               <div id="interviewPrepSection" class="flex flex-col gap-1.5 border-t border-zinc-800 pt-3">
-                <div class="text-xs font-semibold text-emerald-400 flex items-center gap-1.5">
+                <div class="text-xs font-semibold text-zinc-200 flex items-center gap-1.5">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
                   <span>Role Interview Talking Points</span>
                 </div>
@@ -433,7 +438,7 @@
           <div id="studioPane_activity" class="hidden flex-1 flex flex-col gap-3">
             <div class="flex items-center justify-between border-b border-zinc-800 pb-2.5">
               <div class="flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span class="w-2 h-2 rounded-full bg-zinc-400 animate-pulse"></span>
                 <h4 class="text-xs font-semibold text-zinc-200">Live Agent Execution Logs</h4>
               </div>
               <div class="flex items-center gap-2">
@@ -462,7 +467,7 @@
           <div>
             <h3 class="text-base font-semibold text-zinc-100 flex items-center gap-2">
               <span>Candidate Master Profile & Ground Truth</span>
-              <span class="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">100% Fidelity</span>
+              <span class="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-zinc-800 text-zinc-300 border border-zinc-700">100% Fidelity</span>
             </h3>
             <p class="text-xs text-zinc-400 mt-0.5">Your original CV is the absolute baseline. Education, projects, and history are strictly preserved.</p>
           </div>
@@ -516,8 +521,8 @@
           <!-- Education Section (Preserved) -->
           <div>
             <div class="text-zinc-300 font-semibold mb-2 flex items-center justify-between">
-              <span class="flex items-center gap-1.5 text-emerald-400">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path></svg>
+              <span class="flex items-center gap-1.5 text-zinc-200">
+                <svg class="w-4 h-4 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path></svg>
                 Education Records (<span id="eduCountBadge">0</span>)
               </span>
             </div>
@@ -529,8 +534,8 @@
           <!-- Projects Section (Preserved) -->
           <div>
             <div class="text-zinc-300 font-semibold mb-2 flex items-center justify-between">
-              <span class="flex items-center gap-1.5 text-emerald-400">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+              <span class="flex items-center gap-1.5 text-zinc-200">
+                <svg class="w-4 h-4 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
                 Projects & Portfolio (<span id="projCountBadge">0</span>)
               </span>
             </div>
@@ -542,8 +547,8 @@
           <!-- Work Experience Section -->
           <div>
             <div class="text-zinc-300 font-semibold mb-2 flex items-center justify-between">
-              <span class="flex items-center gap-1.5 text-emerald-400">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+              <span class="flex items-center gap-1.5 text-zinc-200">
+                <svg class="w-4 h-4 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                 Work Experience (<span id="expCountBadge">0</span>)
               </span>
             </div>
@@ -565,8 +570,8 @@
           <!-- Adaptive & Custom Sections Discovered by AI -->
           <div id="profCustomSectionsWrapper" class="space-y-2">
             <div class="text-zinc-300 font-semibold flex items-center justify-between border-t border-zinc-800/80 pt-3">
-              <span class="flex items-center gap-1.5 text-emerald-400">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+              <span class="flex items-center gap-1.5 text-zinc-200">
+                <svg class="w-4 h-4 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                 Adaptive Sections Discovered (<span id="customSecCountBadge">0</span>)
               </span>
               <span class="text-[10px] text-zinc-500 font-normal">Auto-detected from CV (Awards, Publications, Languages, etc.)</span>
@@ -583,7 +588,7 @@
           <div id="cvDropzone" class="border-2 border-dashed border-zinc-700 hover:border-zinc-500 rounded-xl p-6 text-center bg-zinc-950/60 transition cursor-pointer" onclick="document.getElementById('cvFileInput').click()">
             <input type="file" id="cvFileInput" class="hidden" accept=".pdf,.docx,.doc,.txt" onchange="handleCvFileSelect(event)">
             <div class="flex flex-col items-center gap-2">
-              <div id="cvUploadIconWrapper" class="w-12 h-12 rounded-full bg-zinc-800 text-emerald-400 flex items-center justify-center transition">
+              <div id="cvUploadIconWrapper" class="w-12 h-12 rounded-full bg-zinc-800 text-zinc-300 flex items-center justify-center transition">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
               </div>
               <div>
@@ -598,8 +603,8 @@
           <div class="flex flex-col gap-2">
             <div class="flex items-center justify-between">
               <label class="text-zinc-300 font-medium text-xs">Or View / Paste Raw CV Text Directly:</label>
-              <button onclick="reparseRawText()" id="reparseBtn" class="px-3 py-1.5 rounded-md bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 text-xs font-medium transition flex items-center gap-1.5 shadow-sm">
-                <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              <button onclick="reparseRawText()" id="reparseBtn" class="px-3 py-1.5 rounded-md bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700 text-xs font-medium transition flex items-center gap-1.5 shadow-sm">
+                <svg class="w-3.5 h-3.5 text-zinc-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                 <span>Re-Parse with AI Agent</span>
               </button>
             </div>
@@ -663,7 +668,7 @@
     <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-xl w-full p-6 shadow-2xl flex flex-col gap-4 max-h-[90vh] overflow-y-auto custom-scroll">
       <div class="flex justify-between items-center border-b border-zinc-800 pb-3">
         <div class="flex items-center gap-2.5">
-          <span class="p-1.5 rounded-lg bg-amber-500/20 text-amber-400">
+          <span class="p-1.5 rounded-lg bg-zinc-800 text-zinc-300 border border-zinc-700">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
           </span>
           <div>
@@ -678,7 +683,7 @@
       <div class="bg-zinc-950 border border-zinc-800/90 rounded-xl p-3.5 flex flex-col gap-2">
         <div class="flex items-center justify-between text-xs">
           <span class="font-medium text-zinc-300 flex items-center gap-1.5">
-            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span class="w-2 h-2 rounded-full bg-zinc-400"></span>
             CV Ground Truth Search Criteria:
           </span>
           <span id="autoScrapCandidateName" class="text-[10px] font-mono text-zinc-400">Inspecting CV...</span>
@@ -697,7 +702,7 @@
             </div>
           </div>
         </div>
-        <div id="autoScrapNoProfileWarning" class="hidden text-[11px] text-amber-400 bg-amber-500/10 border border-amber-500/20 rounded p-2">
+        <div id="autoScrapNoProfileWarning" class="hidden text-[11px] text-zinc-300 bg-zinc-900 border border-zinc-700 rounded p-2">
           Candidate CV profile not detected. Please upload your CV first to establish search criteria and ground truth.
         </div>
       </div>
@@ -709,19 +714,19 @@
           <label class="block text-zinc-300 font-medium mb-1.5">Target Platforms:</label>
           <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
             <label class="flex items-center gap-2 p-2 rounded bg-zinc-950 border border-zinc-800 hover:border-zinc-700 cursor-pointer">
-              <input type="checkbox" id="platformJobStreet" value="jobstreet" checked class="rounded border-zinc-700 bg-zinc-900 text-emerald-500 focus:ring-0">
+              <input type="checkbox" id="platformJobStreet" value="jobstreet" checked class="rounded border-zinc-700 bg-zinc-900 text-zinc-100 accent-zinc-200 focus:ring-0">
               <span class="text-zinc-200 text-xs">JobStreet</span>
             </label>
             <label class="flex items-center gap-2 p-2 rounded bg-zinc-950 border border-zinc-800 hover:border-zinc-700 cursor-pointer">
-              <input type="checkbox" id="platformLinkedIn" value="linkedin" checked class="rounded border-zinc-700 bg-zinc-900 text-emerald-500 focus:ring-0">
+              <input type="checkbox" id="platformLinkedIn" value="linkedin" checked class="rounded border-zinc-700 bg-zinc-900 text-zinc-100 accent-zinc-200 focus:ring-0">
               <span class="text-zinc-200 text-xs">LinkedIn</span>
             </label>
             <label class="flex items-center gap-2 p-2 rounded bg-zinc-950 border border-zinc-800 hover:border-zinc-700 cursor-pointer">
-              <input type="checkbox" id="platformGlints" value="glints" checked class="rounded border-zinc-700 bg-zinc-900 text-emerald-500 focus:ring-0">
+              <input type="checkbox" id="platformGlints" value="glints" checked class="rounded border-zinc-700 bg-zinc-900 text-zinc-100 accent-zinc-200 focus:ring-0">
               <span class="text-zinc-200 text-xs">Glints</span>
             </label>
             <label class="flex items-center gap-2 p-2 rounded bg-zinc-950 border border-zinc-800 hover:border-zinc-700 cursor-pointer">
-              <input type="checkbox" id="platformRemoteOK" value="remoteok" checked class="rounded border-zinc-700 bg-zinc-900 text-emerald-500 focus:ring-0">
+              <input type="checkbox" id="platformRemoteOK" value="remoteok" checked class="rounded border-zinc-700 bg-zinc-900 text-zinc-100 accent-zinc-200 focus:ring-0">
               <span class="text-zinc-200 text-xs">RemoteOK</span>
             </label>
           </div>
@@ -732,9 +737,9 @@
           <div>
             <div class="flex justify-between items-center mb-1">
               <label class="text-zinc-300 font-medium">Relevance Threshold:</label>
-              <span id="relevanceValBadge" class="text-[11px] font-mono font-semibold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">60% Min</span>
+              <span id="relevanceValBadge" class="text-[11px] font-mono font-semibold px-2 py-0.5 rounded bg-zinc-800 text-zinc-100 border border-zinc-700">60% Min</span>
             </div>
-            <input type="range" id="minRelevanceSlider" min="40" max="90" step="5" value="60" oninput="document.getElementById('relevanceValBadge').innerText = this.value + '% Min'" class="w-full accent-emerald-400 bg-zinc-950 cursor-pointer">
+            <input type="range" id="minRelevanceSlider" min="40" max="90" step="5" value="60" oninput="document.getElementById('relevanceValBadge').innerText = this.value + '% Min'" class="w-full accent-zinc-200 bg-zinc-950 cursor-pointer">
             <p class="text-[10px] text-zinc-500 mt-1">Filters out domain/stack mismatches (e.g. Sales, Accounting, non-matching tech).</p>
           </div>
           <div>
@@ -762,8 +767,8 @@
         <span id="autoScrapStatusText" class="text-xs text-zinc-400 font-mono">Ready to harvest.</span>
         <div class="flex items-center gap-2">
           <button onclick="closeAutoScrapModal()" class="px-3.5 py-1.5 rounded bg-zinc-800 text-zinc-300 text-xs hover:bg-zinc-700 transition">Cancel</button>
-          <button onclick="runAutoScrap()" id="runAutoScrapBtn" class="px-4 py-1.5 rounded bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-semibold text-xs transition flex items-center gap-1.5 shadow-sm">
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+          <button onclick="runAutoScrap()" id="runAutoScrapBtn" class="px-4 py-1.5 rounded bg-white hover:bg-zinc-200 text-zinc-950 font-bold text-xs transition flex items-center gap-1.5 shadow-sm border border-white">
+            <svg class="w-3.5 h-3.5 text-zinc-950" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
             <span>Start Autonomous Job Hunt</span>
           </button>
         </div>
@@ -799,7 +804,7 @@
         </div>
         <div>
           <div class="text-[10px] text-zinc-500 uppercase tracking-wider">Orphaned Files</div>
-          <div id="storageOrphanedCount" class="text-sm font-bold text-amber-400 font-mono mt-0.5">--</div>
+          <div id="storageOrphanedCount" class="text-sm font-bold text-zinc-200 font-mono mt-0.5">--</div>
         </div>
       </div>
 
@@ -834,15 +839,15 @@
         </div>
 
         <!-- Action 3: Clear All Job Applications -->
-        <div class="p-3.5 rounded-xl border border-red-900/30 bg-red-950/10 flex items-center justify-between gap-3">
+        <div class="p-3.5 rounded-xl border border-zinc-800 bg-zinc-950/70 flex items-center justify-between gap-3">
           <div class="flex-1">
-            <h4 class="font-medium text-red-300 flex items-center gap-2">
-              <svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+            <h4 class="font-medium text-zinc-200 flex items-center gap-2">
+              <svg class="w-4 h-4 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
               <span>Clear All Applications & Files</span>
             </h4>
             <p class="text-[11px] text-zinc-400 mt-0.5">Deletes all job application records and completely empties the output directory.</p>
           </div>
-          <button onclick="executeClearAllJobs()" class="px-3 py-1.5 rounded-md bg-red-950/80 hover:bg-red-900 text-red-300 font-medium border border-red-800/60 text-xs transition flex-shrink-0">
+          <button onclick="executeClearAllJobs()" class="px-3 py-1.5 rounded-md bg-zinc-800 hover:bg-zinc-700 text-zinc-100 font-medium border border-zinc-700 text-xs transition flex-shrink-0">
             Clear All
           </button>
         </div>
@@ -860,7 +865,7 @@
       <!-- Modal Header -->
       <div class="p-4 border-b border-zinc-800 bg-zinc-950/70 flex justify-between items-center">
         <div class="flex items-center gap-2.5">
-          <span class="p-1.5 rounded-lg bg-emerald-500/20 text-emerald-400">
+          <span class="p-1.5 rounded-lg bg-zinc-800 text-zinc-300 border border-zinc-700">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
           </span>
           <div>
@@ -869,7 +874,7 @@
           </div>
         </div>
         <div class="flex items-center gap-2">
-          <a id="fullscreenDownloadPdfBtn" href="#" target="_blank" class="px-3 py-1.5 rounded bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 text-xs font-medium flex items-center gap-1.5 transition">
+          <a id="fullscreenDownloadPdfBtn" href="#" target="_blank" class="px-3 py-1.5 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-100 border border-zinc-700 text-xs font-medium flex items-center gap-1.5 transition">
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
             Download PDF
           </a>
@@ -886,18 +891,18 @@
   </div>
 
   <!-- Modal: Improve Resume with User Context -->
-  <div id="resumeImproveModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden items-center justify-center p-3 sm:p-6">
+  <div id="resumeImproveModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden items-center justify-center p-3 sm:p-6">
     <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-2xl w-full max-h-[92vh] flex flex-col shadow-2xl overflow-hidden">
       <!-- Header -->
       <div class="p-4 sm:p-5 border-b border-zinc-800 bg-zinc-950/80 flex justify-between items-center">
         <div class="flex items-center gap-2.5">
-          <span class="p-2 rounded-xl bg-emerald-500/20 text-emerald-400">
+          <span class="p-2 rounded-xl bg-zinc-800 text-zinc-200 border border-zinc-700">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
           </span>
           <div>
             <h3 class="text-sm sm:text-base font-semibold text-zinc-100 flex items-center gap-2">
               Optimalkan Skor Konten ATS
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Target 95%+</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-800 text-zinc-100 border border-zinc-700">Target 95%+</span>
             </h3>
             <p class="text-xs text-zinc-400 mt-0.5">Lengkapi metrik nyata untuk poin-poin yang belum terukur agar lolos filter ATS</p>
           </div>
@@ -911,7 +916,7 @@
         <div class="rounded-xl border border-zinc-800 bg-zinc-950/60 p-3.5 flex flex-col gap-2">
           <div class="flex items-center justify-between">
             <span class="text-xs font-semibold text-zinc-300">Status Saat Ini:</span>
-            <span id="modalCurrentContentScore" class="text-xs font-mono font-bold text-amber-400">CONTENT 63%</span>
+            <span id="modalCurrentContentScore" class="text-xs font-mono font-bold text-zinc-100">CONTENT 63%</span>
           </div>
           <p id="modalSummaryInsight" class="text-xs text-zinc-400 leading-relaxed"></p>
         </div>
@@ -922,14 +927,14 @@
         </div>
 
         <!-- Empty / No context needed state -->
-        <div id="modalNoContextNeededMsg" class="hidden rounded-xl border border-emerald-500/30 bg-emerald-950/20 p-4 text-center text-xs text-emerald-300 flex items-center justify-center gap-2">
-          <svg class="w-4 h-4 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+        <div id="modalNoContextNeededMsg" class="hidden rounded-xl border border-zinc-700 bg-zinc-900/60 p-4 text-center text-xs text-zinc-200 flex items-center justify-center gap-2">
+          <svg class="w-4 h-4 text-zinc-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
           <span>Seluruh poin sudah memiliki metrik dasar. AI akan langsung mendiversifikasi action verbs, memperbaiki tanda baca, dan mengoptimalkan kepadatan kata kunci lowongan!</span>
         </div>
 
         <!-- Auto estimate toggle -->
         <div class="rounded-xl border border-zinc-800 bg-zinc-950/40 p-3 flex items-start gap-2.5">
-          <input type="checkbox" id="autoEstimateCheckbox" checked class="mt-0.5 rounded border-zinc-700 bg-zinc-800 text-emerald-500 focus:ring-emerald-500/40">
+          <input type="checkbox" id="autoEstimateCheckbox" checked class="mt-0.5 rounded border-zinc-700 bg-zinc-800 text-zinc-100 accent-zinc-200 focus:ring-0">
           <label for="autoEstimateCheckbox" class="text-xs text-zinc-300 cursor-pointer select-none">
             <span class="font-medium text-zinc-200">Gunakan estimasi rasional standar industri</span>
             <span class="block text-[11px] text-zinc-500 mt-0.5">Jika kolom pertanyaan di atas dikosongkan, AI akan menyusun metrik rasional yang realistis sesuai domain proyek tanpa mengubah fakta riil.</span>
@@ -942,7 +947,7 @@
         <button onclick="closeImproveResumeModal()" class="text-xs px-4 py-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-medium transition">
           Batal
         </button>
-        <button id="submitImproveResumeBtn" onclick="submitImproveResume()" class="text-xs px-5 py-2.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-bold flex items-center gap-2 shadow-lg transition">
+        <button id="submitImproveResumeBtn" onclick="submitImproveResume()" class="text-xs px-5 py-2.5 rounded-lg bg-white hover:bg-zinc-200 text-zinc-950 font-bold flex items-center gap-2 shadow-lg transition border border-white">
           <svg class="w-4 h-4 text-zinc-950" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
           <span>Terapkan Perbaikan & Re-Score ATS</span>
         </button>
@@ -955,7 +960,7 @@
     <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-2xl w-full p-6 shadow-2xl flex flex-col gap-4 max-h-[90vh] overflow-y-auto custom-scroll">
       <div class="flex justify-between items-center border-b border-zinc-800 pb-3">
         <div class="flex items-center gap-2.5">
-          <span class="p-1.5 rounded-lg bg-amber-500/20 text-amber-400">
+          <span class="p-1.5 rounded-lg bg-zinc-800 text-zinc-300 border border-zinc-700">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>
           </span>
           <div>
@@ -971,7 +976,7 @@
         <div class="text-xs font-semibold text-zinc-200">Create New API Key</div>
         <form onsubmit="handleCreateApiKey(event)" class="flex gap-2">
           <input id="newKeyNameInput" type="text" placeholder="Application name (e.g. My Next.js Webhook, Zapier, CLI)" required class="flex-1 bg-zinc-900 border border-zinc-800 rounded px-3 py-2 text-xs text-zinc-200 focus:outline-none focus:border-zinc-500">
-          <button type="submit" id="generateKeyBtn" class="px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-semibold text-xs rounded transition flex items-center gap-1.5 shadow-sm">
+          <button type="submit" id="generateKeyBtn" class="px-4 py-2 bg-white hover:bg-zinc-200 text-zinc-950 font-bold text-xs rounded transition flex items-center gap-1.5 shadow-sm border border-white">
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
             Generate Key
           </button>
@@ -979,8 +984,8 @@
       </div>
 
       <!-- One-time Secret Key Display (Hidden by default) -->
-      <div id="newKeyRevealAlert" class="hidden bg-emerald-950/40 border border-emerald-500/40 rounded-xl p-4 flex flex-col gap-2">
-        <div class="flex items-center gap-2 text-emerald-400 text-xs font-semibold">
+      <div id="newKeyRevealAlert" class="hidden bg-zinc-900 border border-zinc-700 rounded-xl p-4 flex flex-col gap-2">
+        <div class="flex items-center gap-2 text-zinc-100 text-xs font-semibold">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
           Save your API Key now!
         </div>
@@ -988,8 +993,8 @@
           Please copy your API key and store it securely. For security reasons, <strong>you won't be able to view it again</strong> once this dialog is closed.
         </p>
         <div class="flex items-center gap-2 mt-1">
-          <input id="revealedSecretKey" readonly type="text" class="flex-1 bg-zinc-950 border border-emerald-500/50 rounded px-3 py-1.5 font-mono text-xs text-emerald-300 select-all">
-          <button onclick="copyRevealedKey()" class="px-3.5 py-1.5 rounded bg-emerald-500 text-zinc-950 font-semibold text-xs hover:bg-emerald-400 transition flex items-center gap-1">
+          <input id="revealedSecretKey" readonly type="text" class="flex-1 bg-zinc-950 border border-zinc-700 rounded px-3 py-1.5 font-mono text-xs text-zinc-200 select-all">
+          <button onclick="copyRevealedKey()" class="px-3.5 py-1.5 rounded bg-white text-zinc-950 font-bold text-xs hover:bg-zinc-200 transition flex items-center gap-1 border border-white">
             Copy Key
           </button>
         </div>
@@ -1023,7 +1028,7 @@
 
       <!-- Footer & Link to Documentation -->
       <div class="flex items-center justify-between border-t border-zinc-800 pt-3">
-        <a href="/developers" target="_blank" class="text-xs text-emerald-400 hover:underline flex items-center gap-1 font-sans">
+        <a href="/developers" target="_blank" class="text-xs text-zinc-300 hover:text-white hover:underline flex items-center gap-1 font-sans">
           <span>Explore Developer API Documentation & Code Snippets</span>
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
         </a>
@@ -1547,11 +1552,11 @@
       const iconWrapper = document.getElementById('cvUploadIconWrapper');
       const origIconHtml = iconWrapper ? iconWrapper.innerHTML : '';
       if (iconWrapper) {
-        iconWrapper.innerHTML = `<svg class="w-6 h-6 animate-spin text-emerald-400" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>`;
+        iconWrapper.innerHTML = `<svg class="w-6 h-6 animate-spin text-zinc-200" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>`;
       }
 
-      statusEl.classList.remove('hidden', 'text-red-400', 'text-emerald-400');
-      statusEl.classList.add('text-amber-300');
+      statusEl.classList.remove('hidden', 'text-zinc-400', 'text-zinc-100');
+      statusEl.classList.add('text-zinc-300');
       statusEl.innerText = `AI Agent reading and structuring "${file.name}"...`;
 
       showGlobalLoader(`Mengekstrak & membedah dokumen CV "${file.name}"...`);
@@ -1568,22 +1573,22 @@
         const data = await res.json();
 
         if (res.ok) {
-          statusEl.classList.remove('text-amber-300');
-          statusEl.classList.add('text-emerald-400');
+          statusEl.classList.remove('text-zinc-300');
+          statusEl.classList.add('text-zinc-100');
           statusEl.innerText = data.message;
           appendLog(`[AI Agent] Successfully extracted profile for ${data.profile.contact.full_name}!`, "success");
           fetchProfileStatus();
           await loadFullProfile();
           switchProfileTab('editor');
         } else {
-          statusEl.classList.remove('text-amber-300');
-          statusEl.classList.add('text-red-400');
+          statusEl.classList.remove('text-zinc-300');
+          statusEl.classList.add('text-zinc-400');
           statusEl.innerText = `Upload failed: ${data.detail || 'Unknown error'}`;
           appendLog(`[AI Agent] CV parse error: ${data.detail}`, "error");
         }
       } catch (err) {
-        statusEl.classList.remove('text-amber-300');
-        statusEl.classList.add('text-red-400');
+        statusEl.classList.remove('text-zinc-300');
+        statusEl.classList.add('text-zinc-400');
         statusEl.innerText = `Network error: ${err.message || err}`;
         appendLog(`[AI Agent] Upload failed: ${err}`, "error");
       } finally {
@@ -1638,8 +1643,8 @@
               <div class="flex items-center gap-2 flex-wrap">
                 ${hasUrl ? `
                   <a href="${j.url}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" class="group inline-flex items-center gap-1.5 min-w-0" title="Open original job listing: ${j.url}">
-                    <h4 class="font-semibold text-xs sm:text-sm text-zinc-100 group-hover:text-emerald-400 truncate transition underline-offset-2 group-hover:underline">${j.title}</h4>
-                    <svg class="w-3.5 h-3.5 flex-shrink-0 text-zinc-500 group-hover:text-emerald-400 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                    <h4 class="font-semibold text-xs sm:text-sm text-zinc-100 group-hover:text-white truncate transition underline-offset-2 group-hover:underline">${j.title}</h4>
+                    <svg class="w-3.5 h-3.5 flex-shrink-0 text-zinc-500 group-hover:text-zinc-300 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
                   </a>
                 ` : `
                   <h4 class="font-semibold text-xs sm:text-sm text-zinc-100 truncate">${j.title}</h4>
@@ -1649,7 +1654,7 @@
               <p class="text-xs text-zinc-400 mt-0.5 truncate">${j.company} • <span class="text-zinc-500">${j.location}</span></p>
             </div>
             <div class="text-right flex-shrink-0">
-              <span class="text-xs font-mono font-semibold ${j.ats_score >= 70 ? 'text-emerald-400' : 'text-amber-400'}">
+              <span class="text-xs font-mono font-semibold text-zinc-100">
                 ATS: ${j.ats_score}%
               </span>
               <div class="text-[9px] uppercase font-mono text-zinc-500 mt-0.5">${j.status}</div>
@@ -1659,8 +1664,8 @@
           <div class="flex items-center justify-between border-t border-zinc-800/80 pt-2.5">
             <div class="flex items-center gap-1.5 flex-wrap" onclick="event.stopPropagation()">
               ${j.has_resume ? `
-                <button onclick="executeApply(${j.id})" class="px-2.5 py-1 rounded-md bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/30 text-xs font-medium transition flex items-center gap-1.5 shadow-sm" title="Apply autonomously with agent">
-                  <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+                <button onclick="executeApply(${j.id})" class="px-2.5 py-1 rounded-md bg-zinc-800 hover:bg-zinc-750 text-zinc-100 border border-zinc-700 text-xs font-medium transition flex items-center gap-1.5 shadow-sm" title="Apply autonomously with agent">
+                  <svg class="w-3.5 h-3.5 text-zinc-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
                   <span>Apply</span>
                 </button>
                 <button onclick="tailorResume(${j.id})" class="px-2.5 py-1 rounded-md bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-xs font-medium transition flex items-center gap-1.5" title="Re-tailor resume">
@@ -1668,18 +1673,18 @@
                   <span>Re-tailor</span>
                 </button>
               ` : `
-                <button onclick="tailorResume(${j.id})" class="px-2.5 py-1 rounded-md bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-semibold text-xs transition flex items-center gap-1.5 shadow-sm" title="Tailor resume for this position">
+                <button onclick="tailorResume(${j.id})" class="px-2.5 py-1 rounded-md bg-white hover:bg-zinc-200 text-zinc-950 font-bold text-xs transition flex items-center gap-1.5 shadow-sm border border-white" title="Tailor resume for this position">
                   <svg class="w-3.5 h-3.5 text-zinc-950" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                   <span>Tailor CV</span>
                 </button>
               `}
               ${hasUrl ? `
-                <a href="${j.url}" target="_blank" rel="noopener noreferrer" class="p-1 rounded-md bg-zinc-850 hover:bg-zinc-800 text-zinc-400 hover:text-emerald-400 border border-zinc-800 hover:border-zinc-700 transition" title="Open original job listing">
+                <a href="${j.url}" target="_blank" rel="noopener noreferrer" class="p-1 rounded-md bg-zinc-850 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-zinc-800 hover:border-zinc-700 transition" title="Open original job listing">
                   <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                 </a>
               ` : ''}
             </div>
-            <button onclick="event.stopPropagation(); deleteJob(${j.id})" class="p-1 rounded-md text-zinc-500 hover:text-rose-400 hover:bg-rose-500/10 transition" title="Delete job">
+            <button onclick="event.stopPropagation(); deleteJob(${j.id})" class="p-1 rounded-md text-zinc-500 hover:text-zinc-100 hover:bg-zinc-800 transition" title="Delete job">
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
             </button>
           </div>
@@ -1773,12 +1778,12 @@
             </div>
 
             <div class="flex items-center gap-2 flex-wrap">
-              <button onclick="tailorResume(${job.id})" class="px-3.5 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-semibold text-xs transition flex items-center gap-1.5 shadow-sm">
+              <button onclick="tailorResume(${job.id})" class="px-3.5 py-2 rounded-lg bg-white hover:bg-zinc-200 text-zinc-950 font-semibold text-xs transition flex items-center gap-1.5 shadow-sm">
                 <svg class="w-4 h-4 text-zinc-950" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                 <span>Tailor Resume for this Position</span>
               </button>
               ${job.url && job.url.startsWith('http') ? `
-                <a href="${job.url}" target="_blank" rel="noopener noreferrer" class="px-3.5 py-2 rounded-lg bg-zinc-800 hover:bg-zinc-750 text-emerald-400 hover:text-emerald-300 border border-emerald-500/30 font-medium text-xs transition flex items-center gap-1.5 shadow-sm" title="Visit original job listing">
+                <a href="${job.url}" target="_blank" rel="noopener noreferrer" class="px-3.5 py-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-200 hover:text-zinc-100 border border-zinc-700 font-medium text-xs transition flex items-center gap-1.5 shadow-sm" title="Visit original job listing">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
                   <span>Open Original Posting</span>
                 </a>
@@ -1812,7 +1817,7 @@
       document.getElementById('activeJobStatus').innerText = `TAILORING (#${jobId})`;
       
       const activityDot = document.getElementById('tabActivityStatusDot');
-      if (activityDot) activityDot.className = 'w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse';
+      if (activityDot) activityDot.className = 'w-1.5 h-1.5 rounded-full bg-zinc-100 animate-pulse';
 
       // 1. Identify all tailor buttons targeting this job (in job list card or detail view)
       const tailorBtns = document.querySelectorAll(`button[onclick*="tailorResume(${jobId})"]`);
@@ -1821,7 +1826,7 @@
       // 2. Add glowing pulse ring to target job card in the list
       const targetCard = document.querySelector(`div[data-job-id="${jobId}"]`);
       if (targetCard) {
-        targetCard.classList.add('ring-2', 'ring-emerald-400', 'border-emerald-500', 'animate-pulse');
+        targetCard.classList.add('ring-2', 'ring-zinc-400', 'border-zinc-500', 'animate-pulse');
       }
 
       // 3. Trigger Global Progress Bar & Floating Toast
@@ -1862,7 +1867,7 @@
       } finally {
         tailorBtns.forEach(b => resetButton(b));
         if (targetCard) {
-          targetCard.classList.remove('ring-2', 'ring-emerald-400', 'border-emerald-500', 'animate-pulse');
+          targetCard.classList.remove('ring-2', 'ring-zinc-400', 'border-zinc-500', 'animate-pulse');
         }
         if (activityDot) activityDot.className = 'w-1.5 h-1.5 rounded-full bg-zinc-600';
         hidePreviewLoader();
@@ -1892,8 +1897,8 @@
       if (tailored.key_strengths && tailored.key_strengths.length > 0) {
         tailored.key_strengths.forEach(s => {
           const badge = document.createElement('span');
-          badge.className = 'px-2.5 py-1 rounded bg-emerald-500/10 text-emerald-300 text-[11px] font-medium border border-emerald-500/25 flex items-center gap-1.5';
-          badge.innerHTML = `<svg class="w-3 h-3 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg><span>${s}</span>`;
+          badge.className = 'px-2.5 py-1 rounded bg-zinc-800 text-zinc-200 text-[11px] font-medium border border-zinc-700 flex items-center gap-1.5';
+          badge.innerHTML = `<svg class="w-3.5 h-3.5 text-zinc-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg><span>${s}</span>`;
           strengthsContainer.appendChild(badge);
         });
       }
@@ -1964,11 +1969,15 @@
       const text = document.getElementById('highlightBtnText');
       if (btn && text) {
         if (isHighlightActive) {
-          btn.className = 'text-xs px-2.5 py-1 rounded bg-amber-500/30 text-amber-200 border border-amber-400 font-semibold flex items-center gap-1.5 transition shadow-sm';
+          btn.className = 'text-xs px-2.5 py-1 rounded bg-zinc-100 hover:bg-white text-zinc-950 font-bold border border-white flex items-center gap-1.5 transition shadow-sm';
           text.innerText = 'Highlights ON';
+          const icon = btn.querySelector('svg');
+          if (icon) icon.className = 'w-3.5 h-3.5 text-zinc-950';
         } else {
-          btn.className = 'text-xs px-2.5 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-amber-300 border border-amber-500/30 font-medium flex items-center gap-1.5 transition';
+          btn.className = 'text-xs px-2.5 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700 font-medium flex items-center gap-1.5 transition';
           text.innerText = 'AI Highlights';
+          const icon = btn.querySelector('svg');
+          if (icon) icon.className = 'w-3.5 h-3.5 text-zinc-400';
         }
       }
     }
@@ -2115,17 +2124,13 @@
         const contentBadge = document.getElementById('atsContentBadge');
         if (contentBadge) {
           contentBadge.innerText = `CONTENT ${Math.round(report.content_score)}%`;
-          contentBadge.className = `text-xs font-mono font-bold px-2 py-0.5 rounded border ${
-            report.content_score >= 80 ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30' : 'bg-amber-500/20 text-amber-300 border-amber-500/30'
-          }`;
+          contentBadge.className = 'text-xs font-mono font-bold px-2.5 py-1 rounded bg-zinc-800 text-zinc-100 border border-zinc-700';
         }
 
         const secBadge = document.getElementById('atsSectionsBadge');
         if (secBadge) {
           secBadge.innerText = `SECTIONS ${Math.round(report.sections_score)}%`;
-          secBadge.className = `text-xs font-mono font-bold px-2 py-0.5 rounded border ${
-            report.sections_score >= 85 ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30' : 'bg-amber-500/20 text-amber-300 border-amber-500/30'
-          }`;
+          secBadge.className = 'text-xs font-mono font-bold px-2.5 py-1 rounded bg-zinc-800 text-zinc-100 border border-zinc-700';
         }
 
         // Render categories list matching ATS checker screenshot
@@ -2134,9 +2139,9 @@
           catList.innerHTML = report.categories.map(c => {
             const isPass = (c.status === 'pass' || c.issue_count === 0);
             return `
-              <div class="flex items-center justify-between p-2.5 rounded-lg bg-zinc-950/60 border border-zinc-850">
+              <div class="flex items-center justify-between p-2.5 rounded-lg bg-zinc-950/60 border border-zinc-800">
                 <div class="flex items-center gap-2.5">
-                  <div class="w-5 h-5 rounded flex items-center justify-center ${isPass ? 'bg-emerald-500/10 text-emerald-400' : 'bg-rose-500/10 text-rose-400'}">
+                  <div class="w-5 h-5 rounded flex items-center justify-center ${isPass ? 'bg-zinc-800 text-zinc-100' : 'bg-zinc-900 text-zinc-400 border border-zinc-800'}">
                     ${isPass 
                       ? '<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>' 
                       : '<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>'}
@@ -2145,8 +2150,8 @@
                 </div>
                 <span class="px-2 py-0.5 rounded-full text-[10.5px] font-semibold font-mono border ${
                   isPass 
-                    ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' 
-                    : 'bg-rose-500/10 text-rose-300 border-rose-500/20'
+                    ? 'bg-zinc-800 text-zinc-200 border-zinc-700' 
+                    : 'bg-zinc-900 text-zinc-400 border-zinc-800'
                 }">
                   ${c.status_label}
                 </span>
@@ -2164,17 +2169,17 @@
         const detailList = document.getElementById('atsIssuesDetailList');
         if (detailList) {
           if (report.issues.length === 0) {
-            detailList.innerHTML = '<div class="text-emerald-400 text-xs p-2.5 bg-emerald-950/20 rounded-lg border border-emerald-500/20 flex items-center gap-2"><svg class="w-4 h-4 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg><span>Seluruh kriteria konten ATS telah terpenuhi dengan sangat baik.</span></div>';
+            detailList.innerHTML = '<div class="text-zinc-300 text-xs p-2.5 bg-zinc-900/60 rounded-lg border border-zinc-800 flex items-center gap-2"><svg class="w-4 h-4 text-zinc-200 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg><span>Seluruh kriteria konten ATS telah terpenuhi dengan sangat baik.</span></div>';
           } else {
             detailList.innerHTML = report.issues.map(iss => `
               <div class="rounded-lg p-2.5 bg-zinc-950/70 border border-zinc-800 flex flex-col gap-1 text-[11px]">
                 <div class="flex items-center justify-between">
                   <span class="font-semibold text-zinc-200">${iss.title}</span>
-                  ${iss.needs_user_context ? '<span class="px-1.5 py-0.2 rounded bg-indigo-500/20 text-indigo-300 text-[9px] font-mono border border-indigo-500/30">Butuh Angka/Konteks</span>' : ''}
+                  ${iss.needs_user_context ? '<span class="px-1.5 py-0.2 rounded bg-zinc-800 text-zinc-200 text-[9px] font-mono border border-zinc-700">Butuh Angka/Konteks</span>' : ''}
                 </div>
                 ${iss.target_text ? `<div class="text-zinc-400 italic text-[10.5px] bg-zinc-900/80 p-1.5 rounded border border-zinc-800/80 my-0.5 truncate max-w-full">"${iss.target_text}"</div>` : ''}
                 <div class="text-zinc-400">${iss.description}</div>
-                <div class="text-emerald-400 text-[10.5px] mt-0.5 flex items-start gap-1.5"><svg class="w-3.5 h-3.5 text-emerald-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg><span><strong class="font-semibold text-emerald-300">Rekomendasi:</strong> ${iss.suggestion}</span></div>
+                <div class="text-zinc-300 text-[10.5px] mt-0.5 flex items-start gap-1.5"><svg class="w-3.5 h-3.5 text-zinc-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg><span><strong class="font-semibold text-zinc-100">Rekomendasi:</strong> ${iss.suggestion}</span></div>
               </div>
             `).join('');
           }
@@ -2237,7 +2242,7 @@
                 <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-800 text-zinc-300 border border-zinc-700/50">
                   ${iss.section_name || 'Pencapaian'}
                 </span>
-                <span class="text-[10px] text-amber-400 font-medium">Metrik Belum Ada</span>
+                <span class="text-[10px] text-zinc-400 font-medium">Metrik Belum Ada</span>
               </div>
               <div class="text-xs text-zinc-300 italic bg-zinc-900/60 p-2 rounded-lg border border-zinc-800/80">
                 "${iss.target_text}"
@@ -2246,7 +2251,7 @@
                 ${iss.context_question || 'Berapa angka metrik hasil atau efisiensi yang dicapai?'}
               </label>
               <input type="text" id="${iss.context_field_id}" placeholder="Contoh: 100k transaksi per hari, latensi turun 35%, tim 15 orang"
-                class="w-full px-3 py-2 text-xs rounded-lg bg-zinc-900 border border-zinc-700 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-emerald-500 transition">
+                class="w-full px-3 py-2 text-xs rounded-lg bg-zinc-900 border border-zinc-700 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-zinc-500 transition">
             </div>
           `).join('');
         }
@@ -2397,7 +2402,7 @@
     function appendLog(msg, type = "info") {
       const consoleEl = document.getElementById('logConsole');
       const time = new Date().toTimeString().slice(0, 8);
-      const color = type === "error" ? "text-red-400" : (type === "success" ? "text-emerald-400" : "text-zinc-300");
+      const color = type === "error" ? "text-zinc-400" : (type === "success" ? "text-zinc-100" : "text-zinc-300");
       consoleEl.innerHTML += `<div><span class="text-zinc-600">${time}</span> <span class="${color}">${msg}</span></div>`;
       while (consoleEl.children.length > 150) {
         consoleEl.removeChild(consoleEl.firstChild);
@@ -2459,7 +2464,7 @@
 
         if (skillsContainer && c.core_skills) {
           skillsContainer.innerHTML = c.core_skills.slice(0, 8).map(s => 
-            `<span class="px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 text-[9.5px] font-mono">${s}</span>`
+            `<span class="px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-200 border border-zinc-700 text-[9.5px] font-mono">${s}</span>`
           ).join('');
         }
 
@@ -2834,14 +2839,14 @@
             <td class="p-3 text-zinc-500 text-[11px]">${k.created_at ? new Date(k.created_at).toLocaleDateString() : 'N/A'}</td>
             <td class="p-3">
               ${k.is_active ? `
-                <span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-[10px] font-semibold">Active</span>
+                <span class="px-2 py-0.5 rounded bg-zinc-800 text-zinc-200 border border-zinc-700 text-[10px] font-semibold">Active</span>
               ` : `
                 <span class="px-2 py-0.5 rounded bg-zinc-800 text-zinc-500 border border-zinc-700/40 text-[10px]">Revoked</span>
               `}
             </td>
             <td class="p-3 text-right">
               ${k.is_active ? `
-                <button onclick="revokeApiKey(${k.id}, '${escapeHtml(k.name)}')" class="px-2 py-1 rounded bg-red-950/40 hover:bg-red-900/60 text-red-400 border border-red-900/50 text-[11px] font-sans transition">
+                <button onclick="revokeApiKey(${k.id}, '${escapeHtml(k.name)}')" class="px-2 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-300 border border-zinc-700 text-[11px] font-sans transition">
                   Revoke
                 </button>
               ` : `
