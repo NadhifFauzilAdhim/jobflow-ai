@@ -60,54 +60,54 @@
   </div>
 
   <!-- Navigation Header -->
-  <header class="border-b border-zinc-800 bg-zinc-950/80 backdrop-blur sticky top-0 z-40 px-6 py-3.5 flex items-center justify-between">
+  <header class="border-b border-zinc-800 bg-zinc-950/90 backdrop-blur-md sticky top-0 z-40 px-5 sm:px-6 py-3 flex items-center justify-between">
     <div class="flex items-center gap-3">
-      <div class="w-8 h-8 rounded-lg bg-zinc-100 text-zinc-950 flex items-center justify-center font-bold text-base shadow-sm">
-        JF
+      <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 flex items-center justify-center font-bold text-sm shadow-sm">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
       </div>
       <div>
-        <h1 class="font-semibold text-sm tracking-tight text-zinc-100 flex items-center gap-2">
-          JobFlow AI
-          <span class="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-400 border border-zinc-700/50">AI Agent</span>
-        </h1>
-        <p class="text-xs text-zinc-400">Autonomous Job Application & Format-Conforming ATS CV Engine</p>
+        <div class="flex items-center gap-2">
+          <h1 class="font-bold text-sm tracking-tight text-zinc-100">JobFlow</h1>
+          <span class="text-[10px] font-mono font-semibold px-1.5 py-0.5 rounded bg-zinc-800 text-emerald-400 border border-zinc-700">AI</span>
+        </div>
+        <p class="text-[11px] text-zinc-400">Autonomous Career Agent & ATS Suite</p>
       </div>
     </div>
 
-    <div class="flex items-center gap-3">
+    <div class="flex items-center gap-2.5">
       <!-- Active Profile Indicator -->
-      <div id="activeProfileBadge" onclick="openProfileModal()" class="cursor-pointer px-3 py-1.5 rounded-md bg-zinc-900 hover:bg-zinc-850 border border-zinc-800 text-xs text-zinc-300 flex items-center gap-2 transition">
+      <div id="activeProfileBadge" onclick="openProfileModal()" class="cursor-pointer px-3 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-850 border border-zinc-800 text-xs text-zinc-300 flex items-center gap-2 transition shadow-sm">
         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
         <span id="headerProfileName" class="font-medium">Loading Profile...</span>
       </div>
 
-      <button onclick="openProfileModal()" class="px-3.5 py-1.5 rounded-md bg-zinc-900 hover:bg-zinc-800 text-zinc-200 border border-zinc-700 text-xs font-medium transition flex items-center gap-1.5 shadow-sm">
-        <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
-        Upload CV / Profile
+      <button onclick="openProfileModal()" class="px-3 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-850 text-zinc-200 border border-zinc-800 hover:border-zinc-700 text-xs font-medium transition flex items-center gap-1.5 shadow-sm">
+        <svg class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+        <span>Upload CV</span>
       </button>
 
-      <button onclick="openAddJobModal()" class="px-3.5 py-1.5 rounded-md bg-zinc-100 hover:bg-white text-zinc-950 text-xs font-medium transition flex items-center gap-1.5 shadow-sm">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-        Add Job
+      <button onclick="openAddJobModal()" class="px-3.5 py-1.5 rounded-lg bg-zinc-100 hover:bg-white text-zinc-950 text-xs font-semibold transition flex items-center gap-1.5 shadow-sm">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+        <span>Add Job</span>
       </button>
 
-      <button onclick="openApiKeyModal()" class="px-3 py-1.5 rounded-md bg-zinc-900 hover:bg-zinc-800 text-zinc-200 border border-zinc-700 text-xs font-medium transition flex items-center gap-1.5 shadow-sm" title="Manage API Keys">
-        <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>
-        API Keys
+      <button onclick="openApiKeyModal()" class="px-2.5 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-850 text-zinc-300 border border-zinc-800 text-xs font-medium transition flex items-center gap-1.5 shadow-sm" title="Manage API Keys">
+        <svg class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg>
+        <span>API Keys</span>
       </button>
 
-      <a href="/developers" target="_blank" class="px-3 py-1.5 rounded-md bg-zinc-900 hover:bg-zinc-850 text-zinc-400 hover:text-zinc-200 border border-zinc-800 text-xs font-medium transition flex items-center gap-1.5 shadow-sm" title="Developer API Documentation">
-        <svg class="w-3.5 h-3.5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
-        API Docs
+      <a href="/developers" target="_blank" class="px-2.5 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-850 text-zinc-400 hover:text-zinc-200 border border-zinc-800 text-xs font-medium transition flex items-center gap-1.5 shadow-sm" title="Developer API Documentation">
+        <svg class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+        <span>Docs</span>
       </a>
 
       <!-- Authenticated User & Logout -->
       <div class="flex items-center gap-2 border-l border-zinc-800 pl-3 ml-1">
-        <span class="text-xs font-mono text-zinc-400 px-2 py-1 rounded bg-zinc-900 border border-zinc-800 flex items-center gap-1.5" title="Logged in user">
+        <span class="text-xs font-mono text-zinc-400 px-2.5 py-1 rounded-md bg-zinc-900 border border-zinc-800 flex items-center gap-1.5" title="Logged in user">
           <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
           <span>{{ username or 'admin' }}</span>
         </span>
-        <a href="/logout" title="Sign Out of Session" class="p-1.5 rounded-md hover:bg-zinc-850 text-zinc-400 hover:text-red-400 transition flex items-center gap-1 text-xs">
+        <a href="/logout" title="Sign Out of Session" class="p-1.5 rounded-lg hover:bg-zinc-850 text-zinc-400 hover:text-rose-400 transition flex items-center gap-1 text-xs">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
           </svg>
@@ -117,25 +117,24 @@
   </header>
 
   <!-- Main Container -->
-  <!-- Main Container -->
   <main class="flex-1 max-w-[1720px] w-full mx-auto p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
 
-    <!-- Left: Candidate Truth, Job Pipeline & Strategy Intelligence (5 cols) -->
+    <!-- Left: Candidate Profile & Job Applications Pipeline (5 cols) -->
     <section class="lg:col-span-5 xl:col-span-5 flex flex-col gap-4">
-      <!-- 1. Candidate Master Profile & Ground Truth Card (Persistent DB Storage) -->
-      <div id="masterProfileCard" class="border border-zinc-800 bg-zinc-900/70 rounded-xl p-4 shadow-sm flex flex-col gap-3 transition">
+      <!-- 1. Candidate Master Profile -->
+      <div id="masterProfileCard" class="border border-zinc-800 bg-zinc-900/50 rounded-xl p-4 shadow-sm flex flex-col gap-3 transition">
         <div class="flex items-center justify-between border-b border-zinc-800/80 pb-2.5">
           <div class="flex items-center gap-2">
-            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            <h3 class="text-xs font-semibold uppercase tracking-wider text-zinc-200">Candidate Master Profile & Ground Truth</h3>
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <h3 class="text-xs font-semibold text-zinc-200">Candidate Profile</h3>
           </div>
-          <span id="dashDbStatusBadge" class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 flex items-center gap-1">
-            <svg class="w-3 h-3 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-            SQLite Persisted
+          <span id="dashDbStatusBadge" class="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-800 text-zinc-400 border border-zinc-700/60 flex items-center gap-1">
+            <svg class="w-3 h-3 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+            Ground Truth
           </span>
         </div>
 
-        <div id="profileSummaryContent" class="flex flex-col gap-2">
+        <div id="profileSummaryContent" class="flex flex-col gap-2.5">
           <!-- Loaded Profile View -->
           <div id="dashProfileLoadedView" class="flex flex-col gap-2.5">
             <div class="flex items-start justify-between">
@@ -146,39 +145,39 @@
                 <p id="dashProfContact" class="text-xs text-zinc-400 mt-0.5">-</p>
               </div>
               <div class="flex items-center gap-1.5">
-                <button onclick="openProfileModal(); switchProfileTab('upload')" title="Upload new CV" class="px-2 py-1 rounded bg-zinc-800/80 hover:bg-zinc-700 text-zinc-300 text-xs font-medium transition border border-zinc-700/60 flex items-center gap-1">
-                  <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
-                  Update CV
+                <button onclick="openProfileModal(); switchProfileTab('upload')" title="Upload new CV" class="px-2.5 py-1 rounded-md bg-zinc-800 hover:bg-zinc-750 text-zinc-300 text-xs font-medium transition border border-zinc-700/60 flex items-center gap-1.5">
+                  <svg class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+                  <span>Update</span>
                 </button>
-                <button onclick="openProfileModal(); switchProfileTab('editor')" title="Inspect Full Master Profile" class="px-2.5 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-medium transition border border-zinc-700/60 flex items-center gap-1">
-                  <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                  Inspect
+                <button onclick="openProfileModal(); switchProfileTab('editor')" title="Inspect Full Master Profile" class="px-2.5 py-1 rounded-md bg-zinc-800 hover:bg-zinc-750 text-zinc-200 text-xs font-medium transition border border-zinc-700/60 flex items-center gap-1.5">
+                  <svg class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                  <span>Inspect</span>
                 </button>
               </div>
             </div>
 
             <!-- Ground Truth Stats Pill Badges -->
-            <div class="grid grid-cols-4 gap-1.5 pt-0.5">
-              <div class="bg-zinc-950 p-2 rounded-lg border border-zinc-800/80 text-center">
-                <div class="text-[9.5px] text-zinc-500 uppercase tracking-tight">Education</div>
-                <div id="dashEduCount" class="text-xs font-semibold text-emerald-400 font-mono mt-0.5">0</div>
+            <div class="grid grid-cols-4 gap-1.5 py-0.5">
+              <div class="bg-zinc-950/70 p-2 rounded-lg border border-zinc-800/80 text-center">
+                <div class="text-[10px] text-zinc-500 font-medium">Education</div>
+                <div id="dashEduCount" class="text-xs font-bold text-zinc-200 font-mono mt-0.5">0</div>
               </div>
-              <div class="bg-zinc-950 p-2 rounded-lg border border-zinc-800/80 text-center">
-                <div class="text-[9.5px] text-zinc-500 uppercase tracking-tight">Experience</div>
-                <div id="dashExpCount" class="text-xs font-semibold text-zinc-200 font-mono mt-0.5">0</div>
+              <div class="bg-zinc-950/70 p-2 rounded-lg border border-zinc-800/80 text-center">
+                <div class="text-[10px] text-zinc-500 font-medium">Experience</div>
+                <div id="dashExpCount" class="text-xs font-bold text-zinc-200 font-mono mt-0.5">0</div>
               </div>
-              <div class="bg-zinc-950 p-2 rounded-lg border border-zinc-800/80 text-center">
-                <div class="text-[9.5px] text-zinc-500 uppercase tracking-tight">Projects</div>
-                <div id="dashProjCount" class="text-xs font-semibold text-zinc-200 font-mono mt-0.5">0</div>
+              <div class="bg-zinc-950/70 p-2 rounded-lg border border-zinc-800/80 text-center">
+                <div class="text-[10px] text-zinc-500 font-medium">Projects</div>
+                <div id="dashProjCount" class="text-xs font-bold text-zinc-200 font-mono mt-0.5">0</div>
               </div>
-              <div class="bg-zinc-950 p-2 rounded-lg border border-zinc-800/80 text-center">
-                <div class="text-[9.5px] text-zinc-500 uppercase tracking-tight">Skills</div>
-                <div id="dashSkillCount" class="text-xs font-semibold text-zinc-200 font-mono mt-0.5">0</div>
+              <div class="bg-zinc-950/70 p-2 rounded-lg border border-zinc-800/80 text-center">
+                <div class="text-[10px] text-zinc-500 font-medium">Skills</div>
+                <div id="dashSkillCount" class="text-xs font-bold text-zinc-200 font-mono mt-0.5">0</div>
               </div>
             </div>
 
             <!-- Executive Summary Snippet -->
-            <div id="dashProfSummarySnippet" class="text-[11px] text-zinc-400 bg-zinc-950 p-2.5 rounded-lg border border-zinc-800/80 line-clamp-2 leading-relaxed">
+            <div id="dashProfSummarySnippet" class="text-xs text-zinc-400 bg-zinc-950/60 p-2.5 rounded-lg border border-zinc-800/80 line-clamp-2 leading-relaxed">
               Loading summary...
             </div>
           </div>
@@ -186,8 +185,8 @@
           <!-- Empty Profile State -->
           <div id="dashProfileEmptyView" class="hidden flex flex-col items-center justify-center p-5 text-center border border-dashed border-zinc-800 rounded-lg">
             <p class="text-xs text-zinc-400">No Candidate Master Profile in database yet.</p>
-            <p class="text-[11px] text-zinc-500 mt-0.5">Upload your CV once to set your baseline ground truth.</p>
-            <button onclick="openProfileModal(); switchProfileTab('upload')" class="mt-2.5 px-3 py-1.5 rounded bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 text-xs font-medium transition">
+            <p class="text-[11px] text-zinc-500 mt-0.5">Upload your CV once to establish your baseline ground truth.</p>
+            <button onclick="openProfileModal(); switchProfileTab('upload')" class="mt-2.5 px-3 py-1.5 rounded-md bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 text-xs font-medium transition">
               Upload CV Document
             </button>
           </div>
@@ -201,195 +200,253 @@
           <span id="jobCountBadge" class="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-850 text-zinc-400 border border-zinc-800">Loading...</span>
         </div>
         <div class="flex items-center gap-1.5">
-          <button onclick="openStorageModal()" class="px-2 py-1 rounded bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-zinc-200 text-xs font-mono border border-zinc-800 hover:border-zinc-700 transition flex items-center gap-1 shadow-sm" title="Manage Output PDFs and Disk Storage">
-            <svg class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+          <button onclick="openStorageModal()" class="px-2.5 py-1 rounded-md bg-zinc-900 hover:bg-zinc-850 text-zinc-400 hover:text-zinc-200 text-xs font-mono border border-zinc-800 hover:border-zinc-700 transition flex items-center gap-1.5 shadow-sm" title="Manage Output PDFs and Disk Storage">
+            <svg class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
             <span id="headerStorageBadge">Storage</span>
           </button>
-          <button onclick="openAutoScrapModal()" class="px-2.5 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-medium border border-zinc-700 flex items-center gap-1.5 transition shadow-sm" title="Autonomous Multi-Platform Job Scraper">
-            <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-            Auto-Scrap
+          <button onclick="openAutoScrapModal()" class="px-2.5 py-1 rounded-md bg-zinc-800 hover:bg-zinc-750 text-zinc-200 text-xs font-medium border border-zinc-700 flex items-center gap-1.5 transition shadow-sm" title="Autonomous Multi-Platform Job Scraper">
+            <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            <span>Auto-Scrap</span>
           </button>
-          <button onclick="fetchJobs()" class="text-xs text-zinc-400 hover:text-zinc-200 transition font-mono flex items-center gap-1">
-            ↻ Refresh
+          <button onclick="fetchJobs()" class="px-2.5 py-1 rounded-md bg-zinc-900 hover:bg-zinc-850 text-zinc-400 hover:text-zinc-200 text-xs font-medium border border-zinc-800 transition flex items-center gap-1.5" title="Refresh Application List">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+            <span>Refresh</span>
           </button>
         </div>
       </div>
 
-      <div id="jobList" class="flex flex-col gap-2.5 max-h-[340px] overflow-y-auto custom-scroll pr-1">
+      <div id="jobList" class="flex flex-col gap-2.5 max-h-[calc(100vh-320px)] sm:max-h-[640px] overflow-y-auto custom-scroll pr-1">
         <!-- Job Cards Rendered Dynamically -->
         <div class="p-8 text-center border border-dashed border-zinc-800 rounded-xl text-zinc-500 text-xs">
           Loading jobs...
         </div>
       </div>
-
-      <!-- 3. AI Strategy & ATS Insights Card (Dynamic for Selected Job) -->
-      <div id="agentStrategyCard" class="hidden border border-emerald-500/30 bg-emerald-950/10 rounded-xl p-4 flex flex-col gap-2.5 transition">
-        <div class="flex items-center justify-between border-b border-emerald-500/20 pb-2">
-          <div class="flex items-center gap-1.5">
-            <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-            <h4 class="text-xs font-semibold text-emerald-300 uppercase tracking-wider">AI Agent Tailoring Strategy</h4>
-          </div>
-          <span id="strategyScoreBadge" class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">95% ATS</span>
-        </div>
-        <p id="strategyReasoning" class="text-xs text-zinc-300 leading-relaxed"></p>
-        
-        <div id="keyStrengthsContainer" class="flex flex-wrap gap-1.5 pt-1"></div>
-
-        <div class="border-t border-zinc-800/80 pt-2 flex flex-col gap-1.5">
-          <div class="text-[11px] text-zinc-400 font-medium">Matched Job Keywords:</div>
-          <div id="matchedKeywordsList" class="flex flex-wrap gap-1"></div>
-        </div>
-
-        <!-- Role Interview Talking Points -->
-        <div id="interviewPrepSection" class="border-t border-emerald-500/20 pt-2 flex flex-col gap-1.5">
-          <div class="text-[11px] text-emerald-400 font-semibold flex items-center gap-1.5">
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
-            Role Interview Talking Points:
-          </div>
-          <ul id="interviewPrepList" class="list-disc list-inside space-y-1 text-[10.5px] text-zinc-300 leading-snug"></ul>
-        </div>
-      </div>
-
-      <!-- 4. ATS Deficiency Diagnostic & Improvement Card -->
-      <div id="atsDiagnosticCard" class="hidden border border-zinc-800 bg-zinc-900/80 rounded-xl p-4 flex flex-col gap-3 transition shadow-lg">
-        <div class="flex items-center justify-between border-b border-zinc-800 pb-2.5">
-          <div class="flex items-center gap-2">
-            <span class="p-1 rounded bg-indigo-500/20 text-indigo-400">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
-            </span>
-            <div>
-              <h4 class="text-xs font-semibold uppercase tracking-wider text-zinc-200">ATS Deficiency Diagnostic</h4>
-              <p class="text-[10px] text-zinc-400">Pemeriksaan standar Resume Worded & ATS Checker</p>
-            </div>
-          </div>
-          <div class="flex items-center gap-1.5">
-            <span id="atsContentBadge" class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">CONTENT 63%</span>
-            <span id="atsSectionsBadge" class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">SECTIONS 97%</span>
-          </div>
-        </div>
-
-        <!-- Category Checklist Rows (Exact layout from user screenshot) -->
-        <div id="atsCategoryList" class="flex flex-col gap-1.5 text-xs">
-          <!-- Dynamically populated categories -->
-        </div>
-
-        <!-- Issues Accordion / Summary -->
-        <div id="atsIssuesContainer" class="border-t border-zinc-800/80 pt-2 flex flex-col gap-2">
-          <div class="flex items-center justify-between">
-            <span class="text-[11px] font-semibold text-zinc-300 flex items-center gap-1.5">
-              <span>Daftar Kekurangan Terdeteksi:</span>
-              <span id="atsIssueTotalCount" class="text-[10px] px-1.5 py-0.2 rounded bg-zinc-800 text-zinc-400 font-mono">0 issues</span>
-            </span>
-            <button onclick="toggleIssuesList()" id="toggleIssuesBtn" class="text-[10px] text-zinc-400 hover:text-zinc-200 underline">Lihat Detail</button>
-          </div>
-          <div id="atsIssuesDetailList" class="hidden flex flex-col gap-2 max-h-56 overflow-y-auto custom-scroll pr-1">
-            <!-- Individual issue cards -->
-          </div>
-        </div>
-
-        <!-- Action Button: Improve CV with Context -->
-        <div class="pt-1">
-          <button id="openImproveModalBtn" onclick="openImproveResumeModal()" class="w-full py-2 px-3 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-semibold text-xs transition flex items-center justify-center gap-2 shadow-md">
-            <span>✨</span>
-            <span id="improveBtnLabel">Perbaiki Kekurangan CV dengan AI</span>
-            <span id="contextNeededBadge" class="hidden text-[9px] font-mono px-1.5 py-0.5 rounded bg-zinc-950/80 text-emerald-300 font-bold">+1 Konteks</span>
-          </button>
-        </div>
-      </div>
     </section>
 
-    <!-- Right: Format-Conforming ATS CV Preview Studio & Live Agent Activity (7 cols) -->
+    <!-- Right: Application Studio (Document, ATS Audit, Strategy & Fit, Activity) (7 cols) -->
     <section class="lg:col-span-7 xl:col-span-7 flex flex-col gap-4">
-      <!-- 1. Format-Conforming ATS CV Preview Card -->
-      <div class="border border-zinc-800 rounded-xl bg-zinc-900/60 p-4 flex flex-col gap-3 shadow-xl">
-        <!-- Preview Header Bar -->
-        <div class="flex items-center justify-between border-b border-zinc-800/80 pb-2.5">
-          <div class="flex items-center gap-2">
-            <span class="p-1 rounded bg-zinc-800 text-zinc-300">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-            </span>
-            <div>
-              <div class="flex items-center gap-2">
-                <h3 class="text-xs font-semibold uppercase tracking-wider text-zinc-200">Format-Conforming ATS CV Preview</h3>
-                <span id="previewJobBadge" class="hidden text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-800 text-zinc-300 border border-zinc-700/50 truncate max-w-[240px]"></span>
+      <div class="border border-zinc-800 rounded-xl bg-zinc-900/60 p-3.5 sm:p-4 flex flex-col gap-3 shadow-xl">
+        <!-- Studio Navigation Bar (Tabs & Active Context) -->
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-zinc-800/80 pb-3">
+          <!-- Studio Tabs -->
+          <div class="flex items-center gap-1 bg-zinc-950 p-1 rounded-lg border border-zinc-800 self-start sm:self-auto">
+            <button id="btnTab_document" onclick="switchStudioTab('document')" class="px-3 py-1.5 rounded-md text-xs font-medium transition flex items-center gap-1.5 bg-zinc-800 text-zinc-100 border border-zinc-700/60 shadow-sm">
+              <svg class="w-3.5 h-3.5 text-zinc-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+              <span>Document</span>
+            </button>
+            <button id="btnTab_audit" onclick="switchStudioTab('audit')" class="px-3 py-1.5 rounded-md text-xs font-medium transition flex items-center gap-1.5 text-zinc-400 hover:text-zinc-200 border border-transparent">
+              <svg class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+              <span>ATS Audit</span>
+              <span id="tabAuditScoreBadge" class="hidden text-[10px] font-mono px-1.5 py-0.5 rounded bg-zinc-800 text-emerald-400 border border-zinc-700"></span>
+            </button>
+            <button id="btnTab_strategy" onclick="switchStudioTab('strategy')" class="px-3 py-1.5 rounded-md text-xs font-medium transition flex items-center gap-1.5 text-zinc-400 hover:text-zinc-200 border border-transparent">
+              <svg class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              <span>Strategy & Fit</span>
+              <span id="tabStrategyScoreBadge" class="hidden text-[10px] font-mono px-1.5 py-0.5 rounded bg-zinc-800 text-emerald-400 border border-zinc-700"></span>
+            </button>
+            <button id="btnTab_activity" onclick="switchStudioTab('activity')" class="px-3 py-1.5 rounded-md text-xs font-medium transition flex items-center gap-1.5 text-zinc-400 hover:text-zinc-200 border border-transparent">
+              <svg class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+              <span>Activity</span>
+              <span id="tabActivityStatusDot" class="w-1.5 h-1.5 rounded-full bg-zinc-600"></span>
+            </button>
+          </div>
+
+          <!-- Active Job Badge & Toolbar -->
+          <div class="flex items-center gap-2 flex-wrap sm:flex-nowrap justify-between sm:justify-end">
+            <span id="previewJobBadge" class="hidden text-xs font-medium px-2.5 py-1 rounded-md bg-zinc-800 text-zinc-200 border border-zinc-700/60 truncate max-w-[260px]"></span>
+            <div id="previewActions" class="hidden flex items-center gap-1.5">
+              <button onclick="openImproveResumeModal()" title="Perbaiki Kekurangan CV & Lengkapi Metrik" class="text-xs px-2.5 py-1 rounded bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 font-semibold flex items-center gap-1.5 transition shadow-sm">
+                <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                <span>Improve CV</span>
+              </button>
+              <button id="toggleHighlightBtn" onclick="toggleResumeHighlight()" title="Toggle AI Improvements Highlight" class="text-xs px-2.5 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-amber-300 border border-amber-500/30 font-medium flex items-center gap-1.5 transition">
+                <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                <span id="highlightBtnText">AI Highlights</span>
+              </button>
+              <button onclick="openFullscreenResume()" title="Expand Fullscreen" class="text-xs px-2.5 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-300 border border-zinc-700 font-medium flex items-center gap-1.5 transition">
+                <svg class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/></svg>
+                <span>Expand</span>
+              </button>
+              <a id="downloadPdfBtn" href="#" target="_blank" class="text-xs px-2.5 py-1 rounded bg-zinc-100 hover:bg-white text-zinc-950 font-semibold flex items-center gap-1.5 transition shadow-sm">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                <span>PDF</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Studio Tab Panes -->
+        <div class="relative min-h-[640px] xl:min-h-[720px] flex flex-col">
+          
+          <!-- Pane 1: Document (Resume Paper Preview) -->
+          <div id="studioPane_document" class="flex-1 flex flex-col">
+            <div id="previewFrameContainer" class="h-[640px] xl:h-[720px] rounded-xl bg-zinc-950 p-2 sm:p-3 overflow-hidden border border-zinc-800 shadow-inner flex justify-center relative">
+              <!-- High-Tech Animated Loading Overlay -->
+              <div id="previewLoadingOverlay" class="hidden absolute inset-0 bg-zinc-950/95 backdrop-blur-md z-30 flex flex-col items-center justify-center gap-4 text-center p-6 transition-all duration-300">
+                <div class="relative w-14 h-14 flex items-center justify-center">
+                  <div class="absolute inset-0 rounded-full border-2 border-emerald-500/20 animate-ping"></div>
+                  <div class="w-12 h-12 rounded-full border-2 border-emerald-500/30 border-t-emerald-400 animate-spin"></div>
+                  <div class="absolute w-2 h-2 rounded-full bg-emerald-400"></div>
+                </div>
+                <div class="flex flex-col items-center gap-1 max-w-sm">
+                  <h4 id="previewLoadingTitle" class="text-sm font-semibold text-zinc-100">AI Agent Processing...</h4>
+                  <p id="previewLoadingSubtitle" class="text-xs text-zinc-400 font-mono">Synthesizing achievements & matching keywords</p>
+                </div>
+                <!-- Interactive Step Badges -->
+                <div id="previewLoadingSteps" class="flex flex-col gap-1.5 w-full max-w-xs text-[11px] font-mono text-zinc-400 text-left pt-2 border-t border-zinc-800/80 mt-1">
+                  <div id="loaderStep1" class="flex items-center gap-2 text-emerald-400">
+                    <svg class="w-3.5 h-3.5 text-emerald-400 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/></svg>
+                    <span>Deconstructing job requirements</span>
+                  </div>
+                  <div id="loaderStep2" class="flex items-center gap-2 text-zinc-500">
+                    <span class="w-2 h-2 rounded-full bg-zinc-700 ml-0.5 mr-1 inline-block"></span>
+                    <span>Cross-examining candidate profile</span>
+                  </div>
+                  <div id="loaderStep3" class="flex items-center gap-2 text-zinc-500">
+                    <span class="w-2 h-2 rounded-full bg-zinc-700 ml-0.5 mr-1 inline-block"></span>
+                    <span>Synthesizing X-Y-Z formula metrics</span>
+                  </div>
+                  <div id="loaderStep4" class="flex items-center gap-2 text-zinc-500">
+                    <span class="w-2 h-2 rounded-full bg-zinc-700 ml-0.5 mr-1 inline-block"></span>
+                    <span>Formatting ATS PDF & scoring compatibility</span>
+                  </div>
+                </div>
               </div>
-              <p class="text-[10.5px] text-zinc-400">High-fidelity paper render with 100% authentic candidate data</p>
+
+              <!-- Empty State -->
+              <div id="previewEmptyPlaceholder" class="flex flex-col items-center justify-center h-full text-center p-8 text-zinc-500">
+                <div class="w-14 h-14 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 mb-3 shadow-inner">
+                  <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                </div>
+                <h4 class="text-sm font-semibold text-zinc-300">No Resume Preview Selected</h4>
+                <p class="text-xs text-zinc-500 mt-1 max-w-sm">Select an application from the pipeline on the left or tailor a new position to generate the document.</p>
+              </div>
+
+              <!-- Active Iframe Container -->
+              <div id="previewIframeWrapper" class="hidden w-full h-full rounded-lg bg-white overflow-hidden shadow-2xl border border-zinc-300/50">
+                <iframe id="resumeIframe" class="w-full h-full border-none" src="about:blank"></iframe>
+              </div>
             </div>
           </div>
 
-          <div id="previewActions" class="hidden flex items-center gap-1.5 sm:gap-2">
-            <button onclick="openImproveResumeModal()" title="Perbaiki Kekurangan CV & Lengkapi Metrik" class="text-xs px-2.5 py-1 rounded bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 font-semibold flex items-center gap-1.5 transition shadow-sm">
-              <span>✨</span>
-              <span>Improve CV</span>
-            </button>
-            <button id="toggleHighlightBtn" onclick="toggleResumeHighlight()" title="Toggle AI Improvements Highlight" class="text-xs px-2.5 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-amber-300 border border-amber-500/30 font-medium flex items-center gap-1.5 transition">
-              <span>✨</span>
-              <span id="highlightBtnText">AI Highlights</span>
-            </button>
-            <button onclick="openFullscreenResume()" title="Expand Fullscreen" class="text-xs px-2.5 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-300 border border-zinc-700 font-medium flex items-center gap-1.5 transition">
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg>
-              <span>Expand</span>
-            </button>
-            <a id="downloadPdfBtn" href="#" target="_blank" class="text-xs px-3 py-1 rounded bg-zinc-100 hover:bg-white text-zinc-950 font-semibold flex items-center gap-1.5 transition shadow-sm">
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-              <span>PDF</span>
-            </a>
-          </div>
-        </div>
-        
-        <!-- Large High-Fidelity Paper Frame -->
-        <div id="previewFrameContainer" class="h-[640px] xl:h-[720px] rounded-xl bg-zinc-950 p-2 sm:p-3 overflow-hidden border border-zinc-800 shadow-inner flex justify-center relative">
-          <!-- High-Tech Animated Loading Overlay for Resume Tailoring & Rendering -->
-          <div id="previewLoadingOverlay" class="hidden absolute inset-0 bg-zinc-950/95 backdrop-blur-md z-30 flex flex-col items-center justify-center gap-4 text-center p-6 transition-all duration-300">
-            <div class="relative w-16 h-16 flex items-center justify-center">
-              <div class="absolute inset-0 rounded-full border-2 border-emerald-500/20 animate-ping"></div>
-              <div class="w-12 h-12 rounded-full border-2 border-emerald-500/30 border-t-emerald-400 animate-spin"></div>
-              <div class="absolute text-emerald-400 text-lg font-bold">✦</div>
+          <!-- Pane 2: ATS Audit -->
+          <div id="studioPane_audit" class="hidden flex-1 flex flex-col gap-4">
+            <div id="auditEmptyPlaceholder" class="flex flex-col items-center justify-center h-96 text-center p-8 text-zinc-500">
+              <div class="w-14 h-14 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 mb-3">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+              </div>
+              <h4 class="text-sm font-semibold text-zinc-300">No ATS Audit Available</h4>
+              <p class="text-xs text-zinc-500 mt-1 max-w-sm">Select an application or tailor a resume to view comprehensive ATS diagnostic checks.</p>
             </div>
-            <div class="flex flex-col items-center gap-1.5 max-w-sm">
-              <h4 id="previewLoadingTitle" class="text-sm font-semibold text-zinc-100 tracking-wide">AI Agent Tailoring Resume...</h4>
-              <p id="previewLoadingSubtitle" class="text-xs text-zinc-400 leading-relaxed font-mono">Synthesizing Google X-Y-Z achievements & matching keywords</p>
-            </div>
-            <!-- Interactive Step Badges -->
-            <div id="previewLoadingSteps" class="flex flex-col gap-1.5 w-full max-w-xs text-[11px] font-mono text-zinc-400 text-left pt-2 border-t border-zinc-800/80 mt-1">
-              <div id="loaderStep1" class="flex items-center gap-2 text-emerald-400"><span>⚡</span> <span>Deconstructing job requirements</span></div>
-              <div id="loaderStep2" class="flex items-center gap-2 text-zinc-500"><span>○</span> <span>Cross-examining candidate profile</span></div>
-              <div id="loaderStep3" class="flex items-center gap-2 text-zinc-500"><span>○</span> <span>Synthesizing X-Y-Z formula metrics</span></div>
-              <div id="loaderStep4" class="flex items-center gap-2 text-zinc-500"><span>○</span> <span>Formatting ATS PDF & scoring compatibility</span></div>
+
+            <div id="atsDiagnosticCard" class="hidden flex flex-col gap-4">
+              <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
+                <div>
+                  <h4 class="text-sm font-semibold text-zinc-200">ATS Deficiency Diagnostic</h4>
+                  <p class="text-xs text-zinc-400 mt-0.5">Automated screening against Resume Worded & enterprise ATS standards</p>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span id="atsContentBadge" class="text-xs font-mono font-bold px-2.5 py-1 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">CONTENT --%</span>
+                  <span id="atsSectionsBadge" class="text-xs font-mono font-bold px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">SECTIONS --%</span>
+                </div>
+              </div>
+
+              <!-- Category Checklist Rows -->
+              <div id="atsCategoryList" class="flex flex-col gap-2 text-xs">
+                <!-- Dynamically populated categories -->
+              </div>
+
+              <!-- Issues Container -->
+              <div id="atsIssuesContainer" class="border-t border-zinc-800 pt-3 flex flex-col gap-2.5">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-semibold text-zinc-300 flex items-center gap-2">
+                    <span>Detected Deficiencies & Recommendations:</span>
+                    <span id="atsIssueTotalCount" class="text-[10px] px-2 py-0.5 rounded bg-zinc-800 text-zinc-400 font-mono">0 issues</span>
+                  </span>
+                  <button onclick="toggleIssuesList()" id="toggleIssuesBtn" class="text-xs text-zinc-400 hover:text-zinc-200 underline">Lihat Detail</button>
+                </div>
+                <div id="atsIssuesDetailList" class="hidden flex flex-col gap-2 max-h-72 overflow-y-auto custom-scroll pr-1">
+                  <!-- Dynamically populated -->
+                </div>
+              </div>
+
+              <!-- Action Button: Improve CV with Context -->
+              <div class="pt-2">
+                <button id="openImproveModalBtn" onclick="openImproveResumeModal()" class="w-full py-2.5 px-4 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-semibold text-xs transition flex items-center justify-center gap-2 shadow-md">
+                  <svg class="w-4 h-4 text-zinc-950" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                  <span id="improveBtnLabel">Perbaiki Kekurangan CV dengan AI</span>
+                  <span id="contextNeededBadge" class="hidden text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-950/80 text-emerald-300 font-bold">+1 Konteks</span>
+                </button>
+              </div>
             </div>
           </div>
 
-          <!-- Empty State (Shown when no preview loaded) -->
-          <div id="previewEmptyPlaceholder" class="flex flex-col items-center justify-center h-full text-center p-8 text-zinc-500">
-            <div class="w-14 h-14 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 mb-3 shadow-inner">
-              <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+          <!-- Pane 3: Strategy & Fit -->
+          <div id="studioPane_strategy" class="hidden flex-1 flex flex-col gap-4">
+            <div id="strategyEmptyPlaceholder" class="flex flex-col items-center justify-center h-96 text-center p-8 text-zinc-500">
+              <div class="w-14 h-14 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 mb-3">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              </div>
+              <h4 class="text-sm font-semibold text-zinc-300">No Tailoring Strategy Available</h4>
+              <p class="text-xs text-zinc-500 mt-1 max-w-sm">Select an application or tailor a resume to view AI alignment insights and interview talking points.</p>
             </div>
-            <h4 class="text-sm font-semibold text-zinc-300">No Resume Preview Selected</h4>
-            <p class="text-xs text-zinc-500 mt-1 max-w-sm">Select an application from the pipeline on the left or click <span class="text-zinc-300 font-mono">⚡ Tailor CV</span> to render the format-conforming ATS CV.</p>
+
+            <div id="agentStrategyCard" class="hidden flex flex-col gap-4">
+              <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
+                <div>
+                  <h4 class="text-sm font-semibold text-zinc-200">Role Alignment Strategy</h4>
+                  <p class="text-xs text-zinc-400 mt-0.5">Autonomous tailoring rationale and keyword matrix for this position</p>
+                </div>
+                <span id="strategyScoreBadge" class="text-xs font-mono font-bold px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">95% ATS</span>
+              </div>
+
+              <!-- AI Alignment Reasoning -->
+              <div class="flex flex-col gap-1.5">
+                <div class="text-[11px] font-medium text-zinc-400 uppercase tracking-wider">AI Alignment Analysis</div>
+                <p id="strategyReasoning" class="text-xs text-zinc-300 leading-relaxed bg-zinc-950/70 p-3.5 rounded-lg border border-zinc-800/80"></p>
+              </div>
+              
+              <!-- Key Strengths -->
+              <div class="flex flex-col gap-1.5">
+                <div class="text-[11px] font-medium text-zinc-400 uppercase tracking-wider">Key Strengths Highlighted</div>
+                <div id="keyStrengthsContainer" class="flex flex-col gap-1.5 pt-0.5"></div>
+              </div>
+
+              <!-- Matched Keywords -->
+              <div class="flex flex-col gap-1.5 border-t border-zinc-800 pt-3">
+                <div class="text-[11px] font-medium text-zinc-400 uppercase tracking-wider">Matched Job Keywords</div>
+                <div id="matchedKeywordsList" class="flex flex-wrap gap-1.5 pt-0.5"></div>
+              </div>
+
+              <!-- Role Interview Talking Points -->
+              <div id="interviewPrepSection" class="flex flex-col gap-1.5 border-t border-zinc-800 pt-3">
+                <div class="text-xs font-semibold text-emerald-400 flex items-center gap-1.5">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                  <span>Role Interview Talking Points</span>
+                </div>
+                <ul id="interviewPrepList" class="space-y-2 text-xs text-zinc-300 leading-relaxed bg-zinc-950/70 p-3.5 rounded-lg border border-zinc-800/80"></ul>
+              </div>
+            </div>
           </div>
 
-          <!-- Active Iframe Container -->
-          <div id="previewIframeWrapper" class="hidden w-full h-full rounded-lg bg-white overflow-hidden shadow-2xl border border-zinc-300/50">
-            <iframe id="resumeIframe" class="w-full h-full border-none" src="about:blank"></iframe>
+          <!-- Pane 4: Activity (Live Terminal Logs) -->
+          <div id="studioPane_activity" class="hidden flex-1 flex flex-col gap-3">
+            <div class="flex items-center justify-between border-b border-zinc-800 pb-2.5">
+              <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <h4 class="text-xs font-semibold text-zinc-200">Live Agent Execution Logs</h4>
+              </div>
+              <div class="flex items-center gap-2">
+                <span id="activeJobStatus" class="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-800 text-zinc-400 border border-zinc-700/50">IDLE</span>
+                <button onclick="clearConsole()" title="Clear terminal logs" class="text-xs text-zinc-400 hover:text-zinc-200 transition font-mono px-2 py-1 rounded bg-zinc-800/60 hover:bg-zinc-800 border border-zinc-700/50">Clear</button>
+              </div>
+            </div>
+            
+            <div id="logConsole" class="h-[600px] overflow-y-auto font-mono text-xs text-zinc-300 space-y-1.5 p-3 rounded-lg bg-zinc-950 border border-zinc-800 custom-scroll">
+              <div class="text-zinc-500">[System] JobFlow AI Agent Engine ready. Upload CV or select a job to start tailoring.</div>
+            </div>
           </div>
-        </div>
-      </div>
 
-      <!-- 2. Live AI Agent Activity (Terminal Console Below Preview) -->
-      <div class="border border-zinc-800 rounded-xl bg-zinc-900/60 p-3.5 flex flex-col gap-2.5 shadow-sm">
-        <div class="flex items-center justify-between border-b border-zinc-800/80 pb-2">
-          <div class="flex items-center gap-2">
-            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            <h3 class="text-xs font-semibold uppercase tracking-wider text-zinc-300">Live AI Agent Activity</h3>
-          </div>
-          <div class="flex items-center gap-2">
-            <span id="activeJobStatus" class="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-800 text-zinc-400 border border-zinc-700/50">IDLE</span>
-            <button onclick="clearConsole()" title="Clear terminal logs" class="text-[10px] font-mono text-zinc-500 hover:text-zinc-300 transition">Clear</button>
-          </div>
-        </div>
-        
-        <div id="logConsole" class="h-32 overflow-y-auto font-mono text-[11px] text-zinc-300 space-y-1.5 p-2.5 rounded-lg bg-zinc-950 border border-zinc-800/80 custom-scroll">
-          <div class="text-zinc-500">[System] JobFlow AI Agent Engine ready. Upload CV or select a job to start tailoring.</div>
         </div>
       </div>
     </section>
@@ -409,7 +466,7 @@
             </h3>
             <p class="text-xs text-zinc-400 mt-0.5">Your original CV is the absolute baseline. Education, projects, and history are strictly preserved.</p>
           </div>
-          <button onclick="closeProfileModal()" class="text-zinc-400 hover:text-zinc-200 text-lg p-1">✕</button>
+          <button onclick="closeProfileModal()" class="text-zinc-400 hover:text-zinc-200 p-1.5 rounded-lg hover:bg-zinc-800 transition"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
         </div>
 
         <!-- Navigation Tabs -->
@@ -541,8 +598,9 @@
           <div class="flex flex-col gap-2">
             <div class="flex items-center justify-between">
               <label class="text-zinc-300 font-medium text-xs">Or View / Paste Raw CV Text Directly:</label>
-              <button onclick="reparseRawText()" id="reparseBtn" class="px-3 py-1 rounded bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 text-xs font-medium transition flex items-center gap-1">
-                ⚡ Re-Parse with AI Agent
+              <button onclick="reparseRawText()" id="reparseBtn" class="px-3 py-1.5 rounded-md bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 text-xs font-medium transition flex items-center gap-1.5 shadow-sm">
+                <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                <span>Re-Parse with AI Agent</span>
               </button>
             </div>
             <textarea id="rawCvInput" rows="12" placeholder="Paste your complete CV text here..." class="w-full bg-zinc-950 border border-zinc-800 rounded-lg p-3 text-zinc-200 font-mono text-[11px] leading-relaxed focus:outline-none focus:border-zinc-600 custom-scroll"></textarea>
@@ -564,7 +622,7 @@
     <div class="bg-zinc-900 border border-zinc-800 rounded-xl max-w-lg w-full p-6 shadow-2xl flex flex-col gap-4">
       <div class="flex justify-between items-center border-b border-zinc-800 pb-3">
         <h3 class="text-sm font-semibold text-zinc-100">Add Target Job</h3>
-        <button onclick="closeAddJobModal()" class="text-zinc-400 hover:text-zinc-200 text-sm">✕</button>
+        <button onclick="closeAddJobModal()" class="text-zinc-400 hover:text-zinc-200 p-1 rounded-md hover:bg-zinc-800 transition"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
       </div>
 
       <div class="flex flex-col gap-3 text-xs">
@@ -613,7 +671,7 @@
             <p class="text-[11px] text-zinc-400">Autonomous discovery across platforms grounded in your authentic CV</p>
           </div>
         </div>
-        <button onclick="closeAutoScrapModal()" class="text-zinc-400 hover:text-zinc-200 text-base">✕</button>
+        <button onclick="closeAutoScrapModal()" class="text-zinc-400 hover:text-zinc-200 p-1.5 rounded-md hover:bg-zinc-800 transition"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
       </div>
 
       <!-- CV Ground Truth Preview Box -->
@@ -726,7 +784,7 @@
             <p class="text-[11px] text-zinc-400">Manage generated PDFs, screenshots, and pipeline deletion</p>
           </div>
         </div>
-        <button onclick="closeStorageModal()" class="text-zinc-400 hover:text-zinc-200 text-base">✕</button>
+        <button onclick="closeStorageModal()" class="text-zinc-400 hover:text-zinc-200 p-1.5 rounded-md hover:bg-zinc-800 transition"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
       </div>
 
       <!-- Current Storage Statistics -->
@@ -750,12 +808,13 @@
         <!-- Action 1: Clean Orphaned Files -->
         <div class="p-3.5 rounded-xl border border-zinc-800 bg-zinc-950/60 flex items-center justify-between gap-3">
           <div class="flex-1">
-            <h4 class="font-medium text-zinc-200 flex items-center gap-1.5">
-              <span>🧹</span> Clean Orphaned Artifacts
+            <h4 class="font-medium text-zinc-200 flex items-center gap-2">
+              <svg class="w-4 h-4 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+              <span>Clean Orphaned Artifacts</span>
             </h4>
             <p class="text-[11px] text-zinc-400 mt-0.5">Removes leftover PDFs and screenshots from previously deleted jobs. Safe: does not affect active jobs.</p>
           </div>
-          <button onclick="executeStorageCleanup('orphaned')" class="px-3 py-1.5 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-medium border border-zinc-700 text-xs transition flex-shrink-0">
+          <button onclick="executeStorageCleanup('orphaned')" class="px-3 py-1.5 rounded-md bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-medium border border-zinc-700 text-xs transition flex-shrink-0">
             Clean Orphans
           </button>
         </div>
@@ -763,12 +822,13 @@
         <!-- Action 2: Purge All Generated Output PDFs -->
         <div class="p-3.5 rounded-xl border border-zinc-800 bg-zinc-950/60 flex items-center justify-between gap-3">
           <div class="flex-1">
-            <h4 class="font-medium text-zinc-200 flex items-center gap-1.5">
-              <span>📄</span> Purge All Output PDFs
+            <h4 class="font-medium text-zinc-200 flex items-center gap-2">
+              <svg class="w-4 h-4 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+              <span>Purge All Output PDFs</span>
             </h4>
             <p class="text-[11px] text-zinc-400 mt-0.5">Deletes all generated PDFs in the output directory. Keeps job records in pipeline so they can be re-tailored.</p>
           </div>
-          <button onclick="executeStorageCleanup('all')" class="px-3 py-1.5 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-medium border border-zinc-700 text-xs transition flex-shrink-0">
+          <button onclick="executeStorageCleanup('all')" class="px-3 py-1.5 rounded-md bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-medium border border-zinc-700 text-xs transition flex-shrink-0">
             Purge PDFs
           </button>
         </div>
@@ -776,12 +836,13 @@
         <!-- Action 3: Clear All Job Applications -->
         <div class="p-3.5 rounded-xl border border-red-900/30 bg-red-950/10 flex items-center justify-between gap-3">
           <div class="flex-1">
-            <h4 class="font-medium text-red-300 flex items-center gap-1.5">
-              <span>⚠️</span> Clear All Applications & Files
+            <h4 class="font-medium text-red-300 flex items-center gap-2">
+              <svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+              <span>Clear All Applications & Files</span>
             </h4>
             <p class="text-[11px] text-zinc-400 mt-0.5">Deletes all job application records and completely empties the output directory.</p>
           </div>
-          <button onclick="executeClearAllJobs()" class="px-3 py-1.5 rounded bg-red-950/80 hover:bg-red-900 text-red-300 font-medium border border-red-800/60 text-xs transition flex-shrink-0">
+          <button onclick="executeClearAllJobs()" class="px-3 py-1.5 rounded-md bg-red-950/80 hover:bg-red-900 text-red-300 font-medium border border-red-800/60 text-xs transition flex-shrink-0">
             Clear All
           </button>
         </div>
@@ -812,7 +873,7 @@
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
             Download PDF
           </a>
-          <button onclick="closeFullscreenResume()" class="text-zinc-400 hover:text-zinc-200 p-1.5 rounded-lg hover:bg-zinc-800 text-lg transition">✕</button>
+          <button onclick="closeFullscreenResume()" class="text-zinc-400 hover:text-zinc-200 p-1.5 rounded-lg hover:bg-zinc-800 transition"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
         </div>
       </div>
       <!-- Modal Body Sheet -->
@@ -841,7 +902,7 @@
             <p class="text-xs text-zinc-400 mt-0.5">Lengkapi metrik nyata untuk poin-poin yang belum terukur agar lolos filter ATS</p>
           </div>
         </div>
-        <button onclick="closeImproveResumeModal()" class="text-zinc-400 hover:text-zinc-200 p-1.5 rounded-lg hover:bg-zinc-800 text-lg transition">✕</button>
+        <button onclick="closeImproveResumeModal()" class="text-zinc-400 hover:text-zinc-200 p-1.5 rounded-lg hover:bg-zinc-800 transition"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
       </div>
 
       <!-- Body -->
@@ -861,8 +922,9 @@
         </div>
 
         <!-- Empty / No context needed state -->
-        <div id="modalNoContextNeededMsg" class="hidden rounded-xl border border-emerald-500/30 bg-emerald-950/20 p-4 text-center text-xs text-emerald-300">
-          ✓ Seluruh poin sudah memiliki metrik dasar. AI akan langsung mendiversifikasi action verbs, memperbaiki tanda baca, dan mengoptimalkan kepadatan kata kunci lowongan!
+        <div id="modalNoContextNeededMsg" class="hidden rounded-xl border border-emerald-500/30 bg-emerald-950/20 p-4 text-center text-xs text-emerald-300 flex items-center justify-center gap-2">
+          <svg class="w-4 h-4 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+          <span>Seluruh poin sudah memiliki metrik dasar. AI akan langsung mendiversifikasi action verbs, memperbaiki tanda baca, dan mengoptimalkan kepadatan kata kunci lowongan!</span>
         </div>
 
         <!-- Auto estimate toggle -->
@@ -881,7 +943,7 @@
           Batal
         </button>
         <button id="submitImproveResumeBtn" onclick="submitImproveResume()" class="text-xs px-5 py-2.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-bold flex items-center gap-2 shadow-lg transition">
-          <span>🚀</span>
+          <svg class="w-4 h-4 text-zinc-950" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
           <span>Terapkan Perbaikan & Re-Score ATS</span>
         </button>
       </div>
@@ -901,7 +963,7 @@
             <p class="text-[11px] text-zinc-400">Manage credentials for external integrations, third-party apps, and scripts</p>
           </div>
         </div>
-        <button onclick="closeApiKeyModal()" class="text-zinc-400 hover:text-zinc-200 text-base">✕</button>
+        <button onclick="closeApiKeyModal()" class="text-zinc-400 hover:text-zinc-200 p-1.5 rounded-md hover:bg-zinc-800 transition"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
       </div>
 
       <!-- Generate Key Section -->
@@ -963,7 +1025,7 @@
       <div class="flex items-center justify-between border-t border-zinc-800 pt-3">
         <a href="/developers" target="_blank" class="text-xs text-emerald-400 hover:underline flex items-center gap-1 font-sans">
           <span>Explore Developer API Documentation & Code Snippets</span>
-          <span>→</span>
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
         </a>
         <button onclick="closeApiKeyModal()" class="px-4 py-1.5 rounded bg-zinc-800 text-zinc-300 text-xs hover:bg-zinc-700 transition">Close</button>
       </div>
@@ -973,6 +1035,41 @@
   <script>
     let pollInterval = null;
     let currentJobsList = [];
+    let currentStudioTab = 'document';
+
+    // Application Studio Tab Navigation
+    function switchStudioTab(tab) {
+      currentStudioTab = tab;
+      const tabs = ['document', 'audit', 'strategy', 'activity'];
+      tabs.forEach(t => {
+        const btn = document.getElementById(`btnTab_${t}`);
+        const pane = document.getElementById(`studioPane_${t}`);
+        if (btn) {
+          if (t === tab) {
+            btn.className = 'px-3 py-1.5 rounded-md text-xs font-medium transition flex items-center gap-1.5 bg-zinc-800 text-zinc-100 border border-zinc-700/60 shadow-sm';
+            const svg = btn.querySelector('svg');
+            if (svg) {
+              svg.classList.remove('text-zinc-400');
+              svg.classList.add('text-zinc-300');
+            }
+          } else {
+            btn.className = 'px-3 py-1.5 rounded-md text-xs font-medium transition flex items-center gap-1.5 text-zinc-400 hover:text-zinc-200 border border-transparent';
+            const svg = btn.querySelector('svg');
+            if (svg) {
+              svg.classList.remove('text-zinc-300');
+              svg.classList.add('text-zinc-400');
+            }
+          }
+        }
+        if (pane) {
+          if (t === tab) {
+            pane.classList.remove('hidden');
+          } else {
+            pane.classList.add('hidden');
+          }
+        }
+      });
+    }
 
     // Initialize on page load / refresh
     document.addEventListener('DOMContentLoaded', async () => {
@@ -1083,10 +1180,10 @@
         if (el) {
           if (i === 1) {
             el.className = 'flex items-center gap-2 text-emerald-400 font-semibold';
-            el.innerHTML = `<span>⚡</span> <span>${stepNames[i-1]}</span>`;
+            el.innerHTML = `<svg class="w-3.5 h-3.5 text-emerald-400 animate-spin flex-shrink-0" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/></svg> <span>${stepNames[i-1]}</span>`;
           } else {
             el.className = 'flex items-center gap-2 text-zinc-500';
-            el.innerHTML = `<span>○</span> <span>${stepNames[i-1]}</span>`;
+            el.innerHTML = `<span class="w-2 h-2 rounded-full bg-zinc-700 ml-0.5 mr-1 inline-block flex-shrink-0"></span> <span>${stepNames[i-1]}</span>`;
           }
         }
       }
@@ -1106,13 +1203,13 @@
           const prevEl = document.getElementById(`loaderStep${currentStep}`);
           if (prevEl) {
             prevEl.className = 'flex items-center gap-2 text-emerald-400 font-medium';
-            prevEl.innerHTML = `<span>✓</span> <span>${stepNames[currentStep-1]}</span>`;
+            prevEl.innerHTML = `<svg class="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg> <span>${stepNames[currentStep-1]}</span>`;
           }
           currentStep++;
           const curEl = document.getElementById(`loaderStep${currentStep}`);
           if (curEl) {
-            curEl.className = 'flex items-center gap-2 text-emerald-400 font-bold animate-pulse';
-            curEl.innerHTML = `<span>⚡</span> <span>${stepNames[currentStep-1]}</span>`;
+            curEl.className = 'flex items-center gap-2 text-emerald-400 font-bold';
+            curEl.innerHTML = `<svg class="w-3.5 h-3.5 text-emerald-400 animate-spin flex-shrink-0" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/></svg> <span>${stepNames[currentStep-1]}</span>`;
           }
         }
       }, 2200);
@@ -1293,7 +1390,7 @@
             <div class="bg-zinc-950 p-3 rounded-lg border border-zinc-800/80">
               <div class="flex justify-between items-baseline">
                 <span class="font-semibold text-zinc-200">${proj.name}</span>
-                ${proj.link ? `<a href="${proj.link}" target="_blank" class="text-[10px] text-emerald-400 hover:underline">Link ↗</a>` : ''}
+                ${proj.link ? `<a href="${proj.link}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-[10px] text-emerald-400 hover:underline"><span>Link</span><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></a>` : ''}
               </div>
               <p class="text-[11px] text-zinc-400 mt-1">${proj.description || ''}</p>
               ${proj.technologies && proj.technologies.length > 0 ? `
@@ -1364,7 +1461,7 @@
             const certName = typeof cert === 'string' ? cert : (cert.name || cert.title || JSON.stringify(cert));
             const chip = document.createElement('span');
             chip.className = 'px-2 py-0.5 rounded bg-emerald-950/40 text-emerald-300 text-[10px] border border-emerald-800/60 font-medium';
-            chip.innerText = `✦ ${certName}`;
+            chip.innerText = certName;
             certContainer.appendChild(chip);
           });
         } else {
@@ -1386,7 +1483,8 @@
               secCard.innerHTML = `
                 <div class="flex justify-between items-center pb-1.5 border-b border-zinc-850">
                   <span class="text-xs font-semibold text-emerald-300 flex items-center gap-1.5">
-                    <span>❖</span> ${csec.heading}
+                    <svg class="w-3.5 h-3.5 text-emerald-400 inline-block flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+                    <span>${csec.heading}</span>
                   </span>
                   <span class="text-[9px] font-mono uppercase px-1.5 py-0.5 rounded bg-zinc-850 text-zinc-400 border border-zinc-800">
                     ${csec.items ? csec.items.length : 0} items
@@ -1472,7 +1570,7 @@
         if (res.ok) {
           statusEl.classList.remove('text-amber-300');
           statusEl.classList.add('text-emerald-400');
-          statusEl.innerText = `✓ ${data.message}`;
+          statusEl.innerText = data.message;
           appendLog(`[AI Agent] Successfully extracted profile for ${data.profile.contact.full_name}!`, "success");
           fetchProfileStatus();
           await loadFullProfile();
@@ -1486,18 +1584,19 @@
       } catch (err) {
         statusEl.classList.remove('text-amber-300');
         statusEl.classList.add('text-red-400');
-        statusEl.innerText = `Network error: ${err}`;
-        appendLog(`[AI Agent] Upload request failed: ${err}`, "error");
+        statusEl.innerText = `Network error: ${err.message || err}`;
+        appendLog(`[AI Agent] Upload failed: ${err}`, "error");
       } finally {
-        if (iconWrapper && origIconHtml) iconWrapper.innerHTML = origIconHtml;
         hideGlobalLoader();
-        event.target.value = '';
       }
     }
 
+    // ==========================================
+    // JOB PIPELINE & RESUME PREVIEW
+    // ==========================================
     async function fetchJobs() {
       try {
-        const res = await fetch('/api/jobs');
+        const res = await fetch('/api/jobs/');
         const jobs = await res.json();
         currentJobsList = jobs;
         renderJobList(jobs);
@@ -1559,26 +1658,29 @@
 
           <div class="flex items-center justify-between border-t border-zinc-800/80 pt-2.5">
             <div class="flex items-center gap-1.5 flex-wrap" onclick="event.stopPropagation()">
-              <button onclick="tailorResume(${j.id})" class="px-2 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-medium transition flex items-center gap-1 shadow-sm">
-                ⚡ Tailor CV
-              </button>
               ${j.has_resume ? `
-                <button onclick="previewResume(${j.id})" class="preview-btn px-2 py-1 rounded ${isSelected ? 'bg-zinc-100 text-zinc-950 font-semibold' : 'bg-zinc-800/50 hover:bg-zinc-700 text-zinc-300'} text-xs transition">
-                  Preview
+                <button onclick="executeApply(${j.id})" class="px-2.5 py-1 rounded-md bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/30 text-xs font-medium transition flex items-center gap-1.5 shadow-sm" title="Apply autonomously with agent">
+                  <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+                  <span>Apply</span>
                 </button>
-              ` : ''}
-              <button onclick="executeApply(${j.id})" class="px-2 py-1 rounded bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-medium transition">
-                🚀 Auto Apply
-              </button>
+                <button onclick="tailorResume(${j.id})" class="px-2.5 py-1 rounded-md bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-xs font-medium transition flex items-center gap-1.5" title="Re-tailor resume">
+                  <svg class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                  <span>Re-tailor</span>
+                </button>
+              ` : `
+                <button onclick="tailorResume(${j.id})" class="px-2.5 py-1 rounded-md bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-semibold text-xs transition flex items-center gap-1.5 shadow-sm" title="Tailor resume for this position">
+                  <svg class="w-3.5 h-3.5 text-zinc-950" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                  <span>Tailor CV</span>
+                </button>
+              `}
               ${hasUrl ? `
-                <a href="${j.url}" target="_blank" rel="noopener noreferrer" class="px-2 py-1 rounded bg-zinc-850 hover:bg-zinc-800 text-emerald-400 hover:text-emerald-300 border border-emerald-500/30 text-xs font-medium transition flex items-center gap-1 shadow-sm" title="Direct link to job posting">
-                  <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-                  <span>Link ↗</span>
+                <a href="${j.url}" target="_blank" rel="noopener noreferrer" class="p-1 rounded-md bg-zinc-850 hover:bg-zinc-800 text-zinc-400 hover:text-emerald-400 border border-zinc-800 hover:border-zinc-700 transition" title="Open original job listing">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                 </a>
               ` : ''}
             </div>
-            <button onclick="event.stopPropagation(); deleteJob(${j.id})" class="text-zinc-500 hover:text-red-400 text-xs transition">
-              Delete
+            <button onclick="event.stopPropagation(); deleteJob(${j.id})" class="p-1 rounded-md text-zinc-500 hover:text-rose-400 hover:bg-rose-500/10 transition" title="Delete job">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
             </button>
           </div>
         </div>
@@ -1598,6 +1700,25 @@
       try {
         localStorage.setItem('jobflow_active_job_id', jobId);
       } catch (e) {}
+
+      // Ensure studio is on Document tab
+      switchStudioTab('document');
+
+      // Clear studio score badges for untailored job
+      const tabAuditBadge = document.getElementById('tabAuditScoreBadge');
+      if (tabAuditBadge) tabAuditBadge.classList.add('hidden');
+      const tabStratBadge = document.getElementById('tabStrategyScoreBadge');
+      if (tabStratBadge) tabStratBadge.classList.add('hidden');
+
+      const auditPlaceholder = document.getElementById('auditEmptyPlaceholder');
+      if (auditPlaceholder) auditPlaceholder.classList.remove('hidden');
+      const atsCard = document.getElementById('atsDiagnosticCard');
+      if (atsCard) atsCard.classList.add('hidden');
+
+      const stratPlaceholder = document.getElementById('strategyEmptyPlaceholder');
+      if (stratPlaceholder) stratPlaceholder.classList.remove('hidden');
+      const stratCard = document.getElementById('agentStrategyCard');
+      if (stratCard) stratCard.classList.add('hidden');
 
       // Visual selection highlight in job list
       document.querySelectorAll('#jobList > div').forEach(card => {
@@ -1653,13 +1774,13 @@
 
             <div class="flex items-center gap-2 flex-wrap">
               <button onclick="tailorResume(${job.id})" class="px-3.5 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-semibold text-xs transition flex items-center gap-1.5 shadow-sm">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                <span>⚡ Tailor CV for this Position</span>
+                <svg class="w-4 h-4 text-zinc-950" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                <span>Tailor Resume for this Position</span>
               </button>
               ${job.url && job.url.startsWith('http') ? `
                 <a href="${job.url}" target="_blank" rel="noopener noreferrer" class="px-3.5 py-2 rounded-lg bg-zinc-800 hover:bg-zinc-750 text-emerald-400 hover:text-emerald-300 border border-emerald-500/30 font-medium text-xs transition flex items-center gap-1.5 shadow-sm" title="Visit original job listing">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-                  <span>Open Job Posting ↗</span>
+                  <span>Open Original Posting</span>
                 </a>
               ` : ''}
             </div>
@@ -1690,6 +1811,9 @@
       appendLog(`[Job #${jobId}] Initializing AI Agent Harness pipeline...`, "info");
       document.getElementById('activeJobStatus').innerText = `TAILORING (#${jobId})`;
       
+      const activityDot = document.getElementById('tabActivityStatusDot');
+      if (activityDot) activityDot.className = 'w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse';
+
       // 1. Identify all tailor buttons targeting this job (in job list card or detail view)
       const tailorBtns = document.querySelectorAll(`button[onclick*="tailorResume(${jobId})"]`);
       tailorBtns.forEach(b => setButtonLoading(b, 'Tailoring CV...'));
@@ -1740,6 +1864,7 @@
         if (targetCard) {
           targetCard.classList.remove('ring-2', 'ring-emerald-400', 'border-emerald-500', 'animate-pulse');
         }
+        if (activityDot) activityDot.className = 'w-1.5 h-1.5 rounded-full bg-zinc-600';
         hidePreviewLoader();
         hideGlobalLoader();
       }
@@ -1747,7 +1872,16 @@
 
     function displayStrategyInsights(tailored) {
       const card = document.getElementById('agentStrategyCard');
-      card.classList.remove('hidden');
+      if (card) card.classList.remove('hidden');
+
+      const placeholder = document.getElementById('strategyEmptyPlaceholder');
+      if (placeholder) placeholder.classList.add('hidden');
+
+      const tabStratBadge = document.getElementById('tabStrategyScoreBadge');
+      if (tabStratBadge) {
+        tabStratBadge.innerText = `${tailored.ats_score}%`;
+        tabStratBadge.classList.remove('hidden');
+      }
 
       document.getElementById('strategyScoreBadge').innerText = `${tailored.ats_score}% ATS`;
       document.getElementById('strategyReasoning').innerText = tailored.agent_reasoning || tailored.tailoring_notes || 'Tailored to job requirements.';
@@ -1758,8 +1892,8 @@
       if (tailored.key_strengths && tailored.key_strengths.length > 0) {
         tailored.key_strengths.forEach(s => {
           const badge = document.createElement('span');
-          badge.className = 'px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 text-[10px] font-medium border border-emerald-500/30';
-          badge.innerText = `★ ${s}`;
+          badge.className = 'px-2.5 py-1 rounded bg-emerald-500/10 text-emerald-300 text-[11px] font-medium border border-emerald-500/25 flex items-center gap-1.5';
+          badge.innerHTML = `<svg class="w-3 h-3 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg><span>${s}</span>`;
           strengthsContainer.appendChild(badge);
         });
       }
@@ -1967,6 +2101,16 @@
         const report = await res.json();
         currentDiagnosticReport = report;
 
+        // Update studio tab badge & unhide pane card
+        const tabAuditBadge = document.getElementById('tabAuditScoreBadge');
+        if (tabAuditBadge) {
+          tabAuditBadge.innerText = `${Math.round((report.content_score + report.sections_score) / 2)}%`;
+          tabAuditBadge.classList.remove('hidden');
+        }
+
+        const auditPlaceholder = document.getElementById('auditEmptyPlaceholder');
+        if (auditPlaceholder) auditPlaceholder.classList.add('hidden');
+
         // Update score badges
         const contentBadge = document.getElementById('atsContentBadge');
         if (contentBadge) {
@@ -1990,11 +2134,13 @@
           catList.innerHTML = report.categories.map(c => {
             const isPass = (c.status === 'pass' || c.issue_count === 0);
             return `
-              <div class="flex items-center justify-between p-2 rounded-lg bg-zinc-950/50 border border-zinc-800/80">
-                <div class="flex items-center gap-2">
-                  <span class="${isPass ? 'text-emerald-400 font-bold' : 'text-rose-400 font-bold'} text-sm">
-                    ${isPass ? '✓' : '✗'}
-                  </span>
+              <div class="flex items-center justify-between p-2.5 rounded-lg bg-zinc-950/60 border border-zinc-850">
+                <div class="flex items-center gap-2.5">
+                  <div class="w-5 h-5 rounded flex items-center justify-center ${isPass ? 'bg-emerald-500/10 text-emerald-400' : 'bg-rose-500/10 text-rose-400'}">
+                    ${isPass 
+                      ? '<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>' 
+                      : '<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>'}
+                  </div>
                   <span class="text-zinc-200 font-medium text-xs">${c.name}</span>
                 </div>
                 <span class="px-2 py-0.5 rounded-full text-[10.5px] font-semibold font-mono border ${
@@ -2018,7 +2164,7 @@
         const detailList = document.getElementById('atsIssuesDetailList');
         if (detailList) {
           if (report.issues.length === 0) {
-            detailList.innerHTML = '<div class="text-emerald-400 text-xs italic p-2 bg-emerald-950/20 rounded-lg border border-emerald-500/20">✓ Seluruh kriteria konten ATS telah terpenuhi dengan sangat baik.</div>';
+            detailList.innerHTML = '<div class="text-emerald-400 text-xs p-2.5 bg-emerald-950/20 rounded-lg border border-emerald-500/20 flex items-center gap-2"><svg class="w-4 h-4 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg><span>Seluruh kriteria konten ATS telah terpenuhi dengan sangat baik.</span></div>';
           } else {
             detailList.innerHTML = report.issues.map(iss => `
               <div class="rounded-lg p-2.5 bg-zinc-950/70 border border-zinc-800 flex flex-col gap-1 text-[11px]">
@@ -2028,7 +2174,7 @@
                 </div>
                 ${iss.target_text ? `<div class="text-zinc-400 italic text-[10.5px] bg-zinc-900/80 p-1.5 rounded border border-zinc-800/80 my-0.5 truncate max-w-full">"${iss.target_text}"</div>` : ''}
                 <div class="text-zinc-400">${iss.description}</div>
-                <div class="text-emerald-400 text-[10.5px] mt-0.5">💡 Rekomendasi: ${iss.suggestion}</div>
+                <div class="text-emerald-400 text-[10.5px] mt-0.5 flex items-start gap-1.5"><svg class="w-3.5 h-3.5 text-emerald-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg><span><strong class="font-semibold text-emerald-300">Rekomendasi:</strong> ${iss.suggestion}</span></div>
               </div>
             `).join('');
           }
@@ -2564,6 +2710,18 @@
           const titleBadge = document.getElementById('previewJobBadge');
           if (titleBadge) titleBadge.classList.add('hidden');
 
+          // Reset studio tabs
+          const tabAuditBadge = document.getElementById('tabAuditScoreBadge');
+          if (tabAuditBadge) tabAuditBadge.classList.add('hidden');
+          const tabStratBadge = document.getElementById('tabStrategyScoreBadge');
+          if (tabStratBadge) tabStratBadge.classList.add('hidden');
+          const auditCard = document.getElementById('atsDiagnosticCard');
+          if (auditCard) auditCard.classList.add('hidden');
+          const auditPlaceholder = document.getElementById('auditEmptyPlaceholder');
+          if (auditPlaceholder) auditPlaceholder.classList.remove('hidden');
+          const stratPlaceholder = document.getElementById('strategyEmptyPlaceholder');
+          if (stratPlaceholder) stratPlaceholder.classList.remove('hidden');
+
           await loadStorageStats();
           await fetchJobs();
           closeStorageModal();
@@ -2600,6 +2758,18 @@
         if (strategyCard) strategyCard.classList.add('hidden');
         const titleBadge = document.getElementById('previewJobBadge');
         if (titleBadge) titleBadge.classList.add('hidden');
+
+        // Reset studio tabs
+        const tabAuditBadge = document.getElementById('tabAuditScoreBadge');
+        if (tabAuditBadge) tabAuditBadge.classList.add('hidden');
+        const tabStratBadge = document.getElementById('tabStrategyScoreBadge');
+        if (tabStratBadge) tabStratBadge.classList.add('hidden');
+        const auditCard = document.getElementById('atsDiagnosticCard');
+        if (auditCard) auditCard.classList.add('hidden');
+        const auditPlaceholder = document.getElementById('auditEmptyPlaceholder');
+        if (auditPlaceholder) auditPlaceholder.classList.remove('hidden');
+        const stratPlaceholder = document.getElementById('strategyEmptyPlaceholder');
+        if (stratPlaceholder) stratPlaceholder.classList.remove('hidden');
       }
 
       try {
@@ -2693,7 +2863,7 @@
       if (!name) return;
 
       btn.disabled = true;
-      btn.innerHTML = `<span class="animate-spin">🌀</span> Generating...`;
+      btn.innerHTML = `<svg class="w-3.5 h-3.5 animate-spin inline-block mr-1" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/></svg> Generating...`;
       showGlobalLoader(`Membuat API Key '${name}'...`);
 
       try {

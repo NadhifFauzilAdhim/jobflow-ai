@@ -560,25 +560,25 @@ async def test_html_rendering_highlights_all_sections():
     html = pdf_gen.render_html(tailored, show_highlights=True)
 
     # Check top banner
-    assert "COMPREHENSIVE AI TAILORING & ATS OPTIMIZATIONS" in html
+    assert "AI-Tailored & ATS-Optimized Document" in html
 
     # Check Summary badge
-    assert "✦ AI-Adapted for Target Role" in html
+    assert "Role-Adapted" in html
 
     # Check Skills badge & keyword highlight
-    assert "✦ Prioritized to Match Target JD" in html
+    assert "JD-Prioritized" in html
 
     # Check Experience badge & XYZ formula indicator
-    assert "✦ Enhanced with Google X-Y-Z Formula" in html
+    assert "Google X-Y-Z Optimized" in html
 
     # Check Featured Projects badge & highlights
-    assert "✦ AI-Prioritized & Metrics-Tailored" in html
+    assert "Target-Aligned" in html
     assert "FocusEye Attention Tracker" in html
     # Python & PostgreSQL should be highlighted in the project tech stack
     assert 'background: #d1fae5; color: #065f46; font-weight: 700; padding: 0 3px; border-radius: 2px;">Python</span>' in html
 
     # Check Education badge & highlights
-    assert "✦ Curated Coursework & Academic Focus" in html
+    assert "Curated Coursework" in html
     assert "Universitas Amikom" in html
     assert "Relevant coursework: Database Systems, Computer Vision" in html
 
@@ -684,7 +684,7 @@ Kementerian Pendidikan
     # 4. Test HTML rendering includes custom section with AI badge
     pdf_gen = PDFGenerator()
     html = pdf_gen.render_html(tailored, show_highlights=True)
-    assert "✦ AI-Adapted & Role-Aligned" in html
+    assert "Role-Aligned" in html
     assert any(term in html for term in ["Organisasi", "Pelatihan", "Bootcamp", "Penghargaan"])
 
 
