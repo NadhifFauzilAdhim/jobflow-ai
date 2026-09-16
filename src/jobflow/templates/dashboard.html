@@ -43,9 +43,36 @@
       background: #27272a;
       border-radius: 3px;
     }
+    @keyframes indeterminateProgress {
+      0% { transform: translateX(-100%) scaleX(0.2); }
+      50% { transform: translateX(0%) scaleX(0.7); }
+      100% { transform: translateX(100%) scaleX(0.2); }
+    }
+    .animate-progress-shimmer {
+      animation: indeterminateProgress 1.4s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
+      transform-origin: 0% 50%;
+    }
   </style>
 </head>
-<body class="min-h-screen flex flex-col antialiased selection:bg-zinc-800 selection:text-white">
+<body class="min-h-screen flex flex-col antialiased selection:bg-zinc-800 selection:text-white relative">
+
+  <!-- Top Global Shimmering Progress Bar -->
+  <div id="globalProgressBar" class="fixed top-0 left-0 right-0 h-1 bg-zinc-850/80 z-50 hidden overflow-hidden">
+    <div class="h-full w-full bg-gradient-to-r from-emerald-500 via-teal-300 to-emerald-400 animate-progress-shimmer"></div>
+  </div>
+
+  <!-- Floating Bottom-Right Active Process Toast -->
+  <div id="globalProcessToast" class="fixed bottom-5 right-5 z-50 hidden bg-zinc-900/95 backdrop-blur-md border border-emerald-500/40 text-zinc-100 px-4 py-2.5 rounded-xl shadow-2xl items-center gap-3 transition-all duration-300">
+    <span class="relative flex h-2.5 w-2.5">
+      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+      <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+    </span>
+    <svg class="w-4 h-4 animate-spin text-emerald-400 flex-shrink-0" fill="none" viewBox="0 0 24 24">
+      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+    </svg>
+    <span id="globalProcessToastLabel" class="text-xs font-medium text-zinc-200">Sedang memproses...</span>
+  </div>
 
   <!-- Navigation Header -->
   <header class="border-b border-zinc-800 bg-zinc-950/80 backdrop-blur sticky top-0 z-40 px-6 py-3.5 flex items-center justify-between">
@@ -327,6 +354,26 @@
         
         <!-- Large High-Fidelity Paper Frame -->
         <div id="previewFrameContainer" class="h-[640px] xl:h-[720px] rounded-xl bg-zinc-950 p-2 sm:p-3 overflow-hidden border border-zinc-800 shadow-inner flex justify-center relative">
+          <!-- High-Tech Animated Loading Overlay for Resume Tailoring & Rendering -->
+          <div id="previewLoadingOverlay" class="hidden absolute inset-0 bg-zinc-950/95 backdrop-blur-md z-30 flex flex-col items-center justify-center gap-4 text-center p-6 transition-all duration-300">
+            <div class="relative w-16 h-16 flex items-center justify-center">
+              <div class="absolute inset-0 rounded-full border-2 border-emerald-500/20 animate-ping"></div>
+              <div class="w-12 h-12 rounded-full border-2 border-emerald-500/30 border-t-emerald-400 animate-spin"></div>
+              <div class="absolute text-emerald-400 text-lg font-bold">✦</div>
+            </div>
+            <div class="flex flex-col items-center gap-1.5 max-w-sm">
+              <h4 id="previewLoadingTitle" class="text-sm font-semibold text-zinc-100 tracking-wide">AI Agent Tailoring Resume...</h4>
+              <p id="previewLoadingSubtitle" class="text-xs text-zinc-400 leading-relaxed font-mono">Synthesizing Google X-Y-Z achievements & matching keywords</p>
+            </div>
+            <!-- Interactive Step Badges -->
+            <div id="previewLoadingSteps" class="flex flex-col gap-1.5 w-full max-w-xs text-[11px] font-mono text-zinc-400 text-left pt-2 border-t border-zinc-800/80 mt-1">
+              <div id="loaderStep1" class="flex items-center gap-2 text-emerald-400"><span>⚡</span> <span>Deconstructing job requirements</span></div>
+              <div id="loaderStep2" class="flex items-center gap-2 text-zinc-500"><span>○</span> <span>Cross-examining candidate profile</span></div>
+              <div id="loaderStep3" class="flex items-center gap-2 text-zinc-500"><span>○</span> <span>Synthesizing X-Y-Z formula metrics</span></div>
+              <div id="loaderStep4" class="flex items-center gap-2 text-zinc-500"><span>○</span> <span>Formatting ATS PDF & scoring compatibility</span></div>
+            </div>
+          </div>
+
           <!-- Empty State (Shown when no preview loaded) -->
           <div id="previewEmptyPlaceholder" class="flex flex-col items-center justify-center h-full text-center p-8 text-zinc-500">
             <div class="w-14 h-14 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 mb-3 shadow-inner">
@@ -491,10 +538,10 @@
         <!-- Tab 2: Upload File & Raw Text AI Ingestion -->
         <div id="tabContentUpload" class="hidden space-y-4">
           <!-- Dropzone -->
-          <div class="border-2 border-dashed border-zinc-700 hover:border-zinc-500 rounded-xl p-6 text-center bg-zinc-950/60 transition cursor-pointer" onclick="document.getElementById('cvFileInput').click()">
+          <div id="cvDropzone" class="border-2 border-dashed border-zinc-700 hover:border-zinc-500 rounded-xl p-6 text-center bg-zinc-950/60 transition cursor-pointer" onclick="document.getElementById('cvFileInput').click()">
             <input type="file" id="cvFileInput" class="hidden" accept=".pdf,.docx,.doc,.txt" onchange="handleCvFileSelect(event)">
             <div class="flex flex-col items-center gap-2">
-              <div class="w-12 h-12 rounded-full bg-zinc-800 text-emerald-400 flex items-center justify-center">
+              <div id="cvUploadIconWrapper" class="w-12 h-12 rounded-full bg-zinc-800 text-emerald-400 flex items-center justify-center transition">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
               </div>
               <div>
@@ -563,7 +610,7 @@
 
       <div class="flex justify-end gap-2 border-t border-zinc-800 pt-3">
         <button onclick="closeAddJobModal()" class="px-3.5 py-1.5 rounded bg-zinc-800 text-zinc-300 text-xs">Cancel</button>
-        <button onclick="submitJob()" class="px-3.5 py-1.5 rounded bg-zinc-100 hover:bg-white text-zinc-950 font-medium text-xs">Save & Ingest</button>
+        <button onclick="submitJob()" id="submitJobBtn" class="px-3.5 py-1.5 rounded bg-zinc-100 hover:bg-white text-zinc-950 font-medium text-xs flex items-center gap-1.5">Save & Ingest</button>
       </div>
     </div>
   </div>
@@ -987,6 +1034,150 @@
       }
     }
 
+    // ==========================================
+    // UNIVERSAL PROCESS LOADERS & STATE HELPERS
+    // ==========================================
+    let tailorInterval = null;
+
+    function showGlobalLoader(message = 'Sedang memproses...') {
+      const bar = document.getElementById('globalProgressBar');
+      if (bar) bar.classList.remove('hidden');
+
+      const toast = document.getElementById('globalProcessToast');
+      const label = document.getElementById('globalProcessToastLabel');
+      if (toast) {
+        if (label) label.innerText = message;
+        toast.classList.remove('hidden');
+        toast.classList.add('flex');
+      }
+    }
+
+    function hideGlobalLoader() {
+      const bar = document.getElementById('globalProgressBar');
+      if (bar) bar.classList.add('hidden');
+
+      const toast = document.getElementById('globalProcessToast');
+      if (toast) {
+        toast.classList.add('hidden');
+        toast.classList.remove('flex');
+      }
+    }
+
+    function showPreviewLoader(title = 'AI Agent Tailoring Resume...', subtitle = 'Synthesizing Google X-Y-Z achievements & matching keywords', isTailoring = false) {
+      const overlay = document.getElementById('previewLoadingOverlay');
+      if (!overlay) return;
+
+      const tEl = document.getElementById('previewLoadingTitle');
+      const sEl = document.getElementById('previewLoadingSubtitle');
+      const stepsEl = document.getElementById('previewLoadingSteps');
+
+      if (tEl) tEl.innerText = title;
+      if (sEl) sEl.innerText = subtitle;
+
+      overlay.classList.remove('hidden');
+      overlay.classList.add('flex');
+
+      if (stepsEl) {
+        if (isTailoring) {
+          stepsEl.classList.remove('hidden');
+          resetTailorSteps();
+          startTailorStepAnimation();
+        } else {
+          stepsEl.classList.add('hidden');
+          if (tailorInterval) {
+            clearInterval(tailorInterval);
+            tailorInterval = null;
+          }
+        }
+      }
+    }
+
+    function resetTailorSteps() {
+      const stepNames = [
+        'Deconstructing job requirements',
+        'Cross-examining candidate profile',
+        'Synthesizing X-Y-Z formula metrics',
+        'Formatting ATS PDF & scoring compatibility'
+      ];
+      for (let i = 1; i <= 4; i++) {
+        const el = document.getElementById(`loaderStep${i}`);
+        if (el) {
+          if (i === 1) {
+            el.className = 'flex items-center gap-2 text-emerald-400 font-semibold';
+            el.innerHTML = `<span>⚡</span> <span>${stepNames[i-1]}</span>`;
+          } else {
+            el.className = 'flex items-center gap-2 text-zinc-500';
+            el.innerHTML = `<span>○</span> <span>${stepNames[i-1]}</span>`;
+          }
+        }
+      }
+    }
+
+    function startTailorStepAnimation() {
+      if (tailorInterval) clearInterval(tailorInterval);
+      const stepNames = [
+        'Deconstructing job requirements',
+        'Cross-examining candidate profile',
+        'Synthesizing X-Y-Z formula metrics',
+        'Formatting ATS PDF & scoring compatibility'
+      ];
+      let currentStep = 1;
+      tailorInterval = setInterval(() => {
+        if (currentStep < 4) {
+          const prevEl = document.getElementById(`loaderStep${currentStep}`);
+          if (prevEl) {
+            prevEl.className = 'flex items-center gap-2 text-emerald-400 font-medium';
+            prevEl.innerHTML = `<span>✓</span> <span>${stepNames[currentStep-1]}</span>`;
+          }
+          currentStep++;
+          const curEl = document.getElementById(`loaderStep${currentStep}`);
+          if (curEl) {
+            curEl.className = 'flex items-center gap-2 text-emerald-400 font-bold animate-pulse';
+            curEl.innerHTML = `<span>⚡</span> <span>${stepNames[currentStep-1]}</span>`;
+          }
+        }
+      }, 2200);
+    }
+
+    function hidePreviewLoader() {
+      if (tailorInterval) {
+        clearInterval(tailorInterval);
+        tailorInterval = null;
+      }
+      const overlay = document.getElementById('previewLoadingOverlay');
+      if (overlay) {
+        overlay.classList.add('hidden');
+        overlay.classList.remove('flex');
+      }
+    }
+
+    function setButtonLoading(btn, loadingText = 'Memproses...') {
+      if (!btn) return null;
+      const originalHtml = btn.innerHTML;
+      btn.disabled = true;
+      btn.setAttribute('data-original-html', originalHtml);
+      btn.classList.add('opacity-75', 'cursor-not-allowed');
+      btn.innerHTML = `
+        <svg class="w-3.5 h-3.5 animate-spin text-current flex-shrink-0" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <span>${loadingText}</span>
+      `;
+      return originalHtml;
+    }
+
+    function resetButton(btn, originalHtml = null) {
+      if (!btn) return;
+      btn.disabled = false;
+      btn.classList.remove('opacity-75', 'cursor-not-allowed');
+      const htmlToRestore = originalHtml || btn.getAttribute('data-original-html');
+      if (htmlToRestore) {
+        btn.innerHTML = htmlToRestore;
+        btn.removeAttribute('data-original-html');
+      }
+    }
+
     async function reparseRawText() {
       const rawInput = document.getElementById('rawCvInput');
       const text = rawInput.value.trim();
@@ -996,9 +1187,8 @@
       }
 
       const btn = document.getElementById('reparseBtn');
-      const oldBtnText = btn.innerHTML;
-      btn.disabled = true;
-      btn.innerHTML = `⏳ AI Parsing...`;
+      const oldBtnText = setButtonLoading(btn, 'AI Parsing...');
+      showGlobalLoader('AI Agent sedang merekonstruksi Master Profile dari teks CV...');
       appendLog(`[AI Agent] Re-parsing raw CV text (${text.length} characters)...`, "info");
 
       try {
@@ -1021,8 +1211,8 @@
         appendLog(`[AI Agent] Network error during parse: ${err}`, "error");
         alert(`Network error: ${err}`);
       } finally {
-        btn.disabled = false;
-        btn.innerHTML = oldBtnText;
+        resetButton(btn, oldBtnText);
+        hideGlobalLoader();
       }
     }
 
@@ -1277,10 +1467,17 @@
       if (!file) return;
 
       const statusEl = document.getElementById('uploadStatusMessage');
+      const iconWrapper = document.getElementById('cvUploadIconWrapper');
+      const origIconHtml = iconWrapper ? iconWrapper.innerHTML : '';
+      if (iconWrapper) {
+        iconWrapper.innerHTML = `<svg class="w-6 h-6 animate-spin text-emerald-400" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>`;
+      }
+
       statusEl.classList.remove('hidden', 'text-red-400', 'text-emerald-400');
       statusEl.classList.add('text-amber-300');
       statusEl.innerText = `AI Agent reading and structuring "${file.name}"...`;
 
+      showGlobalLoader(`Mengekstrak & membedah dokumen CV "${file.name}"...`);
       appendLog(`[AI Agent] Extracting text & parsing format from uploaded CV: ${file.name}...`, "info");
 
       const formData = new FormData();
@@ -1312,6 +1509,10 @@
         statusEl.classList.add('text-red-400');
         statusEl.innerText = `Network error: ${err}`;
         appendLog(`[AI Agent] Upload request failed: ${err}`, "error");
+      } finally {
+        if (iconWrapper && origIconHtml) iconWrapper.innerHTML = origIconHtml;
+        hideGlobalLoader();
+        event.target.value = '';
       }
     }
 
@@ -1510,6 +1711,26 @@
       appendLog(`[Job #${jobId}] Initializing AI Agent Harness pipeline...`, "info");
       document.getElementById('activeJobStatus').innerText = `TAILORING (#${jobId})`;
       
+      // 1. Identify all tailor buttons targeting this job (in job list card or detail view)
+      const tailorBtns = document.querySelectorAll(`button[onclick*="tailorResume(${jobId})"]`);
+      tailorBtns.forEach(b => setButtonLoading(b, 'Tailoring CV...'));
+
+      // 2. Add glowing pulse ring to target job card in the list
+      const targetCard = document.querySelector(`div[data-job-id="${jobId}"]`);
+      if (targetCard) {
+        targetCard.classList.add('ring-2', 'ring-emerald-400', 'border-emerald-500', 'animate-pulse');
+      }
+
+      // 3. Trigger Global Progress Bar & Floating Toast
+      showGlobalLoader(`AI Agent sedang men-tailor CV untuk Job #${jobId}...`);
+
+      // 4. Activate High-Tech Animated Loading Overlay in Preview Pane
+      showPreviewLoader(
+        'AI Agent Sedang Menyesuaikan CV...',
+        'Menganalisis deskripsi pekerjaan, memetakan kecocokan keahlian & mensintesis metrik Google X-Y-Z...',
+        true
+      );
+
       try {
         appendLog(`[AI Agent Harness] Phase 1/4: Deconstructing Job Requirements & Target Tech Stack...`, "info");
         appendLog(`[AI Agent Harness] Phase 2/4: Cross-examining Candidate Profile against role priorities...`, "info");
@@ -1518,18 +1739,30 @@
         const res = await fetch(`/api/resume/tailor/${jobId}`, { method: 'POST' });
         const data = await res.json();
 
+        if (!res.ok) {
+          throw new Error(data.detail || 'Gagal melakukan tailoring CV.');
+        }
+
         appendLog(`[AI Agent Harness] Phase 4/4: Schema Normalization & ATS Scoring complete! ATS: ${data.ats_score}%`, "success");
         if (data.agent_reasoning) {
           appendLog(`[AI Strategy] ${data.agent_reasoning.slice(0, 140)}...`, "info");
         }
 
         displayStrategyInsights(data);
-        fetchJobs();
-        previewResume(jobId);
+        await fetchJobs();
+        await previewResume(jobId, false);
         document.getElementById('activeJobStatus').innerText = 'READY';
       } catch (e) {
-        appendLog(`[Job #${jobId}] AI Agent Harness tailoring failed: ${e}`, "error");
+        appendLog(`[Job #${jobId}] AI Agent Harness tailoring failed: ${e.message || e}`, "error");
         document.getElementById('activeJobStatus').innerText = 'ERROR';
+        alert(`Gagal men-tailor CV: ${e.message || e}`);
+      } finally {
+        tailorBtns.forEach(b => resetButton(b));
+        if (targetCard) {
+          targetCard.classList.remove('ring-2', 'ring-emerald-400', 'border-emerald-500', 'animate-pulse');
+        }
+        hidePreviewLoader();
+        hideGlobalLoader();
       }
     }
 
@@ -1645,6 +1878,35 @@
       try {
         localStorage.setItem('jobflow_active_job_id', jobId);
       } catch (e) {}
+
+      showGlobalLoader(`Memuat pratinjau CV untuk Job #${jobId}...`);
+      showPreviewLoader(
+        'Merender Format-Conforming ATS CV...',
+        'Memuat tipografi standar A4 & menjalankan audit diagnostik...',
+        false
+      );
+
+      const iframe = document.getElementById('resumeIframe');
+      if (iframe) {
+        let dismissed = false;
+        const dismissHandler = () => {
+          if (!dismissed) {
+            dismissed = true;
+            hidePreviewLoader();
+            hideGlobalLoader();
+          }
+          iframe.removeEventListener('load', dismissHandler);
+        };
+        iframe.addEventListener('load', dismissHandler);
+        setTimeout(() => {
+          if (!dismissed) {
+            dismissed = true;
+            hidePreviewLoader();
+            hideGlobalLoader();
+          }
+        }, 2200);
+      }
+
       updatePreviewUrls();
 
       const actions = document.getElementById('previewActions');
@@ -1887,11 +2149,14 @@
     async function submitImproveResume() {
       if (!currentPreviewJobId) return;
       const btn = document.getElementById('submitImproveResumeBtn');
-      const origText = btn ? btn.innerHTML : '';
-      if (btn) {
-        btn.disabled = true;
-        btn.innerHTML = '<svg class="w-4 h-4 animate-spin text-zinc-950" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> <span>Mengoptimalkan...</span>';
-      }
+      const origText = setButtonLoading(btn, 'Mengoptimalkan...');
+
+      showGlobalLoader('AI Agent sedang mengoptimalkan konten CV & re-scoring ATS...');
+      showPreviewLoader(
+        'Mengoptimalkan Kualitas Konten ATS...',
+        'Injeksi metrik kuantitatif, restrukturisasi kalimat & diversifikasi action verbs...',
+        false
+      );
 
       // Gather context inputs
       const userContext = {};
@@ -1931,14 +2196,14 @@
         closeImproveResumeModal();
         updatePreviewUrls();
         await loadAtsAudit(currentPreviewJobId);
-        fetchJobs();
+        await fetchJobs();
       } catch (err) {
         appendLog(`[AI Improvement Error] ${err.message || err}`, "error");
+        alert(`Gagal meningkatkan CV: ${err.message || err}`);
       } finally {
-        if (btn) {
-          btn.disabled = false;
-          btn.innerHTML = origText;
-        }
+        resetButton(btn, origText);
+        hidePreviewLoader();
+        hideGlobalLoader();
       }
     }
 
@@ -1959,30 +2224,47 @@
       appendLog(`[Job #${jobId}] Dispatching background Playwright automation worker...`, "info");
       document.getElementById('activeJobStatus').innerText = `APPLYING (#${jobId})`;
       
+      const applyBtn = document.querySelector(`button[onclick*="executeApply(${jobId})"]`);
+      const origHtml = applyBtn ? setButtonLoading(applyBtn, 'Applying...') : null;
+      showGlobalLoader(`Playwright automation worker sedang melamar ke Job #${jobId}...`);
+
       try {
-        await fetch(`/api/apply/execute/${jobId}`, { method: 'POST' });
-        startPolling(jobId);
+        const res = await fetch(`/api/apply/execute/${jobId}`, { method: 'POST' });
+        if (!res.ok) {
+          const d = await res.json();
+          throw new Error(d.detail || 'Failed to dispatch apply worker');
+        }
+        startPolling(jobId, applyBtn, origHtml);
       } catch (e) {
-        appendLog(`[Job #${jobId}] Apply dispatch error: ${e}`, "error");
+        appendLog(`[Job #${jobId}] Apply dispatch error: ${e.message || e}`, "error");
+        document.getElementById('activeJobStatus').innerText = 'ERROR';
+        if (applyBtn) resetButton(applyBtn, origHtml);
+        hideGlobalLoader();
       }
     }
 
-    function startPolling(jobId) {
+    function startPolling(jobId, applyBtn = null, origHtml = null) {
       if (pollInterval) clearInterval(pollInterval);
       pollInterval = setInterval(async () => {
-        const res = await fetch(`/api/apply/status/${jobId}`);
-        const data = await res.json();
-        
-        if (data.logs && data.logs.length > 0) {
-          const consoleEl = document.getElementById('logConsole');
-          consoleEl.innerHTML = data.logs.map(l => `<div><span class="text-zinc-600">${l.time.slice(11,19)}</span> <span class="${l.level === 'error' ? 'text-red-400' : 'text-zinc-300'}">${l.msg}</span></div>`).join('');
-          consoleEl.scrollTop = consoleEl.scrollHeight;
-        }
+        try {
+          const res = await fetch(`/api/apply/status/${jobId}`);
+          const data = await res.json();
+          
+          if (data.logs && data.logs.length > 0) {
+            const consoleEl = document.getElementById('logConsole');
+            consoleEl.innerHTML = data.logs.map(l => `<div><span class="text-zinc-600">${l.time.slice(11,19)}</span> <span class="${l.level === 'error' ? 'text-red-400' : 'text-zinc-300'}">${l.msg}</span></div>`).join('');
+            consoleEl.scrollTop = consoleEl.scrollHeight;
+          }
 
-        if (data.status === 'applied' || data.status === 'failed') {
-          clearInterval(pollInterval);
-          document.getElementById('activeJobStatus').innerText = data.status.toUpperCase();
-          fetchJobs();
+          if (data.status === 'applied' || data.status === 'failed') {
+            clearInterval(pollInterval);
+            document.getElementById('activeJobStatus').innerText = data.status.toUpperCase();
+            if (applyBtn) resetButton(applyBtn, origHtml);
+            hideGlobalLoader();
+            fetchJobs();
+          }
+        } catch (err) {
+          console.error("Polling error:", err);
         }
       }, 1500);
     }
@@ -2069,7 +2351,8 @@
     async function runAutoScrap() {
       const btn = document.getElementById('runAutoScrapBtn');
       const statusText = document.getElementById('autoScrapStatusText');
-      const originalBtnText = btn.innerHTML;
+      const originalBtnText = setButtonLoading(btn, 'Scraping & Filtering...');
+      showGlobalLoader('Auto-Scraper sedang mencari lowongan dan memvalidasi relevansi...');
 
       // Harvest platforms
       const platforms = [];
@@ -2079,6 +2362,8 @@
       if (document.getElementById('platformRemoteOK').checked) platforms.push('remoteok');
 
       if (platforms.length === 0) {
+        resetButton(btn, originalBtnText);
+        hideGlobalLoader();
         alert('Please select at least one platform.');
         return;
       }
@@ -2089,11 +2374,7 @@
       const customQueriesVal = document.getElementById('autoScrapCustomQueries').value.trim();
       const customQueries = customQueriesVal ? customQueriesVal.split(',').map(s => s.trim()).filter(Boolean) : undefined;
 
-      // Update UI state
-      btn.disabled = true;
-      btn.innerHTML = `<svg class="animate-spin -ml-1 mr-2 h-3.5 w-3.5 text-zinc-950" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg> Scraping & Filtering...`;
       statusText.innerText = 'Scraping and analyzing job matches...';
-
       appendLog(`[Auto-Scraper] Initializing discovery across ${platforms.join(', ')} (Min Relevance: ${minRelevance}%)...`, "info");
       document.getElementById('activeJobStatus').innerText = 'HARVESTING';
 
@@ -2150,8 +2431,8 @@
         document.getElementById('activeJobStatus').innerText = 'ERROR';
         alert(`Network error: ${err}`);
       } finally {
-        btn.disabled = false;
-        btn.innerHTML = originalBtnText;
+        resetButton(btn, originalBtnText);
+        hideGlobalLoader();
       }
     }
 
@@ -2159,7 +2440,8 @@
       const url = document.getElementById('jobUrlInput').value;
       if (!url) return;
       const btn = document.getElementById('extractBtn');
-      btn.innerText = 'Extracting...';
+      const oldHtml = setButtonLoading(btn, 'Extracting...');
+      showGlobalLoader('Mengekstrak informasi lowongan dari URL...');
       try {
         const res = await fetch('/api/jobs/extract', {
           method: 'POST',
@@ -2173,7 +2455,8 @@
       } catch (e) {
         alert('Could not auto-extract URL. You can paste description manually.');
       } finally {
-        btn.innerText = 'Extract';
+        resetButton(btn, oldHtml);
+        hideGlobalLoader();
       }
     }
 
@@ -2188,23 +2471,34 @@
         return;
       }
 
-      const res = await fetch('/api/jobs', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          title,
-          company,
-          description: desc,
-          url: url || null,
-          platform: url && url.includes('linkedin') ? 'linkedin' : (url && url.includes('jobstreet') ? 'jobstreet' : 'generic')
-        })
-      });
+      const btn = document.getElementById('submitJobBtn');
+      const oldHtml = setButtonLoading(btn, 'Saving...');
+      showGlobalLoader(`Menyimpan lowongan "${title}" ke pipeline...`);
 
-      const data = await res.json();
-      closeAddJobModal();
-      await fetchJobs();
-      if (data && data.id) {
-        selectUntailoredJob(data.id);
+      try {
+        const res = await fetch('/api/jobs', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            title,
+            company,
+            description: desc,
+            url: url || null,
+            platform: url && url.includes('linkedin') ? 'linkedin' : (url && url.includes('jobstreet') ? 'jobstreet' : 'generic')
+          })
+        });
+
+        const data = await res.json();
+        closeAddJobModal();
+        await fetchJobs();
+        if (data && data.id) {
+          selectUntailoredJob(data.id);
+        }
+      } catch (err) {
+        alert(`Failed to save job: ${err}`);
+      } finally {
+        resetButton(btn, oldHtml);
+        hideGlobalLoader();
       }
     }
 
@@ -2244,6 +2538,7 @@
         if (!confirm('Purge all generated resume PDFs? Job records will remain in pipeline, but tailored PDFs will need to be re-tailored.')) return;
       }
       appendLog(`[Storage] Running cleanup (${mode})...`, "info");
+      showGlobalLoader(`Membersihkan penyimpanan output (${mode})...`);
       try {
         const res = await fetch('/api/jobs/storage/cleanup', {
           method: 'POST',
@@ -2260,12 +2555,15 @@
         }
       } catch (err) {
         appendLog(`[Storage] Cleanup network error: ${err}`, "error");
+      } finally {
+        hideGlobalLoader();
       }
     }
 
     async function executeClearAllJobs() {
       if (!confirm('Are you sure you want to delete ALL job applications and purge all output files? This cannot be undone.')) return;
       appendLog(`[Storage] Purging all job applications and output files...`, "info");
+      showGlobalLoader('Menghapus seluruh daftar lamaran & file output...');
       try {
         const res = await fetch('/api/jobs/clear-all?delete_files=true', {
           method: 'DELETE'
@@ -2295,11 +2593,14 @@
         }
       } catch (err) {
         appendLog(`[Storage] Network error: ${err}`, "error");
+      } finally {
+        hideGlobalLoader();
       }
     }
 
     async function deleteJob(id) {
       if (!confirm('Delete this job record and its generated output files?')) return;
+      showGlobalLoader(`Menghapus Job #${id}...`);
       try {
         if (localStorage.getItem('jobflow_active_job_id') == id) {
           localStorage.removeItem('jobflow_active_job_id');
@@ -2322,14 +2623,20 @@
         if (titleBadge) titleBadge.classList.add('hidden');
       }
 
-      const res = await fetch(`/api/jobs/${id}`, { method: 'DELETE' });
-      if (res.ok) {
-        const data = await res.json();
-        const filesCount = data.deleted_files ? data.deleted_files.length : 0;
-        appendLog(`[Storage] Deleted job #${id}${filesCount > 0 ? ` and ${filesCount} associated files` : ''}.`, "info");
+      try {
+        const res = await fetch(`/api/jobs/${id}`, { method: 'DELETE' });
+        if (res.ok) {
+          const data = await res.json();
+          const filesCount = data.deleted_files ? data.deleted_files.length : 0;
+          appendLog(`[Storage] Deleted job #${id}${filesCount > 0 ? ` and ${filesCount} associated files` : ''}.`, "info");
+        }
+        await fetchJobs();
+        await loadStorageStats();
+      } catch (err) {
+        appendLog(`[Storage] Delete error: ${err}`, "error");
+      } finally {
+        hideGlobalLoader();
       }
-      await fetchJobs();
-      await loadStorageStats();
     }
 
     // ==========================================
@@ -2408,6 +2715,7 @@
 
       btn.disabled = true;
       btn.innerHTML = `<span class="animate-spin">🌀</span> Generating...`;
+      showGlobalLoader(`Membuat API Key '${name}'...`);
 
       try {
         const res = await fetch('/api/auth/api-keys', {
@@ -2432,6 +2740,7 @@
       } finally {
         btn.disabled = false;
         btn.innerHTML = `<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg> Generate Key`;
+        hideGlobalLoader();
       }
     }
 
@@ -2446,6 +2755,7 @@
 
     async function revokeApiKey(keyId, keyName) {
       if (!confirm(`Revoke API key '${keyName}'? Any external applications or services using this key will immediately lose access.`)) return;
+      showGlobalLoader(`Mencabut API key '${keyName}'...`);
       try {
         const res = await fetch(`/api/auth/api-keys/${keyId}`, { method: 'DELETE' });
         if (res.ok) {
@@ -2457,6 +2767,8 @@
         }
       } catch (err) {
         alert(`Network error revoking key: ${err}`);
+      } finally {
+        hideGlobalLoader();
       }
     }
   </script>
